@@ -1,3 +1,4 @@
+import android.graphics.ColorSpace.Rgb
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -39,6 +40,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.damon.Card.ProductFullScreenCard
 import com.example.damon.R
+import com.example.damon.Screen.SearchSceen
 import kotlinx.coroutines.launch
 
 data class Product(
@@ -66,15 +68,13 @@ fun FullScreenProductList() {
 
     val pagerState = rememberPagerState { productList.size }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        VerticalPager(
-            modifier = Modifier.fillMaxSize(),
-            state = pagerState
-        ) { page ->
-            val product = productList[page]
-            ProductFullScreenCard(product)
-        }
+    Box(modifier = Modifier.fillMaxSize().background(Color(0xffF2F2F2))) {
+//        VerticalPager(
+//            modifier = Modifier.fillMaxSize())
+//            state = pagerState
+//        ) {
+            SearchSceen()
+//        }
         Column (
             modifier = Modifier.fillMaxSize().padding(top = 24.dp),
             verticalArrangement = Arrangement.SpaceBetween,
