@@ -41,7 +41,7 @@ fun RegisterScreen(){
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text(text = "ĐĂNG KÝ", fontSize = 35.sp, fontWeight = FontWeight.Bold)
+        Text(text = "ĐĂNG KÝ", fontSize = 45.sp, fontWeight = FontWeight.Bold)
 
         TextField(value = TaiKhoan,
             onValueChange = {TaiKhoan = it},
@@ -49,8 +49,8 @@ fun RegisterScreen(){
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                focusedContainerColor = Color.LightGray,
-                unfocusedContainerColor = Color.LightGray
+                focusedContainerColor = Color(0xFFD9D9D9),
+                unfocusedContainerColor = Color(0xFFD9D9D9)
             ),
             label = { Text(text = "Tài Khoản")},
             shape = RoundedCornerShape(12.dp)
@@ -62,8 +62,8 @@ fun RegisterScreen(){
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                focusedContainerColor = Color.LightGray,
-                unfocusedContainerColor = Color.LightGray
+                focusedContainerColor = Color(0xFFD9D9D9),
+                unfocusedContainerColor = Color(0xFFD9D9D9)
             ),
             label = { Text(text = "Mật khẩu")},
             shape = RoundedCornerShape(12.dp)
@@ -75,8 +75,8 @@ fun RegisterScreen(){
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                focusedContainerColor = Color.LightGray,
-                unfocusedContainerColor = Color.LightGray
+                focusedContainerColor = Color(0xFFD9D9D9),
+                unfocusedContainerColor = Color(0xFFD9D9D9)
             ),
             label = { Text(text = "Nhập lại mật khẩu")},
             shape = RoundedCornerShape(12.dp)
