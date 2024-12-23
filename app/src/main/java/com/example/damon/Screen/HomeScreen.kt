@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.damon.Card.ProductFullScreenCard
 import com.example.damon.R
@@ -49,7 +50,7 @@ data class Product(
     val subtitle: String
 )
 
-
+@Preview
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FullScreenProductList() {

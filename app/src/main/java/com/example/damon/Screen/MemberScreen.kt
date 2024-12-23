@@ -4,6 +4,7 @@ package com.example.damon.Screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -51,102 +52,120 @@ fun MemberScreen(){
         }
     ){
         Column(modifier = Modifier.fillMaxSize().padding(it)) {
-            Text(text = "Chỉnh sửa hồ sơ", modifier = Modifier
-                .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
-                .clickable(onClick = { /*TODO*/ })
+            Row(modifier = Modifier
                 .fillMaxWidth()
+                .clickable(onClick = { /*TODO*/ })
                 .drawBehind {
-                    val lineHeight = 30.dp.toPx()
+                    val lineHeight = size.height
                     drawLine(
                         color = Color.LightGray,
-                        start = Offset(0f, lineHeight), // bắt đầu từ bên trái
-                        end = Offset(size.width, lineHeight), // đến hết bên phải
+                        start = Offset(30f, lineHeight), // bắt đầu từ bên trái
+                        end = Offset(size.width-30f, lineHeight), // đến hết bên phải
                         strokeWidth = 2f,
                     )
                 },
-                fontSize = 20.sp
-            )
-
-            Text(text = "Thay đổi mật khẩu", modifier = Modifier
-                .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
-                .clickable(onClick = { /*TODO*/ })
+            ){
+                Text(text = "Chỉnh sửa hồ sơ", modifier = Modifier
+                    .padding(start = 15.dp, end = 15.dp, top = 25.dp, bottom = 20.dp)
+                    .fillMaxWidth(),
+                    fontSize = 20.sp
+                )
+            }
+            Row(modifier = Modifier
                 .fillMaxWidth()
+                .clickable(onClick = { /*TODO*/ })
                 .drawBehind {
-                    val lineHeight = 30.dp.toPx()
+                    val lineHeight = size.height
                     drawLine(
                         color = Color.LightGray,
-                        start = Offset(0f, lineHeight), // bắt đầu từ bên trái
-                        end = Offset(size.width, lineHeight), // đến hết bên phải
+                        start = Offset(30f, lineHeight), // bắt đầu từ bên trái
+                        end = Offset(size.width-30f, lineHeight), // đến hết bên phải
                         strokeWidth = 2f,
                     )
                 },
-                fontSize = 20.sp
-            )
-
-            Text(text = "Danh sách địa chỉ", modifier = Modifier
-                .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
-                .clickable(onClick = { /*TODO*/ })
+            ){
+                Text(text = "Thay đổi mật khẩu", modifier = Modifier
+                    .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
+                    .fillMaxWidth(),
+                    fontSize = 20.sp
+                )
+            }
+            Row(modifier = Modifier
                 .fillMaxWidth()
+                .clickable(onClick = { /*TODO*/ })
                 .drawBehind {
-                    val lineHeight = 30.dp.toPx()
+                    val lineHeight = size.height
                     drawLine(
                         color = Color.LightGray,
-                        start = Offset(0f, lineHeight), // bắt đầu từ bên trái
-                        end = Offset(size.width, lineHeight), // đến hết bên phải
+                        start = Offset(30f, lineHeight), // bắt đầu từ bên trái
+                        end = Offset(size.width-30f, lineHeight), // đến hết bên phải
                         strokeWidth = 2f,
                     )
                 },
-                fontSize = 20.sp
-            )
-
-            Text(text = "Lịch sử đơn hàng", modifier = Modifier
-                .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
-                .clickable(onClick = { /*TODO*/ })
+            ){
+                Text(text = "Danh sách địa chỉ", modifier = Modifier
+                    .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
+                    .fillMaxWidth(),
+                    fontSize = 20.sp
+                )
+            }
+            Row(modifier = Modifier
                 .fillMaxWidth()
+                .clickable(onClick = { /*TODO*/ })
                 .drawBehind {
-                    val lineHeight = 30.dp.toPx()
+                    val lineHeight = size.height
                     drawLine(
                         color = Color.LightGray,
-                        start = Offset(0f, lineHeight), // bắt đầu từ bên trái
-                        end = Offset(size.width, lineHeight), // đến hết bên phải
+                        start = Offset(30f, lineHeight), // bắt đầu từ bên trái
+                        end = Offset(size.width-30f, lineHeight), // đến hết bên phải
                         strokeWidth = 2f,
                     )
                 },
-                fontSize = 20.sp
-            )
-
-            Text(text = "Lịch sử mua hàng", modifier = Modifier
-                .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
-                .clickable(onClick = { /*TODO*/ })
+            ){
+                Text(text = "Lịch sử đơn hàng", modifier = Modifier
+                    .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
+                    .fillMaxWidth(),
+                    fontSize = 20.sp
+                )
+            }
+            Row(modifier = Modifier
                 .fillMaxWidth()
+                .clickable(onClick = { /*TODO*/ })
                 .drawBehind {
-                    val lineHeight = 30.dp.toPx()
+                    val lineHeight = size.height
                     drawLine(
                         color = Color.LightGray,
-                        start = Offset(0f, lineHeight), // bắt đầu từ bên trái
-                        end = Offset(size.width, lineHeight), // đến hết bên phải
+                        start = Offset(30f, lineHeight), // bắt đầu từ bên trái
+                        end = Offset(size.width-30f, lineHeight), // đến hết bên phải
                         strokeWidth = 2f,
                     )
                 },
-                fontSize = 20.sp
-            )
-
-            Text(text = "Đánh giá", modifier = Modifier
-                .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
-                .clickable(onClick = { /*TODO*/ })
+            ){
+                Text(text = "Lịch sử mua hàng", modifier = Modifier
+                    .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
+                    .fillMaxWidth(),
+                    fontSize = 20.sp
+                )
+            }
+            Row(modifier = Modifier
                 .fillMaxWidth()
+                .clickable(onClick = { /*TODO*/ })
                 .drawBehind {
-                    val lineHeight = 30.dp.toPx()
+                    val lineHeight = size.height
                     drawLine(
                         color = Color.LightGray,
-                        start = Offset(0f, lineHeight), // bắt đầu từ bên trái
-                        end = Offset(size.width, lineHeight), // đến hết bên phải
+                        start = Offset(30f, lineHeight), // bắt đầu từ bên trái
+                        end = Offset(size.width-30f, lineHeight), // đến hết bên phải
                         strokeWidth = 2f,
                     )
-                },
-                fontSize = 20.sp
-            )
+                 },
+            ){
+                Text(text = "Đánh giá", modifier = Modifier
+                    .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
+                    .fillMaxWidth(),
+                    fontSize = 20.sp
+                )
+            }
         }
-
     }
 }
