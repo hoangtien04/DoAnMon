@@ -13,6 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.damon.Screen.EditProfile
+import com.example.damon.Screen.LoginScreen
+import com.example.damon.Screen.ManagerScreen
+import com.example.damon.Screen.MemberScreen
+import com.example.damon.Screen.RegisterScreen
 import com.example.damon.Screen.SearchSceen
 import com.example.damon.ui.theme.DAMONTheme
 
@@ -24,9 +29,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             DAMONTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) {
-                    FullScreenProductList()
+//                    FullScreenProductList()
 //                    SearchSceen()
+//                    EditProfile()
+//                    ManagerScreen()
+//                    MemberScreen()
+//                    RegisterScreen()
+                    LoginScreen()
                 }
+
             }
         }
     }
