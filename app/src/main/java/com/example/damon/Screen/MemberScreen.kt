@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -34,10 +35,13 @@ fun MemberScreen(){
                 title = { Text(text = "Thông tin",)
                 },
                 actions = {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "",
-                        modifier = Modifier.padding(end = 10.dp),
-                        tint = Color.Red
-                    )
+                   IconButton(onClick = {},
+                       modifier = Modifier.padding(end = 10.dp)
+                   ) {
+                       Icon(imageVector = Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "",
+                           tint = Color.Red
+                       )
+                   }
                 },
                 modifier = Modifier.drawBehind {
                     val lineHeight = size.height

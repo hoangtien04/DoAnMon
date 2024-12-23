@@ -40,10 +40,15 @@ fun ManagerScreen(){
                 title = { Text(text = "Thông tin",)
                 },
                 actions = {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "",
-                        modifier = Modifier.padding(end = 10.dp),
-                        tint = Color.Red
-                    )
+                    IconButton(onClick = {},
+                        modifier = Modifier
+                            .padding(end = 10.dp)
+                    ) {
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = "",
+                            tint = Color.Red
+                        )
+                    }
                 },
                 modifier = Modifier.drawBehind {
                     val lineHeight = size.height
@@ -55,36 +60,6 @@ fun ManagerScreen(){
                     )
                 }
             )
-        },
-        bottomBar = {
-            BottomAppBar(tonalElevation = 0.dp ) {
-                Row (modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = "",
-                            tint = Color.Black
-                        )
-                    }
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "",
-                            tint = Color.Black
-                        )
-                    }
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Default.Person,
-                            contentDescription = "",
-                            tint = Color.Black
-                        )
-                    }
-                }
-            }
         }
     ){
         Column(modifier = Modifier.fillMaxSize().padding(it)) {
