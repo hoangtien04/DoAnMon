@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.damon.Screen.EditProfile
 import com.example.damon.Screen.LoginScreen
 import com.example.damon.Screen.ManagerScreen
@@ -28,15 +29,18 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DAMONTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) {
+                val navController = rememberNavController()
+                NavGraph(navController = navController)
+
+//                Scaffold(modifier = Modifier.fillMaxSize()) {
 //                    FullScreenProductList()
 //                    SearchSceen()
 //                    EditProfile()
 //                    ManagerScreen()
 //                    MemberScreen()
 //                    RegisterScreen()
-                    LoginScreen()
-                }
+//                    LoginScreen()
+//                }
 
             }
         }

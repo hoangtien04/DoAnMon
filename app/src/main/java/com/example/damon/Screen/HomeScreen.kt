@@ -38,9 +38,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.damon.Card.ProductFullScreenCard
 import com.example.damon.R
 import com.example.damon.Screen.SearchSceen
+import com.example.damon.ScreenRoute
 import kotlinx.coroutines.launch
 
 data class Product(
@@ -52,7 +54,7 @@ data class Product(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FullScreenProductList() {
+fun FullScreenProductList(navController: NavController) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
     val homeSize = remember { Animatable(65f) }
@@ -69,12 +71,12 @@ fun FullScreenProductList() {
     val pagerState = rememberPagerState { productList.size }
 
     Box(modifier = Modifier.fillMaxSize().background(Color(0xffF2F2F2))) {
-//        VerticalPager(
-//            modifier = Modifier.fillMaxSize())
-//            state = pagerState
-//        ) {
-            SearchSceen()
-//        }
+        VerticalPager(
+            modifier = Modifier.fillMaxSize(),
+            state = pagerState
+        ) {
+            ProductFullScreenCard(productList[it], onClickCard = {navController.navigate(ScreenRoute.ProductDetail.route)})
+        }
         Column (
             modifier = Modifier.fillMaxSize().padding(top = 24.dp),
             verticalArrangement = Arrangement.SpaceBetween,
