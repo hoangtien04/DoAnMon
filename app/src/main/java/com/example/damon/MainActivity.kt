@@ -29,13 +29,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             DAMONTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) {
-//                    FullScreenProductList()
+                    FullScreenProductList()
 //                    SearchSceen()
 //                    EditProfile()
 //                    ManagerScreen()
 //                    MemberScreen()
 //                    RegisterScreen()
-                    LoginScreen()
+//                    LoginScreen()
+
                 }
 
             }

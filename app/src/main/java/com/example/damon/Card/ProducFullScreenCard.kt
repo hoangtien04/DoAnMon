@@ -25,7 +25,6 @@ fun ProductFullScreenCard(product: Product) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
     ) {
         Image(
             painter = painterResource(id = product.imageResId),
@@ -33,29 +32,5 @@ fun ProductFullScreenCard(product: Product) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                text = product.title,
-                style = TextStyle(
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                ),
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = product.subtitle,
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    color = Color.LightGray
-                )
-            )
-        }
     }
 }

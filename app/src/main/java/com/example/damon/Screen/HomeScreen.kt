@@ -1,13 +1,8 @@
-import android.graphics.ColorSpace.Rgb
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -15,32 +10,21 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.damon.Card.ProductFullScreenCard
 import com.example.damon.R
-import com.example.damon.Screen.SearchSceen
 import kotlinx.coroutines.launch
 
 data class Product(
@@ -69,12 +53,12 @@ fun FullScreenProductList() {
     val pagerState = rememberPagerState { productList.size }
 
     Box(modifier = Modifier.fillMaxSize().background(Color(0xffF2F2F2))) {
-//        VerticalPager(
-//            modifier = Modifier.fillMaxSize())
-//            state = pagerState
-//        ) {
-            SearchSceen()
-//        }
+        VerticalPager(
+            modifier = Modifier.fillMaxSize(),
+            state = pagerState
+        ) {
+            ProductFullScreenCard(productList[it])
+        }
         Column (
             modifier = Modifier.fillMaxSize().padding(top = 24.dp),
             verticalArrangement = Arrangement.SpaceBetween,
