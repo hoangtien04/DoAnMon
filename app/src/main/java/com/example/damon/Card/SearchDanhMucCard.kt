@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.damon.R
@@ -40,7 +39,7 @@ fun SearchDanhMucCard() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
-            Image(painter = painterResource(R.drawable.a1b33e32e8301949b5b770865289c90b), contentDescription = null)
+            Image(painter = painterResource(R.drawable.anh1), contentDescription = null)
             Text(
                 text = "ÁO KHOÁC LEN DAIF TAY",
                 modifier = Modifier.padding(end = 7.dp),

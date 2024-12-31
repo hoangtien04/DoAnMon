@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.damon.Screen.CartScreen
 import com.example.damon.Screen.EditProfile
 import com.example.damon.Screen.LoginScreen
 import com.example.damon.Screen.ManagerScreen
@@ -23,6 +24,7 @@ sealed class ScreenRoute(val route:String){
     object Register:ScreenRoute("register_screen")
     object Login:ScreenRoute("login_screen")
     object ProductDetail:ScreenRoute("productdetail_screen")
+    object Cart:ScreenRoute("cart_screen")
 }
 
 @Composable
@@ -36,7 +38,7 @@ fun NavGraph(navController: NavHostController){
         composable(
             route = ScreenRoute.Search.route
         ){
-            SearchSceen()
+            SearchSceen(navController=navController)
         }
         composable(
             route = ScreenRoute.EditProfile.route
@@ -46,7 +48,7 @@ fun NavGraph(navController: NavHostController){
         composable(
             route = ScreenRoute.Manager.route
         ){
-            ManagerScreen()
+            ManagerScreen(navController=navController)
         }
         composable(
             route = ScreenRoute.Member.route
@@ -67,6 +69,11 @@ fun NavGraph(navController: NavHostController){
             route = ScreenRoute.ProductDetail.route
         ){
             ProductDetailScreen(navController=navController)
+        }
+        composable(
+            route = ScreenRoute.Cart.route
+        ){
+            CartScreen(navController=navController)
         }
     }
 }

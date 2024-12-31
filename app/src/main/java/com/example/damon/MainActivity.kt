@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import com.example.damon.Screen.CartScreen
 import com.example.damon.Screen.EditProfile
 import com.example.damon.Screen.LoginScreen
 import com.example.damon.Screen.ManagerScreen
@@ -29,6 +30,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DAMONTheme {
+
                 val navController = rememberNavController()
                 NavGraph(navController = navController)
 
@@ -40,6 +42,7 @@ class MainActivity : ComponentActivity() {
 //                    MemberScreen()
 //                    RegisterScreen()
 //                    LoginScreen()
+//                CartScreen()
 //                }
 
             }

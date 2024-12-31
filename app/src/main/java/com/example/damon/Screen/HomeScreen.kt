@@ -1,13 +1,8 @@
-import android.graphics.ColorSpace.Rgb
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -15,33 +10,23 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.damon.Card.ProductFullScreenCard
 import com.example.damon.R
-import com.example.damon.Screen.SearchSceen
 import com.example.damon.ScreenRoute
 import kotlinx.coroutines.launch
 
@@ -62,10 +47,10 @@ fun FullScreenProductList(navController: NavController) {
     val profileSize = remember { Animatable(54f) }
     val scope = rememberCoroutineScope()
     val productList = listOf(
-        Product(R.drawable.a1b33e32e8301949b5b770865289c90b, "Áo len nam", "Thời trang thu đông"),
-        Product(R.drawable.a1b33e32e8301949b5b770865289c90b, "Áo hoodie", "Phong cách trẻ trung"),
-        Product(R.drawable.a1b33e32e8301949b5b770865289c90b, "Áo khoác dạ", "Thời thượng và ấm áp"),
-        Product(R.drawable.a1b33e32e8301949b5b770865289c90b, "Áo sơ mi", "Lịch sự, sang trọng")
+        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
+        Product(R.drawable.anh1, "Áo hoodie", "Phong cách trẻ trung"),
+        Product(R.drawable.anh1, "Áo khoác dạ", "Thời thượng và ấm áp"),
+        Product(R.drawable.anh1, "Áo sơ mi", "Lịch sự, sang trọng")
     )
 
     val pagerState = rememberPagerState { productList.size }
@@ -96,7 +81,7 @@ fun FullScreenProductList(navController: NavController) {
                 Spacer(modifier = Modifier.width(2.dp))
                 IconButton(
                     modifier = Modifier.size(56.dp),
-                    onClick = {  }
+                    onClick = { navController.navigate(ScreenRoute.Cart.route) }
                 ) {
                     Icon(painter = painterResource(id = R.drawable.shopping_cart_24dp_5f6368_fill0_wght400_grad0_opsz24), contentDescription = "Back",modifier = Modifier.size(30.dp))
                 }
@@ -149,6 +134,7 @@ fun FullScreenProductList(navController: NavController) {
                                     homeSize.animateTo(54f, animationSpec = tween(100)) // Thu nhỏ lại 100.dp
                                     searchSize.animateTo(65f, animationSpec = tween(100))
                                     profileSize.animateTo(54f, animationSpec = tween(100))
+                                    navController.navigate(ScreenRoute.Search.route)
                                 }
                             }
                         }
@@ -170,6 +156,7 @@ fun FullScreenProductList(navController: NavController) {
                                     homeSize.animateTo(54f, animationSpec = tween(100)) // Thu nhỏ lại 100.dp
                                     searchSize.animateTo(54f, animationSpec = tween(100))
                                     profileSize.animateTo(65f, animationSpec = tween(100))
+                                    navController.navigate(ScreenRoute.Manager.route)
                                 }
                             }
                         }

@@ -33,12 +33,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.damon.R
+import com.example.damon.ScreenRoute
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(navController: NavController) {
-    val product = Product(R.drawable.a1b33e32e8301949b5b770865289c90b, "Áo khoác dù", "Thời trang thu đông")
+    val product = Product(R.drawable.anh1, "Áo khoác dù", "Thời trang thu đông")
 
     Scaffold(
         topBar = {
@@ -61,7 +62,7 @@ fun ProductDetailScreen(navController: NavController) {
                             tint = Color.Black
                         )
                     }
-                    IconButton(onClick = { /* Mở giỏ hàng */ }) {
+                    IconButton(onClick = { navController.navigate(ScreenRoute.Cart.route)}) {
                         Icon(
                             painter = painterResource(id = R.drawable.shopping_cart_24dp_5f6368_fill0_wght400_grad0_opsz24),
                             contentDescription = "Cart",
