@@ -81,7 +81,7 @@ fun SearchSceen(navController: NavController){
         Column (
             modifier = Modifier
                 .fillMaxWidth()
-                .height(550.dp)
+                .height(650.dp)
                 .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally
         ){

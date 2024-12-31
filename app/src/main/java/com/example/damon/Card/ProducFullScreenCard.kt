@@ -27,7 +27,6 @@ fun ProductFullScreenCard(product: Product,onClickCard:()->Unit) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
         ) {
             Image(
                 painter = painterResource(id = product.imageResId),
