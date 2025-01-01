@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 fun MemberScreen(){
     Scaffold(

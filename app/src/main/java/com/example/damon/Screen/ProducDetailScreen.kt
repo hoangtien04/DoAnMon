@@ -55,7 +55,7 @@ fun ProductDetailScreen(navController: NavController) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* Thêm vào yêu thích */ }) {
+                    IconButton(onClick = { navController.navigate(ScreenRoute.Favourite.route) }) {
                         Icon(
                             imageVector = Icons.Rounded.FavoriteBorder,
                             contentDescription = "Favorite",

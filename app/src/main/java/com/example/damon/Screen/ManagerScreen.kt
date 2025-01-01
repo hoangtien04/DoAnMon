@@ -53,31 +53,8 @@ fun ManagerScreen(navController: NavController){
     val searchSize = remember { Animatable(54f) }
     val profileSize = remember { Animatable(65f) }
     val scope = rememberCoroutineScope()
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Thông tin",)
-                },
-                actions = {
-                    Icon(imageVector = Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "",
-                        modifier = Modifier.padding(end = 10.dp),
-                        tint = Color.Red
-                    )
-                },
-                modifier = Modifier.drawBehind {
-                    val lineHeight = size.height
-                    drawLine(
-                        color = Color.Black,
-                        start = Offset(0f, lineHeight), // bắt đầu từ bên trái
-                        end = Offset(size.width, lineHeight), // đến hết bên phải
-                        strokeWidth = 4f,
-                    )
-                }
-            )
-        },
 
-    ){
-        Column(modifier = Modifier.fillMaxSize().padding(it)) {
+        Column(modifier = Modifier.fillMaxSize()) {
             Text(text = "Chỉnh sửa hồ sơ", modifier = Modifier
                 .padding(start = 15.dp, end = 15.dp, top = 20.dp, bottom = 20.dp)
                 .clickable(onClick = { /*TODO*/ })
@@ -201,84 +178,5 @@ fun ManagerScreen(navController: NavController){
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Row(
-                modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .padding(bottom = 32.dp)
-                    .height(70.dp),
-                horizontalArrangement = Arrangement.spacedBy(65.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(homeSize.value.dp)
-                        .clickable{
-                            scope.launch {
-                                if(homeSize.value == 65f){
-
-                                }
-                                else{
-                                    // Thu nhỏ Box
-                                    homeSize.animateTo(65f, animationSpec = tween(100)) // Thu nhỏ lại 100.dp
-                                    searchSize.animateTo(54f, animationSpec = tween(100))
-                                    profileSize.animateTo(54f, animationSpec = tween(100))
-                                    navController.navigate(ScreenRoute.Home.route)
-                                }
-                            }
-                        }
-                        .background(Color.White)
-
-
-                ){
-                    Icon(Icons.Default.Home, contentDescription = "Search", modifier = Modifier.align(Alignment.Center).size(32.dp))
-                }
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .clip(CircleShape)
-                        .size(searchSize.value.dp)
-                        .clickable{
-                            scope.launch {
-                                if(searchSize.value == 65f){
-
-                                }
-                                else{
-                                    // Thu nhỏ Box
-                                    homeSize.animateTo(54f, animationSpec = tween(100)) // Thu nhỏ lại 100.dp
-                                    searchSize.animateTo(65f, animationSpec = tween(100))
-                                    profileSize.animateTo(54f, animationSpec = tween(100))
-                                    navController.navigate(ScreenRoute.Search.route)
-                                }
-                            }
-                        }
-                        .background(Color.White)
-                ){
-                    Icon(painter = painterResource(id = R.drawable.baseline_search_24), contentDescription = "Search", modifier = Modifier.align(Alignment.Center).size(32.dp))
-                }
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(profileSize.value.dp)
-                        .clickable{
-                            scope.launch {
-                                if(profileSize.value == 65f){
-
-                                }
-                                else{
-                                    // Thu nhỏ Box
-                                    homeSize.animateTo(54f, animationSpec = tween(100)) // Thu nhỏ lại 100.dp
-                                    searchSize.animateTo(54f, animationSpec = tween(100))
-                                    profileSize.animateTo(65f, animationSpec = tween(100))
-
-                                }
-                            }
-                        }
-                        .background(Color.White)
-                ){
-                    Icon(Icons.Default.Person, contentDescription = "Search", modifier = Modifier.align(Alignment.Center).size(32.dp))
-                }
-            }
-        }
     }
 }
