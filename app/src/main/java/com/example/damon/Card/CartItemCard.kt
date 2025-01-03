@@ -46,7 +46,7 @@ fun CartItemCard(product: Product) {
     val donGia = 489000 // Đơn giá sản phẩm
 
     Card(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(7.dp,3.dp)
     ) {
         Column(
             verticalArrangement = Arrangement.Top,
@@ -76,7 +76,7 @@ fun CartItemCard(product: Product) {
                             fontWeight = FontWeight.Bold
                         )
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(18.dp))
                     Text(
                         "Màu sắc: Đen",
                         style = TextStyle(
@@ -98,59 +98,55 @@ fun CartItemCard(product: Product) {
                             fontSize = 16.sp,
                         )
                     )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                IconButton(
-                    onClick = {
-                        if (soLuong > 1) {
-                            soLuong--
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    ) {
+                        IconButton(
+                            onClick = {
+                                if (soLuong > 1) {
+                                    soLuong--
+                                }
+                            },
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.minus_solid),
+                                contentDescription = "Decrease quantity",
+                                modifier = Modifier.size(25.dp)
+                            )
                         }
-                    },
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.minus_solid),
-                        contentDescription = "Decrease quantity",
-                        modifier = Modifier.size(25.dp)
-                    )
-                }
 
-                Text(
-                    text = soLuong.toString(),
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .align(Alignment.CenterVertically)
-                )
+                        Text(
+                            text = soLuong.toString(),
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            ),
+                            modifier = Modifier
+                                .padding(horizontal = 16.dp)
+                                .align(Alignment.CenterVertically)
+                        )
 
-                IconButton(
-                    onClick = {
-                        soLuong++
-                    },
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Add,
-                        contentDescription = "Increase quantity"
-                    )
+                        IconButton(
+                            onClick = {
+                                soLuong++
+                            },
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Add,
+                                contentDescription = "Increase quantity"
+                            )
+                        }
+                    }
                 }
             }
-
             Spacer(modifier = Modifier.height(16.dp))
-
             Text(
                 text = "TỔNG: ${soLuong * donGia} VND",
                 style = TextStyle(
