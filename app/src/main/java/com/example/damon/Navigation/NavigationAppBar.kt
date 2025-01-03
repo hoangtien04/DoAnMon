@@ -44,6 +44,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationAppBar(navController: NavHostController){
+
     val items = listOf(
         NavItem.Home,
         NavItem.Search,
@@ -52,6 +53,7 @@ fun NavigationAppBar(navController: NavHostController){
     NavigationBar(
         containerColor = Color(0xFFFFFFFF),
     ){
+
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination
         items.forEach { item ->

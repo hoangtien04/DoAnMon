@@ -28,6 +28,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -37,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.damon.Navigation.NavItem
 import com.example.damon.Navigation.NavigationAppBar
@@ -49,53 +51,64 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen(navRootController: NavHostController, modifier: Modifier = Modifier) {
     val navItemController = rememberNavController()
-    val items = listOf(
-        NavItem.Home,
-        NavItem.Search,
-        NavItem.Manager,
-    )
+    val currentBackStackEntry by navItemController.currentBackStackEntryAsState()
+    val currentRoute = currentBackStackEntry?.destination?.route
+
+    // Kiểm tra xem trang hiện tại có phải là Manager hay không
+    val isManagerRoute = currentRoute == NavItem.Manager.route
+
+    // Khởi tạo navItemController
+
+
     Scaffold(
         topBar = {
-            TopAppBar(
-                actions = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.End
-                    ){
-                        IconButton(
-                            modifier = Modifier.size(65.dp).clip(CircleShape),
-                            onClick = {
-                                navRootController.navigate(ScreenRoute.Favourite.route)
-                            },
-                        ){
-                            Icon(Icons.Filled.FavoriteBorder,"")
+            // Kiểm tra nếu route hiện tại là Manager thì không hiển thị TopAppBar
+            if (!isManagerRoute) {
+                TopAppBar(
+                    actions = {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            // Nút yêu thích
+                            IconButton(
+                                modifier = Modifier.size(65.dp).clip(CircleShape),
+                                onClick = {
+                                    navRootController.navigate(ScreenRoute.Favourite.route)
+                                },
+                            ) {
+                                Icon(Icons.Filled.FavoriteBorder, "")
+                            }
+                            // Nút giỏ hàng
+                            IconButton(
+                                modifier = Modifier.size(65.dp).clip(CircleShape),
+                                onClick = {
+                                    navRootController.navigate(ScreenRoute.Cart.route)
+                                },
+                            ) {
+                                Icon(painter = painterResource(R.drawable.shopping_cart_24dp_5f6368_fill0_wght400_grad0_opsz24), "")
+                            }
                         }
-                        IconButton(
-                            modifier = Modifier.size(65.dp).clip(CircleShape),
-                            onClick = {
-                                navRootController.navigate(ScreenRoute.Cart.route)
-                            },
-                        ){
-                            Icon(painter = painterResource(R.drawable.shopping_cart_24dp_5f6368_fill0_wght400_grad0_opsz24),"")
-                        }
-                    }
-                },
-                title = {},
-            )
-
+                    },
+                    title = {},
+                )
+            }
         },
         bottomBar = {
             Column {
+                // Thanh điều hướng dưới
                 NavigationAppBar(navController = navItemController)
             }
         }
-    ){
-        Box(modifier = Modifier.padding(it)){
+    ) {
+        Box(modifier = Modifier.padding(it)) {
+            // Nội dung của NavigationBarGraph
             NavigationBarGraph(
                 navItemController = navItemController,
                 navRootController = navRootController
             )
-
         }
     }
 }
+
+
