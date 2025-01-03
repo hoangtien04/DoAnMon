@@ -1,8 +1,5 @@
 package com.example.damon.Screen
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,11 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -30,19 +23,16 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.damon.Card.SearchDanhMucCard
 import com.example.damon.R
-import com.example.damon.ScreenRoute
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -52,8 +42,7 @@ fun SearchScreen(navController: NavController){
     var searchText = remember{mutableStateOf("")}
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 68.dp),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         LazyColumn(
@@ -80,31 +69,37 @@ fun SearchScreen(navController: NavController){
                 .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            TextField(
+
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(15.dp,top = 15.dp, end = 15.dp)
+                    .padding(start = 15.dp,top = 15.dp, end = 15.dp)
                     .border(0.5.dp, Color.LightGray, RoundedCornerShape(100.dp))
-                    .padding(start = 9.dp)
-                ,
-                value = searchText.value,
-                onValueChange = {searchText.value = it},
-                leadingIcon = {
-                    Icon(painter = painterResource(id = R.drawable.search1),contentDescription = null,modifier = Modifier.size(45.dp))
-                },
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                ),
-                shape = RoundedCornerShape(100.dp),
-                placeholder = {
-                    Text(text = "Tìm kiếm sản phẩm",color = Color.LightGray)
-                }
-            )
-        }
+                    .clickable {
 
+                    }
+                    .height(52.dp),
+                contentAlignment = Alignment.Center
+                )
+            {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.search1),
+                        contentDescription = null,
+                        modifier = Modifier.size(45.dp).padding(start = 10.dp),
+                        tint = Color(0xFF676767)
+                    )
+                    Text(
+                        text = "Tìm kiếm sản phẩm",
+                        color = Color(0xFFA4A4A4),
+                        modifier = Modifier.padding(start = 10.dp,top = 10.dp),
+                        fontSize = 20.sp
+                    )
+                }
+            }
+        }
     }
 
 }

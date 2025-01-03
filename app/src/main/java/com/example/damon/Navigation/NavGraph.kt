@@ -1,4 +1,4 @@
-package com.example.damon
+package com.example.damon.Navigation
 
 import FullScreenProductList
 import androidx.compose.material.icons.Icons
@@ -20,7 +20,6 @@ import com.example.damon.Screen.MemberScreen
 import com.example.damon.Screen.ProductDetailScreen
 import com.example.damon.Screen.RegisterScreen
 import com.example.damon.Screen.SearchScreen
-
 
 sealed class ScreenRoute(val route: String) {
     object Main : ScreenRoute("main_screen")
@@ -76,7 +75,7 @@ fun NavigationBarGraph(navItemController:NavHostController, navRootController:Na
         startDestination = NavItem.Home.route
     ) {
         composable(route = NavItem.Home.route) {
-            FullScreenProductList(navController = navRootController)
+            FullScreenProductList(navRootController = navRootController)
         }
         composable(route = NavItem.Search.route) {
             SearchScreen(navController = navRootController)

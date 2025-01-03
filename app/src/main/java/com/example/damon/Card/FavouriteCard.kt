@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -42,16 +43,17 @@ import com.example.damon.R
 
 @Composable
 fun FavouriteCard(product: Product) {
-
-
     Card(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(7.dp,3.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFCECECE)
+        )
     ) {
         Column(
             verticalArrangement = Arrangement.Top,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(12.dp)
         ) {
             Row {
                 Image(
@@ -65,7 +67,7 @@ fun FavouriteCard(product: Product) {
                 Column(
                     modifier = Modifier
                         .weight(6f)
-                        .padding(start = 16.dp)
+                        .padding(start = 16.dp, top = 3.dp)
                 ) {
                     Text(
                         "Áo khoác dù",
@@ -75,7 +77,7 @@ fun FavouriteCard(product: Product) {
                             fontWeight = FontWeight.Bold
                         )
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
                     Text(
                         "Màu sắc: Đen",
                         style = TextStyle(
@@ -83,6 +85,7 @@ fun FavouriteCard(product: Product) {
                             fontSize = 16.sp,
                         )
                     )
+                    Spacer(modifier = Modifier.height(7.dp))
                     Text(
                         "Kích cỡ: Nam M",
                         style = TextStyle(
@@ -90,6 +93,7 @@ fun FavouriteCard(product: Product) {
                             fontSize = 16.sp,
                         )
                     )
+                    Spacer(modifier = Modifier.height(7.dp))
                     Text(
                         "Đơn giá: 150000 VND",
                         style = TextStyle(

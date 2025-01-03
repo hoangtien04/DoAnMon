@@ -33,7 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.damon.R
-import com.example.damon.ScreenRoute
+import com.example.damon.Navigation.ScreenRoute
 
 
 @OptIn(ExperimentalMaterial3Api::class)
