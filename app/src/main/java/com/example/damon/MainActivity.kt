@@ -20,6 +20,7 @@ import com.example.damon.Screen.LoginScreen
 import com.example.damon.Screen.ManagerScreen
 import com.example.damon.Screen.MemberScreen
 import com.example.damon.Screen.RegisterScreen
+import com.example.damon.Screen.Screen2
 import com.example.damon.Screen.SearchSceen
 import com.example.damon.ui.theme.DAMONTheme
 
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
                 NavGraph(navController = navController)
-
+                    Screen2(navController)
 //                Scaffold(modifier = Modifier.fillMaxSize()) {
 //                    FullScreenProductList()
 //                    SearchSceen()

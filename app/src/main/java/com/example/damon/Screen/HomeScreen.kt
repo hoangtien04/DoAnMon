@@ -162,7 +162,8 @@ fun FullScreenProductList(navController: NavController) {
                         }
                         .background(Color.White)
                 ){
-                    Icon(Icons.Default.Person, contentDescription = "Search", modifier = Modifier.align(Alignment.Center).size(32.dp))
+                    Icon(Icons.Default.Person,
+                        contentDescription = "Search", modifier = Modifier.align(Alignment.Center).size(32.dp))
                 }
             }
         }
