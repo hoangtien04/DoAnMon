@@ -8,18 +8,11 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.damon.Screen.CartScreen
-import com.example.damon.Screen.EditProfile
-import com.example.damon.Screen.FavouriteScreen
-import com.example.damon.Screen.LoginScreen
-import com.example.damon.Screen.MainScreen
-import com.example.damon.Screen.ManagerScreen
-import com.example.damon.Screen.MemberScreen
-import com.example.damon.Screen.ProductDetailScreen
-import com.example.damon.Screen.RegisterScreen
-import com.example.damon.Screen.SearchScreen
+import androidx.navigation.navArgument
+import com.example.damon.Screen.*
 
 sealed class ScreenRoute(val route: String) {
     object Main : ScreenRoute("main_screen")
@@ -30,6 +23,14 @@ sealed class ScreenRoute(val route: String) {
     object ProductDetail : ScreenRoute("productdetail_screen")
     object Cart : ScreenRoute("cart_screen")
     object Favourite : ScreenRoute("favourite_screen")
+    object Oder : ScreenRoute("oder_screen/{selectedTab}") {
+        fun createRoute(selectedTab: Int) = "oder_screen/$selectedTab"
+    }
+
+    object WaitingForConfirmation : ScreenRoute("waiting_for_confirmation_screen")
+    object WaitingForPickup : ScreenRoute("waiting_for_pickup_screen")
+    object WaitingForDelivery : ScreenRoute("waiting_for_delivery_screen")
+    object Rating : ScreenRoute("rating_screen")
 }
 
 @Composable
@@ -59,6 +60,27 @@ fun NavGraph(navController: NavHostController) {
         composable(route = ScreenRoute.Favourite.route) {
             FavouriteScreen(navController = navController)
         }
+        composable(
+            route = ScreenRoute.Oder.route,
+            arguments = listOf(navArgument("selectedTab") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val selectedTab = backStackEntry.arguments?.getInt("selectedTab") ?: 0
+            OrderScreen(navController = navController, initialTab = selectedTab)
+        }
+
+
+        composable(route = ScreenRoute.WaitingForConfirmation.route) {
+            WaitingForConfirmationScreen(navController = navController)
+        }
+        composable(route = ScreenRoute.WaitingForPickup.route) {
+            WaitingForPickupScreen(navController = navController)
+        }
+        composable(route = ScreenRoute.WaitingForDelivery.route) {
+            WaitingForDeliveryScreen(navController = navController)
+        }
+        composable(route = ScreenRoute.Rating.route) {
+            RatingScreen(navController = navController)
+        }
     }
 }
 
@@ -69,11 +91,8 @@ sealed class NavItem(val icon: ImageVector, val route: String) {
 }
 
 @Composable
-fun NavigationBarGraph(navItemController:NavHostController, navRootController:NavHostController){
-    NavHost(
-        navItemController,
-        startDestination = NavItem.Home.route
-    ) {
+fun NavigationBarGraph(navItemController: NavHostController, navRootController: NavHostController) {
+    NavHost(navController = navItemController, startDestination = NavItem.Home.route) {
         composable(route = NavItem.Home.route) {
             FullScreenProductList(navRootController = navRootController)
         }
