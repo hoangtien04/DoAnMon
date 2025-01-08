@@ -40,6 +40,8 @@ android {
 }
 
 dependencies {
+    implementation ("com.google.accompanist:accompanist-pager:0.24.13-rc")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.24.13-rc")
     implementation("androidx.navigation:navigation-compose:2.8.5")
     implementation("androidx.compose.material:material-icons-extended-android:1.7.6")
     implementation(libs.material3)
