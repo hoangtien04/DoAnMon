@@ -8,6 +8,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import com.example.damon.Navigation.NavGraph
 import com.example.damon.Screen.EditProfile
+<<<<<<< HEAD
+=======
+import com.example.damon.Screen.LoginScreen
+import com.example.damon.Screen.ManagerScreen
+import com.example.damon.Screen.MemberScreen
+import com.example.damon.Screen.RegisterScreen
+import com.example.damon.Screen.Screen2
 import com.example.damon.ui.theme.DAMONTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +27,6 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
                 NavGraph(navController = navController)
-
 //                Scaffold(modifier = Modifier.fillMaxSize()) {
 //                    FullScreenProductList()
 //                    SearchSceen()
