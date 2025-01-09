@@ -1,5 +1,4 @@
 package com.example.damon.Screen
-
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -7,8 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-
-
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -45,17 +42,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 import androidx.navigation.NavController
 import com.example.damon.R
-import com.example.damon.ScreenRoute
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Screen2(navController: NavController) {
+fun SearchScreen2(navController: NavController) {
     var searchText  by remember{ mutableStateOf("")}
     Scaffold(
         topBar = {
@@ -71,11 +66,10 @@ fun Screen2(navController: NavController) {
                         ),
                         modifier = Modifier.fillMaxWidth(),
                         placeholder = { Text("Bạn đang tìm sản phẩm gì?")}
-
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = {navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",
@@ -88,11 +82,9 @@ fun Screen2(navController: NavController) {
     ) { paddingValues ->
         Column(
             modifier = Modifier
-
                 .padding(paddingValues),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,7 +102,6 @@ fun Screen2(navController: NavController) {
                 }
             }
             Divider(color = Color.Gray, modifier = Modifier.height(1.dp).fillMaxWidth())
-
         }
     }
 }

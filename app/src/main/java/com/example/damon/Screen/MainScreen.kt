@@ -96,13 +96,11 @@ fun MainScreen(navRootController: NavHostController, modifier: Modifier = Modifi
         },
         bottomBar = {
             Column {
-                // Thanh điều hướng dưới
                 NavigationAppBar(navController = navItemController)
             }
         }
     ) {
         Box(modifier = Modifier.padding(it)) {
-            // Nội dung của NavigationBarGraph
             NavigationBarGraph(
                 navItemController = navItemController,
                 navRootController = navRootController

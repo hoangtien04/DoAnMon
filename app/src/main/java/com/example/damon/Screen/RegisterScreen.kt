@@ -28,10 +28,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.damon.Navigation.ScreenRoute
 
 @Composable
-@Preview
-fun RegisterScreen(){
+fun RegisterScreen(navController: NavController){
     var TaiKhoan by remember { mutableStateOf<String>("") }
     var MatKhau by remember { mutableStateOf<String>("") }
     var NhapLaiMatKhau by remember { mutableStateOf<String>("") }
@@ -91,9 +92,9 @@ fun RegisterScreen(){
                     .clickable { /*TODO*/ },
                 color = Color.Blue
             )
-            Text(text = "Tạo Tài Khoản",
+            Text(text = "Đăng nhập",
                 modifier = Modifier
-                    .clickable { /*TODO*/ },
+                    .clickable { navController.navigate(ScreenRoute.Login.route) },
                 color = Color.Blue
             )
         }
