@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import com.example.damon.Navigation.NavGraph
 import com.example.damon.Screen.EditProfile
+import com.example.damon.Screen.MemberScreen
 import com.example.damon.Screen.PayScreen
 import com.example.damon.ui.theme.DAMONTheme
 
@@ -25,14 +26,14 @@ class MainActivity : ComponentActivity() {
 //                Scaffold(modifier = Modifier.fillMaxSize()) {
 //                    FullScreenProductList()
 //                    SearchSceen()
-                //EditProfile()
+//                    EditProfile()
 //                    ManagerScreen()
-//                    MemberScreen()
+                    MemberScreen()
 //                    RegisterScreen()
 //                    LoginScreen()
-//                CartScreen()
+//                      CartScreen()
 //                }
-PayScreen()
+//                    PayScreen()
             }
         }
     }

@@ -179,7 +179,7 @@ fun PayScreen(){
                             "Áo khoác dù",
                             style = TextStyle(
                                 color = Color.Black,
-                                fontSize = 20.sp,
+                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         )
