@@ -10,6 +10,8 @@ import com.example.damon.Navigation.NavGraph
 import com.example.damon.Screen.EditProfile
 import com.example.damon.Screen.MemberScreen
 import com.example.damon.Screen.PayScreen
+import com.example.damon.Screen.SearchScreen
+import com.example.damon.Screen.SearchScreen4
 import com.example.damon.ui.theme.DAMONTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,10 +27,11 @@ class MainActivity : ComponentActivity() {
 
 //                Scaffold(modifier = Modifier.fillMaxSize()) {
 //                    FullScreenProductList()
-//                    SearchSceen()
+//                    SearchScreen()
+                SearchScreen4()
 //                    EditProfile()
 //                    ManagerScreen()
-                    MemberScreen()
+//                    MemberScreen()
 //                    RegisterScreen()
 //                    LoginScreen()
 //                      CartScreen()
