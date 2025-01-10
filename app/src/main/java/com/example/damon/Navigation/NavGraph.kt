@@ -40,16 +40,16 @@ fun NavGraph(navController: NavHostController) {
             MainScreen(navRootController = navController)
         }
         composable(route = ScreenRoute.EditProfile.route) {
-            EditProfile()
+            EditProfile(navController = navController)
         }
         composable(route = ScreenRoute.Member.route) {
-            MemberScreen()
+            MemberScreen(navController = navController)
         }
         composable(route = ScreenRoute.Register.route) {
-            RegisterScreen()
+            RegisterScreen(navController = navController)
         }
         composable(route = ScreenRoute.Login.route) {
-            LoginScreen()
+            LoginScreen(navController = navController)
         }
         composable(route = ScreenRoute.ProductDetail.route) {
             ProductDetailScreen(navController = navController)
@@ -81,6 +81,9 @@ fun NavGraph(navController: NavHostController) {
         composable(route = ScreenRoute.Rating.route) {
             RatingScreen(navController = navController)
         }
+        composable(route = NavItem.Search2.route) {
+            SearchScreen2(navController = navController)
+        }
     }
 }
 
@@ -88,6 +91,7 @@ sealed class NavItem(val icon: ImageVector, val route: String) {
     object Home : NavItem(Icons.Default.Home, "home_screen")
     object Search : NavItem(Icons.Default.Search, "search_screen")
     object Manager : NavItem(Icons.Default.Person, "manager_screen")
+    object Search2 : NavItem(Icons.Default.Search, "search2_screen")
 }
 
 @Composable
@@ -102,5 +106,7 @@ fun NavigationBarGraph(navItemController: NavHostController, navRootController: 
         composable(route = NavItem.Manager.route) {
             ManagerScreen(navController = navRootController)
         }
+
     }
+
 }

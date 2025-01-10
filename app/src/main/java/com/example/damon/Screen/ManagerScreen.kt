@@ -38,13 +38,11 @@ fun ManagerScreen(navController: NavController) {
         PurchaseStatusHeader(navController)
 
         val menuItems = listOf(
-            "Hồ sơ" to {},
+            "Hồ sơ" to {navController.navigate(ScreenRoute.Member.route)},
             "Lịch sử đơn hàng" to {},
             "Lịch sử mua hàng" to {},
             "Mã giảm giá (Yêu cầu đăng nhập)" to {},
-            "Lưu bảng câu hỏi khảo sát dịch vụ" to {},
-            "Cài đặt ứng dụng" to {},
-            "Đăng xuất" to {},
+            "Đăng nhập" to {navController.navigate(ScreenRoute.Login.route)},
             "Admin" to {}
         )
 

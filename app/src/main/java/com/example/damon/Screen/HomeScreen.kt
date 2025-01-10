@@ -59,114 +59,130 @@ fun FullScreenProductList(navRootController: NavHostController) {
         ) {
             ProductFullScreenCard(productList[it], onClickCard = {navRootController.navigate(ScreenRoute.ProductDetail.route)})
         }
-<<<<<<< HEAD
-=======
-        Column (
-            modifier = Modifier.fillMaxSize().padding(top = 24.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Row(
-                modifier = Modifier.fillMaxWidth().height(60.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ){
-                IconButton(
-                    modifier = Modifier.size(45.dp),
-                    onClick = { /* Handle back button click */ }
-                ) {
-                    Icon(Icons.Rounded.FavoriteBorder, contentDescription = "Back",modifier = Modifier.size(30.dp))
-                }
-                Spacer(modifier = Modifier.width(2.dp))
-                IconButton(
-                    modifier = Modifier.size(56.dp),
-                    onClick = { navController.navigate(ScreenRoute.Cart.route) }
-                ) {
-                    Icon(painter = painterResource(id = R.drawable.shopping_cart_24dp_5f6368_fill0_wght400_grad0_opsz24), contentDescription = "Back",modifier = Modifier.size(30.dp))
-                }
-                Spacer(modifier = Modifier.width(12.dp))
-            }
-
-            Row(
-                modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .padding(bottom = 32.dp)
-                    .height(70.dp),
-                horizontalArrangement = Arrangement.spacedBy(65.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(homeSize.value.dp)
-                        .clickable{
-                            scope.launch {
-                                if(homeSize.value == 65f){
-
-                                }
-                                else{
-                                    // Thu nhỏ Box
-                                    homeSize.animateTo(65f, animationSpec = tween(100)) // Thu nhỏ lại 100.dp
-                                    searchSize.animateTo(54f, animationSpec = tween(100))
-                                    profileSize.animateTo(54f, animationSpec = tween(100))
-                                }
-                            }
-                        }
-                        .background(Color.White)
-
-
-                ){
-                    Icon(Icons.Default.Home, contentDescription = "Search", modifier = Modifier.align(Alignment.Center).size(32.dp))
-                }
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .clip(CircleShape)
-                        .size(searchSize.value.dp)
-                        .clickable{
-                            scope.launch {
-                                if(searchSize.value == 65f){
-
-                                }
-                                else{
-                                    // Thu nhỏ Box
-                                    homeSize.animateTo(54f, animationSpec = tween(100)) // Thu nhỏ lại 100.dp
-                                    searchSize.animateTo(65f, animationSpec = tween(100))
-                                    profileSize.animateTo(54f, animationSpec = tween(100))
-                                    navController.navigate(ScreenRoute.Search.route)
-                                }
-                            }
-                        }
-                        .background(Color.White)
-                ){
-                    Icon(painter = painterResource(id = R.drawable.baseline_search_24), contentDescription = "Search", modifier = Modifier.align(Alignment.Center).size(32.dp))
-                }
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .size(profileSize.value.dp)
-                        .clickable{
-                            scope.launch {
-                                if(profileSize.value == 65f){
-
-                                }
-                                else{
-                                    // Thu nhỏ Box
-                                    homeSize.animateTo(54f, animationSpec = tween(100)) // Thu nhỏ lại 100.dp
-                                    searchSize.animateTo(54f, animationSpec = tween(100))
-                                    profileSize.animateTo(65f, animationSpec = tween(100))
-                                    navController.navigate(ScreenRoute.Manager.route)
-                                }
-                            }
-                        }
-                        .background(Color.White)
-                ){
-                    Icon(Icons.Default.Person,
-                        contentDescription = "Search", modifier = Modifier.align(Alignment.Center).size(32.dp))
-                }
-            }
+        /*
+        {
+//        val homeSize = remember { Animatable(65f) }
+//        val searchSize = remember { Animatable(54f) }
+//        val profileSize = remember { Animatable(54f) }
+//        val scope = rememberCoroutineScope()
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(top = 24.dp),
+//            verticalArrangement = Arrangement.SpaceBetween,
+//            horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//            // Hàng trên cùng với các nút yêu thích và giỏ hàng
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(60.dp),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.End
+//            ) {
+//
+//                Spacer(modifier = Modifier.width(2.dp))
+//                IconButton(
+//                    modifier = Modifier.size(56.dp),
+//                    onClick = { navRootController.navigate(ScreenRoute.Cart.route) }
+//                ) {
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.shopping_cart_24dp_5f6368_fill0_wght400_grad0_opsz24),
+//                        contentDescription = "Cart",
+//                        modifier = Modifier.size(30.dp)
+//                    )
+//                }
+//                Spacer(modifier = Modifier.width(12.dp))
+//            }
+//
+//            // Hàng dưới cùng với các biểu tượng điều hướng chính
+//            Row(
+//                modifier = Modifier
+//                    .align(Alignment.CenterHorizontally)
+//                    .padding(bottom = 32.dp)
+//                    .height(70.dp),
+//                horizontalArrangement = Arrangement.spacedBy(65.dp),
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                // Biểu tượng Home
+//                Box(
+//                    modifier = Modifier
+//                        .clip(CircleShape)
+//                        .size(homeSize.value.dp)
+//                        .clickable {
+//                            scope.launch {
+//                                if (homeSize.value != 65f) {
+//                                    homeSize.animateTo(65f, animationSpec = tween(100))
+//                                    searchSize.animateTo(54f, animationSpec = tween(100))
+//                                    profileSize.animateTo(54f, animationSpec = tween(100))
+//                                    navRootController.navigate(NavItem.Home.route)
+//                                }
+//                            }
+//                        }
+//                        .background(Color.White)
+//                ) {
+//                    Icon(
+//                        Icons.Default.Home,
+//                        contentDescription = "Home",
+//                        modifier = Modifier
+//                            .align(Alignment.Center)
+//                            .size(32.dp)
+//                    )
+//                }
+//
+//                Box(
+//                    modifier = Modifier
+//                        .clip(CircleShape)
+//                        .size(searchSize.value.dp)
+//                        .clickable {
+//                            scope.launch {
+//                                if (searchSize.value != 65f) {
+//                                    homeSize.animateTo(54f, animationSpec = tween(100))
+//                                    searchSize.animateTo(65f, animationSpec = tween(100))
+//                                    profileSize.animateTo(54f, animationSpec = tween(100))
+//                                    navRootController.navigate(NavItem.Search.route)
+//                                }
+//                            }
+//                        }
+//                        .background(Color.White)
+//                ) {
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.baseline_search_24),
+//                        contentDescription = "Search",
+//                        modifier = Modifier
+//                            .align(Alignment.Center)
+//                            .size(32.dp)
+//                    )
+//                }
+//
+//                // Biểu tượng Profile
+//                Box(
+//                    modifier = Modifier
+//                        .clip(CircleShape)
+//                        .size(profileSize.value.dp)
+//                        .clickable {
+//                            scope.launch {
+//                                if (profileSize.value != 65f) {
+//                                    homeSize.animateTo(54f, animationSpec = tween(100))
+//                                    searchSize.animateTo(54f, animationSpec = tween(100))
+//                                    profileSize.animateTo(65f, animationSpec = tween(100))
+//                                    navRootController.navigate(NavItem.Manager.route)
+//                                }
+//                            }
+//                        }
+//                        .background(Color.White)
+//                ) {
+//                    Icon(
+//                        Icons.Default.Person,
+//                        contentDescription = "Profile",
+//                        modifier = Modifier
+//                            .align(Alignment.Center)
+//                            .size(32.dp)
+//                    )
+//                }
+//            }
+//        }
         }
-
->>>>>>> 9cf102fe0258e379c700096514a8b5116c17db5b
+        */
     }
 }
