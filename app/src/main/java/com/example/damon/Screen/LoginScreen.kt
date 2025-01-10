@@ -33,12 +33,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.damon.Navigation.ScreenRoute
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
+
 @Composable
-fun LoginScreen(){
+fun LoginScreen(navController: NavController){
     var TaiKhoan by remember { mutableStateOf<String>("") }
     var MatKhau by remember { mutableStateOf<String>("") }
     Column (modifier = Modifier.fillMaxSize().background(Color.White),
@@ -87,7 +89,7 @@ fun LoginScreen(){
             )
             Text(text = "Tạo Tài Khoản",
                 modifier = Modifier
-                    .clickable { /*TODO*/ },
+                    .clickable { navController.navigate(ScreenRoute.Register.route) },
                 color = Color.Blue
             )
         }

@@ -3,6 +3,7 @@ package com.example.damon.Screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -31,15 +33,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.damon.Card.SearchDanhMucCard
+import com.example.damon.Navigation.NavItem
+import com.example.damon.Navigation.ScreenRoute
 import com.example.damon.R
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SearchScreen(navController: NavController){
+fun SearchScreen(navController: NavController) {
     val configuration = LocalConfiguration.current
-    val screenHeigh = configuration.screenHeightDp.dp
-    var searchText = remember{mutableStateOf("")}
+    val screenHeight = configuration.screenHeightDp.dp
+    var searchText = remember { mutableStateOf("") }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -48,58 +55,54 @@ fun SearchScreen(navController: NavController){
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(screenHeigh * 0.71f)
+                .height(screenHeight * 0.71f)
         ) {
-            items(10){
-            FlowRow(
+            items(10) {
+                FlowRow(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(3.dp),
-                ){
+                ) {
                     SearchDanhMucCard()
                     SearchDanhMucCard()
                 }
             }
         }
 
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(650.dp)
                 .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
-
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 15.dp,top = 15.dp, end = 15.dp)
-                    .border(0.5.dp, Color.LightGray, RoundedCornerShape(100.dp))
+                    .padding(start = 15.dp, top = 15.dp, end = 15.dp)
+                    .border(0.5.dp, Color.Gray, RoundedCornerShape(100.dp))
+                    .height(52.dp)
                     .clickable {
-
-                    }
-                    .height(52.dp),
+                        navController.navigate(NavItem.Search2.route)
+                    },
                 contentAlignment = Alignment.Center
-                )
-            {
+            ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 12.dp, end = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                    ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.search1),
-                        contentDescription = null,
-                        modifier = Modifier.size(45.dp).padding(start = 10.dp),
-                        tint = Color(0xFF676767)
+                        painter = painterResource(R.drawable.search1),
+                        contentDescription = "",
+                        tint = Color.Gray,
                     )
                     Text(
-                        text = "Tìm kiếm sản phẩm",
-                        color = Color(0xFFA4A4A4),
-                        modifier = Modifier.padding(start = 10.dp,top = 10.dp),
-                        fontSize = 20.sp
+                        text = "Tìm kiếm sản phẩm",modifier = Modifier.padding(start = 5.dp), color = Color.LightGray
                     )
                 }
             }
         }
     }
-
 }
