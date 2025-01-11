@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
 //                Scaffold(modifier = Modifier.fillMaxSize()) {
 //                    FullScreenProductList()
  //                   SearchScreen(navController)
-//                    EditProfile()
+                    EditProfile(navController)
 //                    ManagerScreen()
 //                    MemberScreen()
 //                    RegisterScreen()
