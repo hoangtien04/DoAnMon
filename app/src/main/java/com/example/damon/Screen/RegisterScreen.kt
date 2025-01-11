@@ -28,10 +28,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 
 @Composable
-@Preview
-fun RegisterScreen(){
+fun RegisterScreen(navController: NavHostController){
     var TaiKhoan by remember { mutableStateOf<String>("") }
     var MatKhau by remember { mutableStateOf<String>("") }
     var NhapLaiMatKhau by remember { mutableStateOf<String>("") }
@@ -81,22 +82,7 @@ fun RegisterScreen(){
             label = { Text(text = "Nhập lại mật khẩu")},
             shape = RoundedCornerShape(12.dp)
         )
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
-            Text(text = "Quên mật khẩu?",
-                modifier = Modifier
-                    .clickable { /*TODO*/ },
-                color = Color.Blue
-            )
-            Text(text = "Tạo Tài Khoản",
-                modifier = Modifier
-                    .clickable { /*TODO*/ },
-                color = Color.Blue
-            )
-        }
+
         Button(onClick = { /*TODO*/ },
             modifier = Modifier
                 .padding(top = 35.dp)

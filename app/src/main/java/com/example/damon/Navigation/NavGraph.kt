@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.damon.Screen.CartScreen
+import com.example.damon.Screen.ComfirmPasswordScreen
 import com.example.damon.Screen.EditProfile
 import com.example.damon.Screen.FavouriteScreen
 import com.example.damon.Screen.LoginScreen
@@ -20,6 +21,7 @@ import com.example.damon.Screen.MemberScreen
 import com.example.damon.Screen.ProductDetailScreen
 import com.example.damon.Screen.RegisterScreen
 import com.example.damon.Screen.SearchScreen
+import com.example.damon.Screen.SearchScreen2
 
 sealed class ScreenRoute(val route: String) {
     object Main : ScreenRoute("main_screen")
@@ -30,6 +32,8 @@ sealed class ScreenRoute(val route: String) {
     object ProductDetail : ScreenRoute("productdetail_screen")
     object Cart : ScreenRoute("cart_screen")
     object Favourite : ScreenRoute("favourite_screen")
+    object Search2 : ScreenRoute("search2_screen")
+    object comfirmPassword : ScreenRoute("comfirmpassword_screen")
 }
 
 @Composable
@@ -45,10 +49,10 @@ fun NavGraph(navController: NavHostController) {
             MemberScreen()
         }
         composable(route = ScreenRoute.Register.route) {
-            RegisterScreen()
+            RegisterScreen(navController = navController)
         }
         composable(route = ScreenRoute.Login.route) {
-            LoginScreen()
+            LoginScreen(navController = navController)
         }
         composable(route = ScreenRoute.ProductDetail.route) {
             ProductDetailScreen(navController = navController)
@@ -58,6 +62,12 @@ fun NavGraph(navController: NavHostController) {
         }
         composable(route = ScreenRoute.Favourite.route) {
             FavouriteScreen(navController = navController)
+        }
+        composable(route = ScreenRoute.Search2.route) {
+            SearchScreen2(navController = navController)
+        }
+        composable(route = ScreenRoute.comfirmPassword.route) {
+            ComfirmPasswordScreen(navController = navController)
         }
     }
 }

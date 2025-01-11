@@ -49,7 +49,16 @@ import androidx.compose.ui.unit.sp
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
 fun EditProfile() {
-    val scrollState = rememberScrollState()
+    var email by remember { mutableStateOf("") }
+    var ten by remember { mutableStateOf("") }
+    var ho by remember { mutableStateOf("") }
+    var tinh by remember { mutableStateOf("") }
+    var quan by remember { mutableStateOf("") }
+    var xa by remember { mutableStateOf("") }
+    var diachi by remember { mutableStateOf("") }
+    var sdt by remember { mutableStateOf("") }
+
+
     var lsGenders = mutableListOf("Nam", "Nữ", "Khác")
     var selection by remember {mutableStateOf(lsGenders[0])}
     Scaffold(
@@ -85,8 +94,8 @@ fun EditProfile() {
                 modifier = Modifier.padding(10.dp)
             )
             TextField(
-                value = "",
-                onValueChange = {},
+                value = email,
+                onValueChange = {email = it},
                 modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
@@ -95,6 +104,7 @@ fun EditProfile() {
                     unfocusedContainerColor = Color.White
                 ),
                 shape = RoundedCornerShape(8.dp),
+                label = { Text(text = "Email") }
             )
 
             Text(text = "Tên",
@@ -104,8 +114,8 @@ fun EditProfile() {
             )
 
             TextField(
-                value = "",
-                onValueChange = {},
+                value = ten,
+                onValueChange = {ten = it},
                 modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
@@ -114,6 +124,7 @@ fun EditProfile() {
                     unfocusedContainerColor = Color.White
                 ),
                 shape = RoundedCornerShape(8.dp),
+                label = { Text(text = "Tên") }
             )
 
             Text(text = "Họ",
@@ -123,8 +134,8 @@ fun EditProfile() {
             )
 
             TextField(
-                value = "",
-                onValueChange = {},
+                value = ho,
+                onValueChange = {ho = it},
                 modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
@@ -133,6 +144,7 @@ fun EditProfile() {
                     unfocusedContainerColor = Color.White
                 ),
                 shape = RoundedCornerShape(8.dp),
+                label = { Text(text = "Họ") }
             )
 
             Text(text = "Tỉnh/Thành phố",
@@ -142,8 +154,8 @@ fun EditProfile() {
             )
 
             TextField(
-                value = "",
-                onValueChange = {},
+                value = tinh,
+                onValueChange = {tinh = it},
                 modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
@@ -152,6 +164,7 @@ fun EditProfile() {
                     unfocusedContainerColor = Color.White
                 ),
                 shape = RoundedCornerShape(8.dp),
+                label = { Text(text = "Tỉnh/Thành phố") }
             )
 
             Text(text = "Quận/Huyện",
@@ -161,8 +174,8 @@ fun EditProfile() {
             )
 
             TextField(
-                value = "",
-                onValueChange = {},
+                value = quan,
+                onValueChange = {quan = it},
                 modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
@@ -171,6 +184,7 @@ fun EditProfile() {
                     unfocusedContainerColor = Color.White
                 ),
                 shape = RoundedCornerShape(8.dp),
+                label = { Text(text = "Quận/Huyện") }
             )
 
             Text(text = "Xã/Phường",
@@ -180,8 +194,8 @@ fun EditProfile() {
             )
 
             TextField(
-                value = "",
-                onValueChange = {},
+                value = xa,
+                onValueChange = {xa = it},
                 modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
@@ -190,6 +204,7 @@ fun EditProfile() {
                     unfocusedContainerColor = Color.White
                 ),
                 shape = RoundedCornerShape(8.dp),
+                label = { Text(text = "Xã/Phường") }
             )
 
             Text(text = "Chi tiết địa chỉ",
@@ -199,8 +214,8 @@ fun EditProfile() {
             )
 
             TextField(
-                value = "",
-                onValueChange = {},
+                value = diachi,
+                onValueChange = {diachi = it},
                 modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
@@ -209,6 +224,7 @@ fun EditProfile() {
                     unfocusedContainerColor = Color.White
                 ),
                 shape = RoundedCornerShape(8.dp),
+                label = { Text(text = "Chi tiết địa chỉ") }
             )
             Text(text = "Số điện thoại",
                 fontSize = 15.sp,
@@ -216,8 +232,8 @@ fun EditProfile() {
                 modifier = Modifier.padding(10.dp)
             )
             TextField(
-                value = "",
-                onValueChange = {},
+                value = sdt,
+                onValueChange = {sdt = it},
                 modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
                 colors = TextFieldDefaults.colors(
                     focusedIndicatorColor = Color.Transparent,
@@ -226,6 +242,7 @@ fun EditProfile() {
                     unfocusedContainerColor = Color.White
                 ),
                 shape = RoundedCornerShape(8.dp),
+                label = { Text(text = "Số điện thoại") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
             Column(modifier = Modifier.padding(start = 10.dp)){
