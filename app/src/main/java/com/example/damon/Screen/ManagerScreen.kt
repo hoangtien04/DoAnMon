@@ -31,10 +31,9 @@ fun ManagerScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White) // Set background color to white
+            .background(Color.White)
     ) {
         AccountHeader()
-        // Adding the graphical interface at the top
         PurchaseStatusHeader(navController)
 
         val menuItems = listOf(
@@ -50,7 +49,7 @@ fun ManagerScreen(navController: NavController) {
             menuItems.forEach { (title, action) ->
                 Text(
                     text = title,
-                    color = Color.Black, // Set text color to black
+                    color = Color.Black,
                     modifier = Modifier
                         .padding(horizontal = 15.dp, vertical = 10.dp)
                         .clickable(onClick = action)
@@ -78,17 +77,16 @@ fun PurchaseStatusHeader(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White) // Nền trắng
-            .padding(vertical = 16.dp), // Thêm khoảng cách trên và dưới
+            .background(Color.White)
+            .padding(vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp), // Thêm khoảng cách hai bên
-            horizontalArrangement = Arrangement.SpaceEvenly // Căn đều các phần tử
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            // Các trạng thái
             PurchaseStatusItem(
                 iconResId = R.drawable.box_archive_solid,
                 label = "Chờ xác nhận",
@@ -116,32 +114,32 @@ fun PurchaseStatusHeader(navController: NavController) {
 @Composable
 fun PurchaseStatusItem(iconResId: Int, label: String, onClickCard: () -> Unit) {
     Card(
-        onClick = onClickCard, // Hành động khi nhấn
+        onClick = onClickCard,
         modifier = Modifier
-            .size(80.dp) // Kích thước Card (button)
-            .padding(8.dp) // Khoảng cách giữa các Card
-            .clip(RoundedCornerShape(12.dp)), // Thêm bo góc cho Card
+            .size(80.dp)
+            .padding(8.dp)
+            .clip(RoundedCornerShape(12.dp)),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White) // Đảm bảo nền trắng trong từng Card
-                .padding(8.dp), // Khoảng cách nội dung trong Card
+                .background(Color.White)
+                .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Image(
                 painter = painterResource(id = iconResId),
                 contentDescription = null,
-                modifier = Modifier.size(24.dp) // Kích thước biểu tượng nhỏ hơn
+                modifier = Modifier.size(24.dp)
             )
-            Spacer(modifier = Modifier.height(4.dp)) // Khoảng cách giữa icon và text
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = label,
-                color = Color.Black, // Màu chữ đen
-                fontSize = 10.sp, // Kích thước chữ nhỏ hơn
-                fontWeight = FontWeight.Normal, // Font bình thường
-                textAlign = TextAlign.Center // Căn giữa chữ
+                color = Color.Black,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center
             )
         }
     }
@@ -154,50 +152,48 @@ fun AccountHeader() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .background(Color.Cyan, shape = RoundedCornerShape(16.dp)) // Rounded corners for the background
-            .padding(horizontal = 16.dp, vertical = 12.dp), // Internal padding
-        verticalAlignment = Alignment.Bottom // Align everything to the bottom
+            .background(Color.Cyan, shape = RoundedCornerShape(16.dp))
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.Bottom
     ) {
-        // Profile section
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally // Align icon and text centrally
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
                 imageVector = Icons.Default.Person,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(48.dp) // Slightly larger icon for better visual balance
+                    .size(48.dp)
             )
-            Spacer(modifier = Modifier.height(8.dp)) // Space between the icon and text
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Tên Tài Khoản",
                 color = Color.Black,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Bold // Make the text bold for better visibility
+                fontWeight = FontWeight.Bold
             )
         }
 
-        Spacer(modifier = Modifier.weight(1f)) // Fill the space between profile section and address section
+        Spacer(modifier = Modifier.weight(1f))
 
-        // Address section aligned to the right and at the bottom
         Column(
-            horizontalAlignment = Alignment.End, // Align the content to the right
-            verticalArrangement = Arrangement.Bottom // Align the content to the bottom
+            horizontalAlignment = Alignment.End,
+            verticalArrangement = Arrangement.Bottom
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.location_dot_solid),
                 contentDescription = null,
-                tint = Color.Black, // Set icon color to black
+                tint = Color.Black,
                 modifier = Modifier
-                    .size(20.dp) // Adjust icon size if needed
-                    .padding(end = 8.dp) // Add some space from the right
+                    .size(20.dp)
+                    .padding(end = 8.dp)
             )
-            Spacer(modifier = Modifier.height(4.dp)) // Space between icon and text
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Địa chỉ",
                 color = Color.Gray,
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Normal // Light text to differentiate from the title
+                fontWeight = FontWeight.Normal
             )
         }
     }
