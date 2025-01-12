@@ -11,6 +11,7 @@ import com.example.damon.Screen.EditProfile
 import com.example.damon.Screen.LoginScreen
 import com.example.damon.Screen.ManagerScreen
 import com.example.damon.Screen.MemberScreen
+import com.example.damon.Screen.ProductList
 import com.example.damon.Screen.RegisterScreen
 import com.example.damon.ui.theme.DAMONTheme
 
@@ -22,8 +23,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             DAMONTheme {
 
-                val navController = rememberNavController()
-                NavGraph(navController = navController)
+//                val navController = rememberNavController()
+//                NavGraph(navController = navController)
+                ProductList()
 //                Scaffold(modifier = Modifier.fillMaxSize()) {
 //                    FullScreenProductList()
 //                    SearchSceen()

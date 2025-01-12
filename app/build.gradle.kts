@@ -41,7 +41,6 @@ android {
 
 dependencies {
 
-
     implementation ("androidx.compose.material:material:1.5.1")
     implementation ("androidx.compose.ui:ui-tooling:1.5.1")
     implementation ("androidx.compose.ui:ui:1.5.1")
@@ -50,6 +49,9 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.24.13-rc")
     implementation("androidx.navigation:navigation-compose:2.8.5")
     implementation("androidx.compose.material:material-icons-extended-android:1.7.6")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation("com.google.code.gson:gson:2.11.0")
     implementation(libs.material3)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
