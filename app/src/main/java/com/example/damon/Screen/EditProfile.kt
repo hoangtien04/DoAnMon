@@ -4,6 +4,8 @@ package com.example.damon.Screen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,14 +13,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,30 +48,29 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
-fun EditProfile() {
+fun EditProfile(navController: NavController) {
+
     var email by remember { mutableStateOf("") }
-    var ten by remember { mutableStateOf("") }
-    var ho by remember { mutableStateOf("") }
+    var hoten by remember { mutableStateOf("") }
     var tinh by remember { mutableStateOf("") }
     var quan by remember { mutableStateOf("") }
     var xa by remember { mutableStateOf("") }
     var diachi by remember { mutableStateOf("") }
     var sdt by remember { mutableStateOf("") }
+    var expanded by remember { mutableStateOf(false) }
+    var selectedGender by remember { mutableStateOf("Chọn giới tính") }
 
-
-    var lsGenders = mutableListOf("Nam", "Nữ", "Khác")
-    var selection by remember {mutableStateOf(lsGenders[0])}
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Chỉnh sửa hồ sơ ") },
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "",
@@ -81,207 +85,300 @@ fun EditProfile() {
             )
         }
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(it)
-            .fillMaxWidth()
-            .background(color = Color(0xFFF5F5F5))
-            .verticalScroll(rememberScrollState())
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .fillMaxWidth()
+                .background(color = Color(0xFFF5F5F5))
         ) {
-            Text(text = "Địa chỉ email",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-            TextField(
-                value = email,
-                onValueChange = {email = it},
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(8.dp),
-                label = { Text(text = "Email") }
-            )
-
-            Text(text = "Tên",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-
-            TextField(
-                value = ten,
-                onValueChange = {ten = it},
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(8.dp),
-                label = { Text(text = "Tên") }
-            )
-
-            Text(text = "Họ",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-
-            TextField(
-                value = ho,
-                onValueChange = {ho = it},
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(8.dp),
-                label = { Text(text = "Họ") }
-            )
-
-            Text(text = "Tỉnh/Thành phố",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-
-            TextField(
-                value = tinh,
-                onValueChange = {tinh = it},
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(8.dp),
-                label = { Text(text = "Tỉnh/Thành phố") }
-            )
-
-            Text(text = "Quận/Huyện",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-
-            TextField(
-                value = quan,
-                onValueChange = {quan = it},
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(8.dp),
-                label = { Text(text = "Quận/Huyện") }
-            )
-
-            Text(text = "Xã/Phường",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-
-            TextField(
-                value = xa,
-                onValueChange = {xa = it},
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(8.dp),
-                label = { Text(text = "Xã/Phường") }
-            )
-
-            Text(text = "Chi tiết địa chỉ",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-
-            TextField(
-                value = diachi,
-                onValueChange = {diachi = it},
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(8.dp),
-                label = { Text(text = "Chi tiết địa chỉ") }
-            )
-            Text(text = "Số điện thoại",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-            TextField(
-                value = sdt,
-                onValueChange = {sdt = it},
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).fillMaxWidth().border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp)),
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White
-                ),
-                shape = RoundedCornerShape(8.dp),
-                label = { Text(text = "Số điện thoại") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-            )
-            Column(modifier = Modifier.padding(start = 10.dp)){
-                Text(text = "Giới tính",
+            item {
+                Text(
+                    text = "Địa chỉ email",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(10.dp)
+                    modifier = Modifier.padding(10.dp),
+                    color = Color.Black
                 )
-                lsGenders.forEach{
-                        gender -> Row(
-                    modifier = Modifier.fillMaxWidth()
-                ){
-                    RadioButton(
-                        selected = gender == selection,
-                        onClick = {selection = gender},
-                        colors = RadioButtonDefaults.colors(
-                            selectedColor = Color.Black,
-                        )
-                    )
-                    Text(text = gender, modifier = Modifier.padding(start = 5.dp, top = 15.dp))
-                }
-                }
-            }
-            Button(onClick = {},
-                modifier = Modifier
-                    .padding(20.dp)
-                    .width(250.dp)
-                    .height(55.dp)
-                    .align(Alignment.CenterHorizontally),
-                shape = RoundedCornerShape(15.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Red,
-                    contentColor = Color.White
+                TextField(
+                    value = email,
+                    onValueChange = {email = it},
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .fillMaxWidth()
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    placeholder = { Text(text = "Nhập địa chỉ email") }
                 )
-            ) {
-                Text(text = "Lưu",  fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
 
+            item {
+                Text(
+                    text = "Họ Tên",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(10.dp),
+                    color = Color.Black
+                )
+                TextField(
+                    value = hoten,
+                    onValueChange = {hoten = it},
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .fillMaxWidth()
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    placeholder = { Text(text = "Nhập họ tên") }
+                )
+            }
+            item {
+                Text(
+                    text = "Số điện thoại",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(10.dp),
+                    color = Color.Black
+                )
+                TextField(
+                    value = sdt,
+                    onValueChange = {sdt = it},
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .fillMaxWidth()
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    placeholder = {Text(text = "Nhập số điện thoại")}
+                )
+            }
+            item {
+                Text(
+                    text = "Tỉnh/Thành phố",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(10.dp),
+                    color = Color.Black
+                )
+                TextField(
+                    value = tinh,
+                    onValueChange = {tinh = it},
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .fillMaxWidth()
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    placeholder = {Text(text = "Nhập tên tỉnh/thành phố")}
+                )
+            }
+            item {
+                Text(
+                    text = "Quận/Huyện",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(10.dp),
+                    color = Color.Black
+                )
+                TextField(
+                    value = quan,
+                    onValueChange = {quan = it},
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .fillMaxWidth()
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    placeholder = {Text(text = "Nhập tên quận/huyện")}
+                )
+            }
+            item {
+                Text(
+                    text = "Xã/Phường",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(10.dp),
+                    color = Color.Black
+                )
+                TextField(
+                    value = xa,
+                    onValueChange = {xa = it},
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .fillMaxWidth()
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    placeholder = {Text(text = "Nhập tên xã/phường")}
+                )
+            }
+            item {
+                Text(
+                    text = "Địa chỉ chi tiết",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(10.dp),
+                    color = Color.Black
+                )
+                TextField(
+                    value = diachi,
+                    onValueChange = {diachi = it},
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .fillMaxWidth()
+                        .border(
+                            width = 1.dp,
+                            color = Color.Black,
+                            shape = RoundedCornerShape(8.dp)
+                        ),
+                    colors = TextFieldDefaults.colors(
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    ),
+                    shape = RoundedCornerShape(8.dp),
+                    placeholder = {Text(text = "Nhập địa chỉ chi tiết")}
+                )
+            }
+
+            item {
+                Column(modifier = Modifier.padding(10.dp)) {
+                    Text(
+                        text = "Giới tính",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 10.dp),
+                        color = Color.Black
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(
+                                width = 1.dp,
+                                color = Color.Black,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .background(Color.White)
+                            .clickable { expanded = true }
+                            .padding(horizontal = 16.dp, vertical = 12.dp) // Căn chỉnh padding giống TextField
+                    ) {
+                        Text(text = selectedGender, color = Color.Black)
+                    }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier
+                            .fillMaxWidth() // Đảm bảo menu có chiều rộng như TextField
+                            .background(Color.White)
+                    ) {
+                        val genders = listOf("Nam", "Nữ", "Khác")
+                        genders.forEach { gender ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    selectedGender = gender
+                                    expanded = false
+                                }
+                            ) {
+                                Text(text = gender,color = Color.Black)
+                            }
+                        }
+                    }
+                }
+            }
+
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally // Căn giữa theo chiều ngang
+                ) {
+                    Button(
+                        onClick = {},
+                        modifier = Modifier
+                            .padding(20.dp)
+                            .width(250.dp)
+                            .height(55.dp),
+                        shape = RoundedCornerShape(15.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Red,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text(text = "Lưu", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+            }
         }
     }
-
 }
