@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,24 +41,24 @@ fun ProductListCard(){
                 modifier = Modifier.fillMaxWidth()
                     .fillMaxSize()
             )
-            Row(modifier = Modifier.fillMaxWidth().padding(top = 30.dp, start = 10.dp)) {
 
+            Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 10.dp)) {
                 Box(
                     modifier = Modifier
-                        .clip(CircleShape).size(22  .dp)
+                        .clip(CircleShape).size(17  .dp)
                         .background(color = Color.Red)
 
                 )
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.width(6.dp))
                 Box(
                     modifier = Modifier
-                        .clip(CircleShape).size(22.dp)
+                        .clip(CircleShape).size(17.dp)
                         .background(color = Color.Blue)
                 )
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.width(6.dp))
                 Box(
                     modifier = Modifier
-                        .clip(CircleShape).size(22.dp)
+                        .clip(CircleShape).size(17.dp)
                         .background(color = Color.Yellow)
                 )
                 Icon(imageVector = Icons.Filled.FavoriteBorder
@@ -65,13 +66,23 @@ fun ProductListCard(){
                     modifier = Modifier.padding(start = 250.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            Column(modifier = Modifier.fillMaxWidth().padding(start = 10.dp)) {
-                Text("UNISEX S-XL")
-                Text("KAWS + Warhoi Quần Nỉ")
+            Text(
+                text = "Áo len nam",
+                modifier = Modifier
+                    .padding(10.dp,top = 10.dp, bottom = 3.dp),
+                fontSize = 20.sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Bold
+            )
+            Column(modifier = Modifier.fillMaxWidth().padding(start = 10.dp,bottom = 10.dp)) {
+                Text("UNISEX S-XL", fontSize = 13.sp)
+                Text("KAWS + Warhoi Quần Nỉ", fontSize = 13.sp)
                 Spacer(modifier = Modifier.height(10.dp))
                 Text("784.000 VND ",
-                    fontSize = 25.sp )
+                    fontSize = 18.sp,
+                    color = Color.Red,
+                    fontWeight = FontWeight.Bold
+                    )
             }
         }
     }

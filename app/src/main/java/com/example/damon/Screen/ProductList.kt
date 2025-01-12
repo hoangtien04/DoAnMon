@@ -1,6 +1,7 @@
 package com.example.damon.Screen
 
 import Product
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -29,10 +30,10 @@ fun ProductList() {
     // Trạng thái của từng menu
     var expandedKM by remember { mutableStateOf(false) } // Menu "Chương trình khuyến mãi"
     var expandedKC by remember { mutableStateOf(false) } // Menu "Kích cỡ"
-    var selectedOptionKM by remember { mutableStateOf("Khuyến mãi") }
+    var selectedOptionKM by remember { mutableStateOf("Loại sản phẩm") }
     var selectedOptionKC by remember { mutableStateOf("Kích Cỡ") }
 
-    val itemsKhuyenMai = listOf( "Giảm 50%", "Giảm 10%")
+    val itemsKhuyenMai = listOf( "Áo dệt kim", "Quần áo nỉ")
     val itemsKichCo = listOf("S", "X", "M")
     val productList = listOf(
         Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
@@ -53,15 +54,8 @@ fun ProductList() {
             .fillMaxSize()
     ) {
         Spacer(modifier = Modifier.height(50.dp))
-        Row(modifier = Modifier.fillMaxWidth()) {
-            IconButton(onClick = {}) {
-                Icon(
-                    imageVector = Icons.Filled.Equalizer,
-                    contentDescription = "Lọc sản phẩm"
-                )
-            }
+        Row(modifier = Modifier.fillMaxWidth().padding(start = 7.dp)) {
 
-            // Spinner cho "Chương trình khuyến mãi"
             ExposedDropdownMenuBox(
                 expanded = expandedKM,
                 onExpandedChange = { expandedKM = !expandedKM }
@@ -75,13 +69,13 @@ fun ProductList() {
                     },
                     modifier = Modifier
                         .menuAnchor()
-                        .width(150.dp)
-                        .height(40.dp),
+                        .width(165.dp)
+                        .height(48.dp),
                     shape = RoundedCornerShape(50.dp),
-                    textStyle = TextStyle(fontSize = 11.sp),
+                    textStyle = TextStyle(fontSize = 14.sp),
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
                     )
                 )
 
@@ -101,7 +95,7 @@ fun ProductList() {
                 }
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(7.dp))
 
             // Spinner cho "Kích cỡ"
             ExposedDropdownMenuBox(
@@ -117,13 +111,14 @@ fun ProductList() {
                     },
                     modifier = Modifier
                         .menuAnchor()
-                        .width(150.dp)
-                        .height(40.dp),
+                        .width(165.dp)
+                        .height(48.dp),
                     shape = RoundedCornerShape(50.dp),
-                    textStyle = TextStyle(fontSize = 10.sp),
+                    textStyle = TextStyle(fontSize = 14.sp),
                     maxLines = 1,
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
 
                     )
                 )
