@@ -38,9 +38,6 @@ fun ManagerScreen(navController: NavController) {
 
         val menuItems = listOf(
             "Hồ sơ" to {navController.navigate(ScreenRoute.Member.route)},
-            "Lịch sử đơn hàng" to {},
-            "Lịch sử mua hàng" to {},
-            "Mã giảm giá (Yêu cầu đăng nhập)" to {},
             "Đăng nhập" to {navController.navigate(ScreenRoute.Login.route)},
             "Admin" to {}
         )

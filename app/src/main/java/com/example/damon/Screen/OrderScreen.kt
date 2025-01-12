@@ -23,7 +23,7 @@ import com.google.accompanist.pager.*
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun OrderScreen(navController: NavController, initialTab: Int = 0) {
-    var selectedTab by remember { mutableStateOf(initialTab) } // Make the tab index mutable
+    var selectedTab by remember { mutableStateOf(initialTab) }
     val tabs = listOf("Chờ xác nhận", "Chờ lấy hàng", "Chờ giao hàng", "Đánh giá", "Hủy đơn hàng")
 
     val pagerState = rememberPagerState(initialPage = initialTab)
@@ -57,7 +57,7 @@ fun OrderScreen(navController: NavController, initialTab: Int = 0) {
         HorizontalPager(
             count = tabs.size,
             state = pagerState,
-            modifier = Modifier.weight(1f) // Ensure it takes up remaining space
+            modifier = Modifier.weight(1f)
         ) { pageIndex ->
             when (pageIndex) {
                 0 -> WaitingForConfirmationScreen(navController)
