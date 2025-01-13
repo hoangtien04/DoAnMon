@@ -18,6 +18,7 @@ import com.example.damon.Screen.LoginScreen
 import com.example.damon.Screen.MainScreen
 import com.example.damon.Screen.ManagerScreen
 import com.example.damon.Screen.MemberScreen
+import com.example.damon.Screen.OrderScreen
 import com.example.damon.Screen.ProductDetailScreen
 import com.example.damon.Screen.RegisterScreen
 import com.example.damon.Screen.SearchScreen
@@ -37,6 +38,7 @@ sealed class ScreenRoute(val route: String) {
     object Oder : ScreenRoute("oder_screen"){
         fun createRoute(index: Int) = "oder_screen/$index"
     }
+    object Pay : ScreenRoute("pay_screen")
 }
 
 @Composable
@@ -49,7 +51,7 @@ fun NavGraph(navController: NavHostController) {
             EditProfile(navController = navController)
         }
         composable(route = ScreenRoute.Member.route) {
-            MemberScreen()
+            MemberScreen(navController = navController)
         }
         composable(route = ScreenRoute.Register.route) {
             RegisterScreen(navController = navController)
@@ -71,6 +73,13 @@ fun NavGraph(navController: NavHostController) {
         }
         composable(route = ScreenRoute.comfirmPassword.route) {
             ComfirmPasswordScreen(navController = navController)
+        }
+        composable(route = ScreenRoute.Oder.route) {
+            val index = it.arguments?.getString("index")?.toIntOrNull() ?: 0
+            OrderScreen(navController = navController, initialTab = index)
+        }
+        composable(route = ScreenRoute.Pay.route) {
+            com.example.damon.Screen.PayScreen(navController = navController)
         }
     }
 }

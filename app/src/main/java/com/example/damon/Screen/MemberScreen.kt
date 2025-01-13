@@ -32,16 +32,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.navOptions
+
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MemberScreen(){
+fun MemberScreen(navController: NavController){
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Thông tin",)
                 },
                 actions = {
-                    IconButton(onClick = {},
+                    IconButton(onClick = {navController.popBackStack()},
                         modifier = Modifier.padding(end = 10.dp)) {
                         Icon(imageVector = Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "",
                             tint = Color.Red
@@ -58,36 +61,6 @@ fun MemberScreen(){
                     )
                 }
             )
-        },
-        bottomBar = {
-            BottomAppBar(tonalElevation = 0.dp ) {
-                Row (modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = "",
-                            tint = Color.Black
-                        )
-                    }
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "",
-                            tint = Color.Black
-                        )
-                    }
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            imageVector = Icons.Default.Person,
-                            contentDescription = "",
-                            tint = Color.Black
-                        )
-                    }
-                }
-            }
         }
     ){
         Column(modifier = Modifier.fillMaxSize().padding(it)) {
@@ -101,7 +74,7 @@ fun MemberScreen(){
                         strokeWidth = 5f,
                     )
                 }
-                .clickable(onClick = { /*TODO*/ })
+                .clickable(onClick = { navController.navigate("editprofile_screen") })
                 .height(70.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ){
@@ -120,7 +93,7 @@ fun MemberScreen(){
                         strokeWidth = 5f,
                     )
                 }
-                .clickable(onClick = { /*TODO*/ })
+                .clickable(onClick = { navController.navigate("comfirmpassword_screen") })
                 .height(70.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 ){

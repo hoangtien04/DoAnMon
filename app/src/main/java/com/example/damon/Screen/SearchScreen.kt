@@ -77,14 +77,14 @@ fun SearchScreen(navController: NavController){
                     .padding(start = 15.dp,top = 15.dp, end = 15.dp)
                     .border(0.5.dp, Color.LightGray, RoundedCornerShape(100.dp))
                     .clickable {
-
+                            navController.navigate("search2_screen")
                     }
                     .height(52.dp),
                 contentAlignment = Alignment.Center
                 )
             {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.search1),

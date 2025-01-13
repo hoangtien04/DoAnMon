@@ -55,14 +55,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.damon.R
 import org.jetbrains.annotations.Async
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
-fun PayScreen(){
+fun PayScreen(navController: NavController){
     var lsGenders = mutableListOf("Thanh toán khi nhận hàng", "Thanh toán qua MoMo", "Thanh toán qua QR Code")
     var selection by remember {mutableStateOf(lsGenders[0])}
     Scaffold(
@@ -70,7 +70,7 @@ fun PayScreen(){
             TopAppBar(
                 title = { Text(text = "Thanh toán") },
                 navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "",

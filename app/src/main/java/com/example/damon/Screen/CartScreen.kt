@@ -79,7 +79,7 @@ fun CartScreen(navController: NavController) {
                     )
                 }
                 Button(
-                    onClick = {  },
+                    onClick = {navController.navigate("pay_screen")  },
                     modifier = Modifier
                         .weight(1f)
                         .height(50.dp),
