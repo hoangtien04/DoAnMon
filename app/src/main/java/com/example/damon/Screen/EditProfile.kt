@@ -54,6 +54,14 @@ import androidx.navigation.NavController
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun EditProfile(navController: NavController) {
+
+    var email by remember { mutableStateOf("") }
+    var hoten by remember { mutableStateOf("") }
+    var tinh by remember { mutableStateOf("") }
+    var quan by remember { mutableStateOf("") }
+    var xa by remember { mutableStateOf("") }
+    var diachi by remember { mutableStateOf("") }
+    var sdt by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     var selectedGender by remember { mutableStateOf("Chọn giới tính") }
 
@@ -93,8 +101,8 @@ fun EditProfile(navController: NavController) {
                     color = Color.Black
                 )
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = email,
+                    onValueChange = {email = it},
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth()
@@ -112,6 +120,7 @@ fun EditProfile(navController: NavController) {
                         unfocusedTextColor = Color.Black
                     ),
                     shape = RoundedCornerShape(8.dp),
+                    placeholder = { Text(text = "Nhập địa chỉ email") }
                 )
             }
 
@@ -124,8 +133,8 @@ fun EditProfile(navController: NavController) {
                     color = Color.Black
                 )
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = hoten,
+                    onValueChange = {hoten = it},
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth()
@@ -143,6 +152,7 @@ fun EditProfile(navController: NavController) {
                         unfocusedTextColor = Color.Black
                     ),
                     shape = RoundedCornerShape(8.dp),
+                    placeholder = { Text(text = "Nhập họ tên") }
                 )
             }
             item {
@@ -154,8 +164,8 @@ fun EditProfile(navController: NavController) {
                     color = Color.Black
                 )
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = sdt,
+                    onValueChange = {sdt = it},
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth()
@@ -173,6 +183,7 @@ fun EditProfile(navController: NavController) {
                         unfocusedTextColor = Color.Black
                     ),
                     shape = RoundedCornerShape(8.dp),
+                    placeholder = {Text(text = "Nhập số điện thoại")}
                 )
             }
             item {
@@ -184,8 +195,8 @@ fun EditProfile(navController: NavController) {
                     color = Color.Black
                 )
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = tinh,
+                    onValueChange = {tinh = it},
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth()
@@ -203,6 +214,7 @@ fun EditProfile(navController: NavController) {
                         unfocusedTextColor = Color.Black
                     ),
                     shape = RoundedCornerShape(8.dp),
+                    placeholder = {Text(text = "Nhập tên tỉnh/thành phố")}
                 )
             }
             item {
@@ -214,8 +226,8 @@ fun EditProfile(navController: NavController) {
                     color = Color.Black
                 )
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = quan,
+                    onValueChange = {quan = it},
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth()
@@ -233,6 +245,7 @@ fun EditProfile(navController: NavController) {
                         unfocusedTextColor = Color.Black
                     ),
                     shape = RoundedCornerShape(8.dp),
+                    placeholder = {Text(text = "Nhập tên quận/huyện")}
                 )
             }
             item {
@@ -244,8 +257,8 @@ fun EditProfile(navController: NavController) {
                     color = Color.Black
                 )
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = xa,
+                    onValueChange = {xa = it},
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth()
@@ -263,6 +276,7 @@ fun EditProfile(navController: NavController) {
                         unfocusedTextColor = Color.Black
                     ),
                     shape = RoundedCornerShape(8.dp),
+                    placeholder = {Text(text = "Nhập tên xã/phường")}
                 )
             }
             item {
@@ -274,8 +288,8 @@ fun EditProfile(navController: NavController) {
                     color = Color.Black
                 )
                 TextField(
-                    value = "",
-                    onValueChange = {},
+                    value = diachi,
+                    onValueChange = {diachi = it},
                     modifier = Modifier
                         .padding(horizontal = 10.dp)
                         .fillMaxWidth()
@@ -293,6 +307,7 @@ fun EditProfile(navController: NavController) {
                         unfocusedTextColor = Color.Black
                     ),
                     shape = RoundedCornerShape(8.dp),
+                    placeholder = {Text(text = "Nhập địa chỉ chi tiết")}
                 )
             }
 

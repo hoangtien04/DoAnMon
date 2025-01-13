@@ -1,7 +1,6 @@
 package com.example.damon.Screen
 
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -28,75 +26,68 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.example.damon.Navigation.ScreenRoute
 
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginScreen(navController: NavHostController){
-    var TaiKhoan by remember { mutableStateOf<String>("") }
-    var MatKhau by remember { mutableStateOf<String>("") }
-    Column (modifier = Modifier.fillMaxSize().background(Color.White),
+fun ComfirmPasswordScreen(navController: NavHostController){
+    var MatKhauCu by remember { mutableStateOf<String>("") }
+    var MatKhauMoi by remember { mutableStateOf<String>("") }
+    var NhapLaiMatKhauMoi by remember { mutableStateOf<String>("") }
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "ĐĂNG NHẬP", fontSize = 35.sp, fontWeight = FontWeight.Bold)
-        TextField(
-            value = TaiKhoan,
-            onValueChange = {TaiKhoan = it},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 50.dp, start = 15.dp, end = 15.dp),
+    ){
+        Text(text ="ĐỔI MẬT KHẨU", fontSize = 35.sp, fontWeight = FontWeight.Bold)
+
+        TextField(value = MatKhauCu,
+            onValueChange = {MatKhauCu = it},
+            modifier = Modifier.fillMaxWidth().padding(top = 50.dp, start = 15.dp, end = 15.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedContainerColor = Color.LightGray,
                 unfocusedContainerColor = Color.LightGray
             ),
-            shape = RoundedCornerShape(12.dp),
-            label = {Text(text = "Tài Khoản")}
+            label = { Text(text = "Mật khẩu cũ")},
+            shape = RoundedCornerShape(12.dp)
+
         )
-        TextField(
-            value = MatKhau,
-            onValueChange = {MatKhau = it},
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(15.dp),
+        TextField(value = MatKhauMoi,
+            onValueChange = {MatKhauMoi = it},
+            modifier = Modifier.fillMaxWidth().padding(top = 15.dp, start = 15.dp, end = 15.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedContainerColor = Color.LightGray,
                 unfocusedContainerColor = Color.LightGray
             ),
-            shape = RoundedCornerShape(12.dp),
-            label = {Text(text = "Mật Khẩu")},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            singleLine = true,
-            visualTransformation = PasswordVisualTransformation()
+            label = { Text(text = "Mật khẩu mới")},
+            shape = RoundedCornerShape(12.dp)
+
         )
-        Row(modifier = Modifier.fillMaxWidth().padding(start = 15.dp, end = 15.dp),horizontalArrangement = Arrangement.SpaceBetween ){
-            Text(text = "Quên mật khẩu?",
-                modifier = Modifier
-                    .clickable {navController.navigate(ScreenRoute.comfirmPassword.route)},
-                color = Color.Blue
-            )
-            Text(text = "Tạo Tài Khoản",
-                modifier = Modifier
-                    .clickable { navController.navigate(ScreenRoute.Register.route) },
-                color = Color.Blue
-            )
-        }
-        Button(onClick = { /*TODO*/ }, modifier = Modifier
-            .padding(top = 35.dp)
-            .width(250.dp)
-            .height(55.dp),
+        TextField(value = NhapLaiMatKhauMoi,
+            onValueChange = {NhapLaiMatKhauMoi = it},
+            modifier = Modifier.fillMaxWidth().padding(top = 15.dp, start = 15.dp, end = 15.dp),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedContainerColor = Color.LightGray,
+                unfocusedContainerColor = Color.LightGray
+            ),
+            label = { Text(text = "Nhập lại mật khẩu mới")},
+            shape = RoundedCornerShape(12.dp)
+        )
+        Button(onClick = { /*TODO*/ },
+            modifier = Modifier
+                .padding(top = 35.dp)
+                .width(250.dp)
+                .height(55.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Red,
                 contentColor = Color.White
@@ -104,8 +95,8 @@ fun LoginScreen(navController: NavHostController){
             shape = RoundedCornerShape(15.dp)
         ) {
             Text(
-                text = "ĐĂNG NHẬP",
-                fontSize = 20.sp,
+                text = "XÁC NHẬN",
+                fontSize = 18.sp,
                 color = Color.White
             )
         }
