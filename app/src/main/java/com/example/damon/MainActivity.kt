@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import com.example.damon.Navigation.NavGraph
+import com.example.damon.Screen.EditProfile
 import com.example.damon.Screen.LoginScreen
 import com.example.damon.Screen.SearchScreen
 import com.example.damon.ui.theme.DAMONTheme
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
 //                Scaffold(modifier = Modifier.fillMaxSize()) {
 //                    FullScreenProductList()
  //                   SearchScreen(navController)
-                    EditProfile(navController)
+ //                   EditProfile(navController)
 //                    ManagerScreen()
 //                    MemberScreen()
 //                    RegisterScreen()

@@ -34,6 +34,9 @@ sealed class ScreenRoute(val route: String) {
     object Favourite : ScreenRoute("favourite_screen")
     object Search2 : ScreenRoute("search2_screen")
     object comfirmPassword : ScreenRoute("comfirmpassword_screen")
+    object Oder : ScreenRoute("oder_screen"){
+        fun createRoute(index: Int) = "oder_screen/$index"
+    }
 }
 
 @Composable
@@ -43,7 +46,7 @@ fun NavGraph(navController: NavHostController) {
             MainScreen(navRootController = navController)
         }
         composable(route = ScreenRoute.EditProfile.route) {
-            EditProfile()
+            EditProfile(navController = navController)
         }
         composable(route = ScreenRoute.Member.route) {
             MemberScreen()
