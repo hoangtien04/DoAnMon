@@ -20,34 +20,44 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.damon.Card.ProductListCard
+import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.R
+import com.example.damon.ViewModel.SanPhamViewModel
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductList() {
+fun ProductList(navController: NavController, viewModel: SanPhamViewModel) {
     // Trạng thái của từng menu
     var expandedKM by remember { mutableStateOf(false) } // Menu "Chương trình khuyến mãi"
     var expandedKC by remember { mutableStateOf(false) } // Menu "Kích cỡ"
     var selectedOptionKM by remember { mutableStateOf("Loại sản phẩm") }
     var selectedOptionKC by remember { mutableStateOf("Kích Cỡ") }
-
     val itemsKhuyenMai = listOf( "Áo dệt kim", "Quần áo nỉ")
     val itemsKichCo = listOf("S", "X", "M")
-    val productList = listOf(
-        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
-        Product(R.drawable.anh1, "Áo hoodie", "Phong cách trẻ trung"),
-        Product(R.drawable.anh1, "Áo khoác dạ", "Thời thượng và ấm áp"),
-        Product(R.drawable.anh1, "Áo sơ mi", "Lịch sự, sang trọng"),
-        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
-        Product(R.drawable.anh1, "Áo hoodie", "Phong cách trẻ trung"),
-        Product(R.drawable.anh1, "Áo khoác dạ", "Thời thượng và ấm áp"),
-        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
-        Product(R.drawable.anh1, "Áo hoodie", "Phong cách trẻ trung"),
-        Product(R.drawable.anh1, "Áo khoác dạ", "Thời thượng và ấm áp"),
 
-    )
+
+//    LaunchedEffect(Unit) {
+//        viewModel.getAllSanPham()
+//    }
+
+    viewModel.getAllSanPham()
+    var listSanPham: List<SanPhamCard> = viewModel.listSanPham
+
+//    val productList = listOf(
+//        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
+//        Product(R.drawable.anh1, "Áo hoodie", "Phong cách trẻ trung"),
+//        Product(R.drawable.anh1, "Áo khoác dạ", "Thời thượng và ấm áp"),
+//        Product(R.drawable.anh1, "Áo sơ mi", "Lịch sự, sang trọng"),
+//        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
+//        Product(R.drawable.anh1, "Áo hoodie", "Phong cách trẻ trung"),
+//        Product(R.drawable.anh1, "Áo khoác dạ", "Thời thượng và ấm áp"),
+//        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
+//        Product(R.drawable.anh1, "Áo hoodie", "Phong cách trẻ trung"),
+//        Product(R.drawable.anh1, "Áo khoác dạ", "Thời thượng và ấm áp"),
+//
+//    )
 
     Column(
         modifier = Modifier
@@ -146,8 +156,8 @@ fun ProductList() {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(productList){
-                    ProductListCard()
+                items(listSanPham){
+                    ProductListCard(sanPham = it)
                 }
             }
         }
