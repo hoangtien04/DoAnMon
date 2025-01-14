@@ -1,10 +1,9 @@
-package com.example.damon.nguoidungAPIService
+package com.example.damon.APIService
 
 import com.example.damon.DataClass.nguoidung
 import com.example.damon.DataClass.nguoidungResponse
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT

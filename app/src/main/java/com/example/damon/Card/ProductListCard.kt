@@ -28,15 +28,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.R
+import org.jetbrains.annotations.Async
 
-@Preview
 @Composable
-fun ProductListCard(){
+fun ProductListCard(
+    sanPham:SanPhamCard,
+){
     Card(modifier = Modifier.fillMaxSize()) {
         Column() {
-            Image(
-                painter = painterResource(R.drawable.anh1),
+            AsyncImage(
+                model = sanPham.DuongDan,
                 contentDescription = "",
                 modifier = Modifier.fillMaxWidth()
                     .fillMaxSize()
@@ -67,7 +71,7 @@ fun ProductListCard(){
                 )
             }
             Text(
-                text = "Áo len nam",
+                text = sanPham.TenSP,
                 modifier = Modifier
                     .padding(10.dp,top = 10.dp, bottom = 3.dp),
                 fontSize = 20.sp,
@@ -78,7 +82,7 @@ fun ProductListCard(){
                 Text("UNISEX S-XL", fontSize = 13.sp)
                 Text("KAWS + Warhoi Quần Nỉ", fontSize = 13.sp)
                 Spacer(modifier = Modifier.height(10.dp))
-                Text("784.000 VND ",
+                Text("${sanPham.DonGia} VND",
                     fontSize = 18.sp,
                     color = Color.Red,
                     fontWeight = FontWeight.Bold

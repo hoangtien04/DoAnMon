@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.damon.Screen.*
+import com.example.damon.ViewModel.SanPhamViewModel
 
 sealed class ScreenRoute(val route: String) {
     object Main : ScreenRoute("main_screen")
@@ -23,6 +24,7 @@ sealed class ScreenRoute(val route: String) {
     object ProductDetail : ScreenRoute("productdetail_screen")
     object Cart : ScreenRoute("cart_screen")
     object Favourite : ScreenRoute("favourite_screen")
+    object ProductList : ScreenRoute("productlist_screen")
     object Oder : ScreenRoute("oder_screen/{selectedTab}") {
         fun createRoute(selectedTab: Int) = "oder_screen/$selectedTab"
     }
@@ -34,8 +36,11 @@ sealed class ScreenRoute(val route: String) {
 }
 
 @Composable
-fun NavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = ScreenRoute.Main.route) {
+fun NavGraph(navController: NavHostController,viewModel: SanPhamViewModel) {
+    NavHost(
+        navController = navController,
+        startDestination = ScreenRoute.ProductList.route
+    ) {
         composable(route = ScreenRoute.Main.route) {
             MainScreen(navRootController = navController)
         }
@@ -67,8 +72,6 @@ fun NavGraph(navController: NavHostController) {
             val selectedTab = backStackEntry.arguments?.getInt("selectedTab") ?: 0
             OrderScreen(navController = navController, initialTab = selectedTab)
         }
-
-
         composable(route = ScreenRoute.WaitingForConfirmation.route) {
             WaitingForConfirmationScreen(navController = navController)
         }
@@ -83,6 +86,9 @@ fun NavGraph(navController: NavHostController) {
         }
         composable(route = NavItem.Search2.route) {
             SearchScreen2(navController = navController)
+        }
+        composable(route = ScreenRoute.ProductList.route) {
+            ProductList(navController,viewModel)
         }
     }
 }
