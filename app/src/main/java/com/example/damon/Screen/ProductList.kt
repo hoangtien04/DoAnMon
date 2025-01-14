@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.damon.Card.ProductListCard
 import com.example.damon.R
-@Preview
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductList() {

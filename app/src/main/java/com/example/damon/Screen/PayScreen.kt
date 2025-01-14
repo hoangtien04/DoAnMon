@@ -79,7 +79,7 @@ fun PayScreen() {
                 .padding(it)
         ) {
             item { AddressCard() }
-            item { ProductList() }
+            item { ProductListPay() }
             item { PaymentMethods(paymentMethods, selectedMethod) { selectedMethod = it } }
             item { PaymentDetails() }
         }
@@ -109,7 +109,7 @@ fun AddressCard() {
 }
 
 @Composable
-fun ProductList() {
+fun ProductListPay() {
     val productModifier = Modifier
         .fillMaxWidth()
         .background(Color(0xFFD9D9D9))
