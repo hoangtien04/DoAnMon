@@ -68,7 +68,6 @@ fun MainScreen(navRootController: NavHostController,viewModel: SanPhamViewModel)
     val isManagerRoute = currentRoute == NavItem.Manager.route
     // Khởi tạo navItemController
 
-
     Scaffold(
         topBar = {
             // Kiểm tra nếu route hiện tại là Manager thì không hiển thị TopAppBar
@@ -119,7 +118,7 @@ fun MainScreen(navRootController: NavHostController,viewModel: SanPhamViewModel)
             items(listSanPham){
                 ProductListCard(sanPham = it, onClick = {
                     navRootController.navigate(ScreenRoute.ProductDetail.route + "?MaSP=${it.MaSP}")
-                })
+                },)
             }
         }
         Box(modifier = Modifier.padding(it)) {

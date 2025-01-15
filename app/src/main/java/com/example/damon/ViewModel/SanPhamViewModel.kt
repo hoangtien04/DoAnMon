@@ -12,8 +12,10 @@ import com.example.damon.APIService.SanPhamRetrofitClient
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.DataClass.SanPhamDetail
-import com.example.damon.DataClass.Size
+import com.example.damon.DataClass.SizeDetail
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SanPhamViewModel():ViewModel(){
@@ -22,6 +24,9 @@ class SanPhamViewModel():ViewModel(){
     var sanphamUpdateResult by mutableStateOf("")
     var sanpham: SanPhamCard by mutableStateOf(SanPhamCard(0,"","",0,""))
     var sanPhamDetail: SanPhamDetail by mutableStateOf(SanPhamDetail(0,"", "","",0,""))
+    var listMauSac: List<MauSac> by mutableStateOf(emptyList())
+
+    var listSize : List<SizeDetail> by mutableStateOf(emptyList())
 
     fun getAllSanPham(){
         viewModelScope.launch {
@@ -44,6 +49,30 @@ class SanPhamViewModel():ViewModel(){
             }
         }
     }
+
+    fun getMauSacByID(MaSP:Int){
+        viewModelScope.launch (Dispatchers.IO){
+            try{
+                listMauSac = SanPhamRetrofitClient.sanPhamAPIService.getMauSacByID(MaSP)
+            }
+            catch (e:Exception){
+                Log.e("SanPhamViewModel","Error: ${e.message}")
+            }
+        }
+    }
+
+    fun getSizeByID(MaSP:Int){
+        viewModelScope.launch (Dispatchers.IO){
+            try{
+                listSize = SanPhamRetrofitClient.sanPhamAPIService.getSizeByID(MaSP)
+            }
+            catch (e:Exception){
+                Log.e("SanPhamViewModel","Error: ${e.message}")
+            }
+        }
+    }
+
+
 
 
 
