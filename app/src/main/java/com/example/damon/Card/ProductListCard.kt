@@ -3,6 +3,7 @@ package com.example.damon.Card
 import Product
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,8 +37,13 @@ import org.jetbrains.annotations.Async
 @Composable
 fun ProductListCard(
     sanPham:SanPhamCard,
+    onClick: () -> Unit
 ){
-    Card(modifier = Modifier.fillMaxSize()) {
+    Card(
+        modifier = Modifier.fillMaxSize().clickable {
+            onClick()
+        },
+    ) {
         Column() {
             AsyncImage(
                 model = sanPham.DuongDan,
@@ -79,8 +85,7 @@ fun ProductListCard(
                 fontWeight = FontWeight.Bold
             )
             Column(modifier = Modifier.fillMaxWidth().padding(start = 10.dp,bottom = 10.dp)) {
-                Text("UNISEX S-XL", fontSize = 13.sp)
-                Text("KAWS + Warhoi Quần Nỉ", fontSize = 13.sp)
+                Text("${sanPham.TenLoai}̉", fontSize = 13.sp)
                 Spacer(modifier = Modifier.height(10.dp))
                 Text("${sanPham.DonGia} VND",
                     fontSize = 18.sp,

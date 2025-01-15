@@ -18,16 +18,17 @@ import com.example.damon.ViewModel.SanPhamViewModel
 import com.example.damon.ui.theme.DAMONTheme
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: SanPhamViewModel by viewModels<SanPhamViewModel>()
+
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val viewModel: SanPhamViewModel by viewModels<SanPhamViewModel>()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             DAMONTheme {
 
                 val navController = rememberNavController()
-                NavGraph(navController = navController,viewModel)
+                NavGraph(navController = navController,viewModel = viewModel)
 //                ProductList(viewModel)
 //                Scaffold(modifier = Modifier.fillMaxSize()) {
 //                    FullScreenProductList()

@@ -5,18 +5,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.damon.APIService.SanPhamRetrofitClient
+import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
+import com.example.damon.DataClass.SanPhamDetail
+import com.example.damon.DataClass.Size
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SanPhamViewModel:ViewModel(){
+class SanPhamViewModel():ViewModel(){
     var listSanPham : List<SanPhamCard> by mutableStateOf(emptyList())
     var sanphamAddResult by mutableStateOf("")
     var sanphamUpdateResult by mutableStateOf("")
-    var sanpham: SanPhamCard by mutableStateOf(SanPhamCard(0,"",0,""))
+    var sanpham: SanPhamCard by mutableStateOf(SanPhamCard(0,"","",0,""))
+    var sanPhamDetail: SanPhamDetail by mutableStateOf(SanPhamDetail(0,"", "","",0,""))
 
     fun getAllSanPham(){
         viewModelScope.launch {
@@ -28,6 +33,20 @@ class SanPhamViewModel:ViewModel(){
             }
         }
     }
+
+    fun getSanPhamDetailByID(MaSP:Int){
+        viewModelScope.launch (Dispatchers.IO){
+            try{
+                sanPhamDetail = SanPhamRetrofitClient.sanPhamAPIService.getSanPhamDetailByID(MaSP)
+            }
+            catch (e:Exception){
+                Log.e("SanPhamViewModel","Error: ${e.message}")
+            }
+        }
+    }
+
+
+
     fun getSanPhamByID(MaSP:Int){
         viewModelScope.launch (Dispatchers.IO){
             try{
@@ -80,3 +99,5 @@ class SanPhamViewModel:ViewModel(){
         }
     }
 }
+
+

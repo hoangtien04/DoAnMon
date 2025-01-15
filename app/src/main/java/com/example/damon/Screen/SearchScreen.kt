@@ -44,7 +44,6 @@ import com.example.damon.R
 fun SearchScreen(navController: NavController) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
-    var searchText = remember { mutableStateOf("") }
 
 
     Column(
@@ -56,6 +55,7 @@ fun SearchScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(screenHeight * 0.71f)
+                .background(Color.White)
         ) {
             items(10) {
                 FlowRow(

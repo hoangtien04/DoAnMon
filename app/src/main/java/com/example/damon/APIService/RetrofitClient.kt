@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object SanPhamRetrofitClient {
     val sanPhamAPIService : SanPhamAPIService by lazy {
         Retrofit.Builder()
-            .baseUrl("https://8607-115-79-202-156.ngrok-free.app/")
+            .baseUrl("https://51e1-171-252-189-157.ngrok-free.app/")
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
             .create(SanPhamAPIService::class.java)

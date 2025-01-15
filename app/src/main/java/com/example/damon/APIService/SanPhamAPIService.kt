@@ -1,6 +1,7 @@
 package com.example.damon.APIService
 
 import com.example.damon.DataClass.SanPhamCard
+import com.example.damon.DataClass.SanPhamDetail
 import com.example.damon.DataClass.sanphamResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -13,6 +14,11 @@ import retrofit2.http.Path
 interface SanPhamAPIService {
     @GET("sanphamcard")
     suspend fun getAllSanPham():List<SanPhamCard>
+
+    @GET("sanphamdetail/{MaSP}")
+    suspend fun getSanPhamDetailByID(
+        @Path("MaSP") MaSP:Int,
+    ):SanPhamDetail
 
     @GET("sanpham/{MaSP}")
     suspend fun getSanPhamByID(
@@ -34,5 +40,4 @@ interface SanPhamAPIService {
     suspend fun deleteSanPham(
         @Path("MaSP") MaSP: Int
     ):Response<sanphamResponse>
-
 }

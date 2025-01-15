@@ -12,8 +12,10 @@ data class nguoidung(
     val isAdmin:Boolean
 )
 
+
 data class nguoidungResponse(
     val protocol: String,
     val code:String,
     var url:String
 )
+

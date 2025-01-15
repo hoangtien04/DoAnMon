@@ -29,13 +29,13 @@ fun SearchDanhMucCard() {
     val screenHeigh = configuration.screenHeightDp.dp
     Card(
         modifier = Modifier
-            .padding(2.dp, bottom = 0.dp, top = 0.dp)
-            .width(screenWidth * 0.48f)
+            .padding(7.dp, bottom = 0.dp, top = 0.dp)
+            .width(screenWidth * 0.47f)
             .height(60.dp),
         shape = RoundedCornerShape(0.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().background(Color(0xFFFFFFFF)),
+            modifier = Modifier.fillMaxWidth().background(Color(0xFFf2f2f2)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
