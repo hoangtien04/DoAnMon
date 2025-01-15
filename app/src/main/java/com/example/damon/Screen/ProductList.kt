@@ -161,7 +161,8 @@ fun ProductList(navController: NavController, viewModel: SanPhamViewModel) {
                 items(listSanPham){
                     ProductListCard(sanPham = it, onClick = {
                         navController.navigate(ScreenRoute.ProductDetail.route + "?MaSP=${it.MaSP}")
-                    })
+                    },
+                    )
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.example.damon.DataClass
 
-data class Size(
+data class SizeDetail(
+    val MaSP: Int,
     val MaSize: Int,
-    val TenSize: String,
+    val Size: String,
 )

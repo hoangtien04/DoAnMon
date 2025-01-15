@@ -1,8 +1,5 @@
 package com.example.damon.Screen
 
-import Product
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,7 +7,6 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,8 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,6 +34,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
@@ -60,7 +55,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamDetail
+import com.example.damon.DataClass.SizeDetail
 import com.example.damon.ViewModel.SanPhamViewModel
 
 
@@ -70,7 +67,12 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
     var sanPhamDetail: SanPhamDetail by remember { mutableStateOf(SanPhamDetail(0,"", "","",0,"")) }
     viewModel.getSanPhamDetailByID(MaSP.toInt())
     sanPhamDetail = viewModel.sanPhamDetail
+    viewModel.getMauSacByID(MaSP.toInt())
+    viewModel.getSizeByID(MaSP.toInt())
+    val listMauSac:List<MauSac> = viewModel.listMauSac
+    val listSize:List<SizeDetail> = viewModel.listSize
     var isFavorite by remember { mutableStateOf(false) }
+    val colors = listMauSac.map { it.MaHex }
 
     Scaffold(
         topBar = {
@@ -125,8 +127,8 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
         ) {
             item { ProductImage(sanPhamDetail.DuongDan) }
             item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite) { isFavorite = !isFavorite } }
-            item { ProductColorSelector() }
-            item { ProductSizeSelector() }
+            item { ProductColorSelector(colors) }
+            item { ProductSizeSelector(listSize) }
             item { ProductPriceAndRating(sanPhamDetail.DonGia) }
             item { QuantitySelector() }
             item { AddToCartButton() }
@@ -168,14 +170,12 @@ fun ProductTitleRow(title: String, isFavorite: Boolean, onFavoriteClick: () -> U
 }
 
 @Composable
-fun ProductColorSelector() {
-    val colors = listOf("#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FFFF33", "#33FFF6", "#A633FF")
+fun ProductColorSelector(listMauSac: List<String>) {
+    val colors = listOf("#b0b0b0", "#ff5733", "#33ff57", "#3357ff", "#000000", "#b0b0b0")
+    var selectedColor by remember { mutableStateOf(colors.firstOrNull() ?: "#FFFFFF") }
 
-    var selectedColor by remember { mutableStateOf(colors[0]) }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
+
+    Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = "Màu sắc:",
             style = MaterialTheme.typography.titleMedium,
@@ -186,13 +186,11 @@ fun ProductColorSelector() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
-                .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .horizontalScroll(rememberScrollState())
         ) {
             colors.forEach { colorHex ->
                 Box(
                     modifier = Modifier
-
                         .border(
                             width = 2.dp,
                             color = if (selectedColor == colorHex) Color.Black else Color.Transparent,
@@ -202,7 +200,13 @@ fun ProductColorSelector() {
                         .size(41.dp)
                         .clip(CircleShape)
                         .clickable { selectedColor = colorHex }
-                        .background(Color(android.graphics.Color.parseColor(colorHex))),
+                        .background(
+                            try {
+                                Color(android.graphics.Color.parseColor(colorHex))
+                            } catch (e: IllegalArgumentException) {
+                                Color.Gray // Màu mặc định nếu lỗi
+                            }
+                        ),
                 )
             }
         }
@@ -211,12 +215,11 @@ fun ProductColorSelector() {
 
 
 @Composable
-fun ProductSizeSelector() {
+fun ProductSizeSelector(listSize:List<SizeDetail>) {
     // Danh sách các kích cỡ
-    val sizes = listOf("XS", "S", "M", "L", "XL", "2XL", "3XL")
 
     // State lưu trạng thái của lựa chọn
-    var selectedSize by remember { mutableStateOf(sizes[0]) }
+    var selectedSize by remember { mutableStateOf(listSize.firstOrNull()?.Size ?: "") }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -232,20 +235,19 @@ fun ProductSizeSelector() {
                 .fillMaxWidth()
                 .padding(16.dp)
                 .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            sizes.forEach { size ->
+            listSize.forEach { size ->
                 Box(
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
                         .border(0.2.dp,Color.Black)
                         .height(35.dp)
                         .width(50.dp)
-                        .clickable { selectedSize = size }
-                        .background(if (selectedSize == size) Color.Black else Color.White),
+                        .clickable { selectedSize = size.Size }
+                        .background(if (selectedSize == size.Size) Color.Black else Color.White),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = size,color = if (selectedSize == size) Color.White else Color.Black)
+                    Text(text = size.Size,color = if (selectedSize == size.Size) Color.White else Color.Black)
                 }
             }
         }

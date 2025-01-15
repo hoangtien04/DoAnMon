@@ -3,6 +3,7 @@ package com.example.damon.Card
 import Product
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
@@ -30,14 +32,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.R
+import com.example.damon.ViewModel.SanPhamViewModel
 import org.jetbrains.annotations.Async
 
 @Composable
 fun ProductListCard(
     sanPham:SanPhamCard,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ){
     Card(
         modifier = Modifier.fillMaxSize().clickable {
@@ -53,24 +57,15 @@ fun ProductListCard(
             )
 
             Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 10.dp)) {
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape).size(17  .dp)
-                        .background(color = Color.Red)
-
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape).size(17.dp)
-                        .background(color = Color.Blue)
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape).size(17.dp)
-                        .background(color = Color.Yellow)
-                )
+//                listMauSac.forEach { colorHex ->
+//                    Box(
+//                        modifier = Modifier
+//                            .padding(4.dp)
+//                            .size(41.dp)
+//                            .clip(CircleShape)
+//                            .background(Color(android.graphics.Color.parseColor("#f7e1e1"))),
+//                    )
+//                }
                 Icon(imageVector = Icons.Filled.FavoriteBorder
                     , contentDescription = "",
                     modifier = Modifier.padding(start = 250.dp)
