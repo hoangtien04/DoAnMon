@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.FilterDrama
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.damon.Card.ProductListCard
 import com.example.damon.DataClass.SanPhamCard
+import com.example.damon.Navigation.ScreenRoute
 import com.example.damon.R
 import com.example.damon.ViewModel.SanPhamViewModel
 
@@ -157,7 +159,9 @@ fun ProductList(navController: NavController, viewModel: SanPhamViewModel) {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(listSanPham){
-                    ProductListCard(sanPham = it)
+                    ProductListCard(sanPham = it, onClick = {
+                        navController.navigate(ScreenRoute.ProductDetail.route + "?MaSP=${it.MaSP}")
+                    })
                 }
             }
         }

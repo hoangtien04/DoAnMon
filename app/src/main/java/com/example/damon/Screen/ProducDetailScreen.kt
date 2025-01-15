@@ -46,12 +46,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.clip
+import coil.compose.AsyncImage
+import com.example.damon.DataClass.SanPhamDetail
+import com.example.damon.ViewModel.SanPhamViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductDetailScreen(navController: NavController) {
-    val product = Product(R.drawable.anh1, "Miracle Air Quần Dài", "Vải Cotton-like")
+fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: SanPhamViewModel) {
+    var sanPhamDetail: SanPhamDetail by remember { mutableStateOf(SanPhamDetail(0,"", "","",0,"")) }
+    viewModel.getSanPhamDetailByID(MaSP.toInt())
     var isFavorite by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -105,22 +109,22 @@ fun ProductDetailScreen(navController: NavController) {
                 .padding(padding),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item { ProductImage(product.imageResId) }
-            item { ProductTitleRow(product.title, isFavorite) { isFavorite = !isFavorite } }
+            item { ProductImage(sanPhamDetail.DuongDan) }
+            item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite) { isFavorite = !isFavorite } }
             item { ProductColorSelector() }
             item { ProductSizeSelector() }
-            item { ProductPriceAndRating() }
+            item { ProductPriceAndRating(sanPhamDetail.DonGia) }
             item { AddToCartButton() }
-            item { ProductDescription(product.subtitle) }
+            item { ProductDescription(sanPhamDetail.MoTa) }
         }
     }
 }
 
 
 @Composable
-fun ProductImage(imageResId: Int) {
-    Image(
-        painter = painterResource(id = imageResId),
+fun ProductImage(imageResId: String) {
+    AsyncImage(
+        model = imageResId,
         contentDescription = "Product Image",
         modifier = Modifier
             .fillMaxWidth()
@@ -210,14 +214,14 @@ fun ProductSizeSelector() {
 }
 
 @Composable
-fun ProductPriceAndRating() {
+fun ProductPriceAndRating(DonGia:Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = "980,000 VND", style = MaterialTheme.typography.titleLarge, color = Color.Black)
+        Text(text = "${DonGia}", style = MaterialTheme.typography.titleLarge, color = Color.Black)
         Text(text = "★★★★½ (134)", style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
     }
 }
@@ -239,7 +243,7 @@ fun AddToCartButton() {
 @Composable
 fun ProductDescription(subtitle: String) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        Text(text = "Mô tả sản phẩm:", style = MaterialTheme.typography.titleMedium, color = Color.Black)
+        Text(text = "${subtitle}", style = MaterialTheme.typography.titleMedium, color = Color.Black)
         Text(
             text = subtitle,
             style = MaterialTheme.typography.bodyMedium,

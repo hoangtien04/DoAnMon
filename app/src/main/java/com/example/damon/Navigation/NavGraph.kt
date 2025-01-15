@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -39,10 +40,10 @@ sealed class ScreenRoute(val route: String) {
 fun NavGraph(navController: NavHostController,viewModel: SanPhamViewModel) {
     NavHost(
         navController = navController,
-        startDestination = ScreenRoute.ProductList.route
+        startDestination = ScreenRoute.Main.route
     ) {
         composable(route = ScreenRoute.Main.route) {
-            MainScreen(navRootController = navController)
+            MainScreen(navRootController = navController, viewModel = viewModel)
         }
         composable(route = ScreenRoute.EditProfile.route) {
             EditProfile(navController = navController)
@@ -56,8 +57,13 @@ fun NavGraph(navController: NavHostController,viewModel: SanPhamViewModel) {
         composable(route = ScreenRoute.Login.route) {
             LoginScreen(navController = navController)
         }
-        composable(route = ScreenRoute.ProductDetail.route) {
-            ProductDetailScreen(navController = navController)
+        composable(
+            route = ScreenRoute.ProductDetail.route + "?MaSP={MaSP}",
+            arguments = listOf(navArgument("MaSP"){nullable = true})
+        ) {
+            var MaSP = it.arguments?.getString("MaSP")
+            if(MaSP!=null)
+            ProductDetailScreen(navController = navController,MaSP,viewModel)
         }
         composable(route = ScreenRoute.Cart.route) {
             CartScreen(navController = navController)
@@ -101,10 +107,10 @@ sealed class NavItem(val icon: ImageVector, val route: String) {
 }
 
 @Composable
-fun NavigationBarGraph(navItemController: NavHostController, navRootController: NavHostController) {
+fun NavigationBarGraph(navItemController: NavHostController, navRootController: NavHostController,viewModel: SanPhamViewModel) {
     NavHost(navController = navItemController, startDestination = NavItem.Home.route) {
         composable(route = NavItem.Home.route) {
-            FullScreenProductList(navRootController = navRootController)
+//            ProductList(navItemController,viewModel)
         }
         composable(route = NavItem.Search.route) {
             SearchScreen(navController = navRootController)
