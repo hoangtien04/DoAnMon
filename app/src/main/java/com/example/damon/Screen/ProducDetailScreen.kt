@@ -1,8 +1,14 @@
 package com.example.damon.Screen
 
 import Product
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,11 +16,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.rounded.Favorite
@@ -45,7 +55,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.damon.DataClass.SanPhamDetail
 import com.example.damon.ViewModel.SanPhamViewModel
@@ -56,6 +69,7 @@ import com.example.damon.ViewModel.SanPhamViewModel
 fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: SanPhamViewModel) {
     var sanPhamDetail: SanPhamDetail by remember { mutableStateOf(SanPhamDetail(0,"", "","",0,"")) }
     viewModel.getSanPhamDetailByID(MaSP.toInt())
+    sanPhamDetail = viewModel.sanPhamDetail
     var isFavorite by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -107,13 +121,14 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(7.dp)
         ) {
             item { ProductImage(sanPhamDetail.DuongDan) }
             item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite) { isFavorite = !isFavorite } }
             item { ProductColorSelector() }
             item { ProductSizeSelector() }
             item { ProductPriceAndRating(sanPhamDetail.DonGia) }
+            item { QuantitySelector() }
             item { AddToCartButton() }
             item { ProductDescription(sanPhamDetail.MoTa) }
         }
@@ -127,8 +142,7 @@ fun ProductImage(imageResId: String) {
         model = imageResId,
         contentDescription = "Product Image",
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp),
+            .fillMaxWidth(),
         contentScale = ContentScale.Crop
     )
 }
@@ -139,7 +153,8 @@ fun ProductTitleRow(title: String, isFavorite: Boolean, onFavoriteClick: () -> U
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = title, style = MaterialTheme.typography.titleLarge, color = Color.Black)
         IconButton(onClick = onFavoriteClick) {
@@ -154,30 +169,41 @@ fun ProductTitleRow(title: String, isFavorite: Boolean, onFavoriteClick: () -> U
 
 @Composable
 fun ProductColorSelector() {
+    val colors = listOf("#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FFFF33", "#33FFF6", "#A633FF")
+
+    var selectedColor by remember { mutableStateOf(colors[0]) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
     ) {
         Text(
             text = "Màu sắc:",
             style = MaterialTheme.typography.titleMedium,
             color = Color.Black,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(start = 16.dp)
         )
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            val colors = listOf(Color.Red, Color.Blue, Color.Green, Color.Black, Color.Gray)
-            items(colors) { color ->
-                Button(
-                    onClick = { },
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            colors.forEach { colorHex ->
+                Box(
                     modifier = Modifier
-                        .height(40.dp)
-                        .width(40.dp)
+
+                        .border(
+                            width = 2.dp,
+                            color = if (selectedColor == colorHex) Color.Black else Color.Transparent,
+                            shape = RoundedCornerShape(50.dp)
+                        )
                         .padding(4.dp)
-                        .clip(CircleShape),
-                    colors = ButtonDefaults.buttonColors(containerColor = color),
-                    contentPadding = PaddingValues(0.dp)
-                ) {}
+                        .size(41.dp)
+                        .clip(CircleShape)
+                        .clickable { selectedColor = colorHex }
+                        .background(Color(android.graphics.Color.parseColor(colorHex))),
+                )
             }
         }
     }
@@ -186,27 +212,40 @@ fun ProductColorSelector() {
 
 @Composable
 fun ProductSizeSelector() {
+    // Danh sách các kích cỡ
+    val sizes = listOf("XS", "S", "M", "L", "XL", "2XL", "3XL")
+
+    // State lưu trạng thái của lựa chọn
+    var selectedSize by remember { mutableStateOf(sizes[0]) }
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
     ) {
         Text(
             text = "Size:",
             style = MaterialTheme.typography.titleMedium,
             color = Color.Black,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp,start = 16.dp)
         )
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(horizontal = 16.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            items(listOf("S", "M", "L", "XL", "XXL")) { size ->
-                Button(
-                    onClick = { },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray)
+            sizes.forEach { size ->
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 4.dp)
+                        .border(0.2.dp,Color.Black)
+                        .height(35.dp)
+                        .width(50.dp)
+                        .clickable { selectedSize = size }
+                        .background(if (selectedSize == size) Color.Black else Color.White),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(text = size, color = Color.Black)
+                    Text(text = size,color = if (selectedSize == size) Color.White else Color.Black)
                 }
             }
         }
@@ -221,7 +260,7 @@ fun ProductPriceAndRating(DonGia:Int) {
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = "${DonGia}", style = MaterialTheme.typography.titleLarge, color = Color.Black)
+        Text(text = "${DonGia} VND", style = MaterialTheme.typography.titleLarge, color = Color.Red,fontSize = 27.sp, fontWeight = FontWeight.Bold)
         Text(text = "★★★★½ (134)", style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
     }
 }
@@ -232,8 +271,10 @@ fun AddToCartButton() {
         onClick = {  },
         modifier = Modifier
             .fillMaxWidth()
-            .height(48.dp)
-            .padding(horizontal = 16.dp),
+            .height(65.dp)
+            .padding(horizontal = 16.dp)
+            .padding(vertical = 11.dp)
+        ,
         colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
     ) {
         Text(text = "Thêm vào giỏ hàng", style = MaterialTheme.typography.bodyLarge, color = Color.White)
@@ -243,12 +284,65 @@ fun AddToCartButton() {
 @Composable
 fun ProductDescription(subtitle: String) {
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-        Text(text = "${subtitle}", style = MaterialTheme.typography.titleMedium, color = Color.Black)
+        Text(
+            text = "Mô tả",
+            style = MaterialTheme.typography.titleLarge, color = Color.Black,
+            modifier = Modifier.padding(bottom = 6.dp)
+        )
         Text(
             text = subtitle,
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray,
             textAlign = TextAlign.Justify
         )
+    }
+}
+
+@Composable
+fun QuantitySelector() {
+    // State lưu số lượng hiện tại
+    var quantity by remember { mutableStateOf(1) }
+
+    // Container chứa nút tăng giảm
+    Row(
+        modifier = Modifier
+            .wrapContentSize()
+            .padding(start = 16.dp,top = 10.dp,bottom = 7.dp)
+            .border(1.dp, Color.Gray, RoundedCornerShape(16.dp)) // Bo góc toàn bộ
+            .background(Color.White, RoundedCornerShape(16.dp))
+            ,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Nút giảm
+        Button(
+            onClick = { if (quantity > 1) quantity-- },
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+        ) {
+            Text("-",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.Black,
+                fontSize = 20.sp)
+        }
+
+        // Hiển thị số lượng
+        Text(
+            text = "$quantity",
+            style = MaterialTheme.typography.bodyMedium,
+            fontSize = 20.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+
+        // Nút tăng
+        Button(
+            onClick = { quantity++ }, // Tăng số lượng
+            shape = RoundedCornerShape(16.dp), // Bo góc nút phải
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+        ) {
+            Text("+",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.Black,
+                fontSize = 20.sp)
+        }
     }
 }
