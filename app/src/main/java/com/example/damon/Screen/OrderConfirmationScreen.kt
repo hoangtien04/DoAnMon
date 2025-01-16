@@ -1,6 +1,5 @@
 package com.example.damon.Screen
 
-import Product
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -37,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.damon.Card.OrderConfirmationCard
+import com.example.damon.DataClass.Product
 import com.example.damon.R
 import com.example.damon.Navigation.ScreenRoute
 
@@ -92,7 +92,7 @@ fun OrderConfirmationScreen(){
     ) {padding->
         LazyColumn(modifier = Modifier.padding(padding)) {
             items(productList){
-                OrderConfirmationCard(product =it)
+                OrderConfirmationCard()
             }
         }
     }

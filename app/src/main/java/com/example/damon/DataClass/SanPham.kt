@@ -45,3 +45,8 @@ data class SanPhamYeuThichResponse(
     var url:String
 )
 
+data class Product(
+    var imageResId: Int,
+    var title:String,
+    var subtitle:String
+)

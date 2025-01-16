@@ -1,6 +1,5 @@
 package com.example.damon.Card
 
-import Product
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

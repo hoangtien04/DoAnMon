@@ -1,6 +1,5 @@
 package com.example.damon.Card
 
-import Product
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.example.damon.R
 
 @Composable
-fun OrderConfirmationCard(product: Product, orderId: String = "001", orderStatus: String = "Chờ xác thực") {
+fun OrderConfirmationCard( orderId: String = "001", orderStatus: String = "Chờ xác thực") {
     val quantity = 3
 
     Box(modifier = Modifier.fillMaxWidth()) {

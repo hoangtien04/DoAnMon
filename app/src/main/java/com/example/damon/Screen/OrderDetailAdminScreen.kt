@@ -1,6 +1,5 @@
 package com.example.damon.Screen
 
-import Product
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -20,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.damon.DataClass.Product
 import com.example.damon.R
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,6 +1,5 @@
 package com.example.damon.Screen
 
-import Product
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,10 +26,11 @@ import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.Navigation.ScreenRoute
 import com.example.damon.R
 import com.example.damon.ViewModel.AllViewModel
+import com.example.damon.ViewModel.SanPhamViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductList(navController: NavController, viewModel: AllViewModel) {
+fun ProductList(navController: NavController, viewModel: SanPhamViewModel) {
     // Trạng thái của từng menu
     var expandedKM by remember { mutableStateOf(false) } // Menu "Chương trình khuyến mãi"
     var expandedKC by remember { mutableStateOf(false) } // Menu "Kích cỡ"

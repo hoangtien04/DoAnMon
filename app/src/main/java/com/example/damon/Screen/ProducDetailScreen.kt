@@ -68,6 +68,7 @@ import retrofit2.http.Query
 @Composable
 fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: SanPhamViewModel) {
     val sanPhamDetail by viewModel.sanPhamDetail.collectAsState()
+
     LaunchedEffect(MaSP) {
         viewModel.getSanPhamDetailByID(maSP = MaSP.toInt())
     }
@@ -77,6 +78,7 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
     viewModel.getMauSacByID(MaSP.toInt())
     viewModel.getSizeByID(MaSP.toInt())
     viewModel.getKiemTraSPYeuThich(3,MaSP.toInt())
+
     val listMauSac:List<MauSac> = viewModel.listMauSac
     val listSize by viewModel.sizeDetail.collectAsState()
     val colors = listMauSac.map { it.MaHex }
@@ -237,10 +239,11 @@ fun ProductColorSelector(listMauSac: List<String>) {
 
 @Composable
 fun ProductSizeSelector(listSize:List<SizeDetail>) {
-    // Danh sách các kích cỡ
+    val defaultSize = remember(listSize) { listSize.firstOrNull()?.Size ?: "" }
 
-    // State lưu trạng thái của lựa chọn
-    var selectedSize by remember { mutableStateOf(listSize.firstOrNull()?.Size ?: "") }
+    // State cho kích thước được chọn, luôn làm mới khi danh sách thay đổi
+    var selectedSize by remember { mutableStateOf(defaultSize) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()

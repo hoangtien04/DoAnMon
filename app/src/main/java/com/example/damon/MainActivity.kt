@@ -16,6 +16,7 @@ import com.example.damon.Screen.ManagerScreen
 import com.example.damon.Screen.MemberScreen
 import com.example.damon.Screen.ProductList
 import com.example.damon.Screen.RegisterScreen
+import com.example.damon.ViewModel.AllViewModel
 import com.example.damon.ViewModel.SanPhamViewModel
 import com.example.damon.ui.theme.DAMONTheme
 
@@ -25,14 +26,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val apiService = RetrofitClient.apiService
         val repository = Repository(apiService)
-        val viewModel = SanPhamViewModel(repository)
+        val viewModel2 = SanPhamViewModel(repository)
+        val viewModel: AllViewModel by viewModels<AllViewModel>()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             DAMONTheme {
 
                 val navController = rememberNavController()
-                NavGraph(navController = navController,viewModel = viewModel)
+                NavGraph(navController = navController,viewModel = viewModel,viewModel2 = viewModel2)
 //                ProductList(viewModel)
 //                Scaffold(modifier = Modifier.fillMaxSize()) {
 //                    FullScreenProductList()
