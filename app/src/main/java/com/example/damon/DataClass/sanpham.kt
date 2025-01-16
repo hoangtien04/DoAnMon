@@ -22,3 +22,14 @@ data class sanphamResponse(
     val code:String,
     var url:String
 )
+
+data class SanPhamYeuThich(
+    val MaND:Int,
+    val MaSP:Int
+)
+
+data class SanPhamYeuThichResponse(
+    val protocol: String,
+    val code:String,
+    var url:String
+)

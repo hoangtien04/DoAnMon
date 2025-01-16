@@ -54,9 +54,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.media3.common.util.Log
 import coil.compose.AsyncImage
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamDetail
+import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SizeDetail
 import com.example.damon.ViewModel.SanPhamViewModel
 
@@ -126,7 +128,7 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
             verticalArrangement = Arrangement.spacedBy(7.dp)
         ) {
             item { ProductImage(sanPhamDetail.DuongDan) }
-            item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite) { isFavorite = !isFavorite } }
+            item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite,MaSP = MaSP, onFavoriteClick = { isFavorite = !isFavorite }, viewModel = viewModel)}
             item { ProductColorSelector(colors) }
             item { ProductSizeSelector(listSize) }
             item { ProductPriceAndRating(sanPhamDetail.DonGia) }
@@ -150,7 +152,7 @@ fun ProductImage(imageResId: String) {
 }
 
 @Composable
-fun ProductTitleRow(title: String, isFavorite: Boolean, onFavoriteClick: () -> Unit) {
+fun ProductTitleRow(title: String, isFavorite: Boolean, onFavoriteClick: () -> Unit,MaSP:String,viewModel: SanPhamViewModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -159,7 +161,15 @@ fun ProductTitleRow(title: String, isFavorite: Boolean, onFavoriteClick: () -> U
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = title, style = MaterialTheme.typography.titleLarge, color = Color.Black)
-        IconButton(onClick = onFavoriteClick) {
+        IconButton(
+            onClick = {
+                val sanPhamYeuThich = SanPhamYeuThich(
+                    MaND = 3,
+                    MaSP = MaSP.toInt()
+                )
+                viewModel.addSanPhamYeuThich(sanPhamYeuThich)
+
+        }) {
             Icon(
                 imageVector = if (isFavorite) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
                 contentDescription = "Favorite",

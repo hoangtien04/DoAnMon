@@ -3,6 +3,8 @@ package com.example.damon.APIService
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.DataClass.SanPhamDetail
+import com.example.damon.DataClass.SanPhamYeuThich
+import com.example.damon.DataClass.SanPhamYeuThichResponse
 import com.example.damon.DataClass.SizeDetail
 import com.example.damon.DataClass.sanphamResponse
 import retrofit2.Response
@@ -21,6 +23,11 @@ interface SanPhamAPIService {
     suspend fun getSanPhamDetailByID(
         @Path("MaSP") MaSP:Int,
     ):SanPhamDetail
+
+    @POST("/adddanhsachyeuthich")
+    suspend fun addSanPhamYeuThich(
+        @Body sanPhamYeuThich: SanPhamYeuThich
+    ): Response<SanPhamYeuThichResponse>
 
     @GET("/mausac/{MaSP}")
     suspend fun getMauSacByID(

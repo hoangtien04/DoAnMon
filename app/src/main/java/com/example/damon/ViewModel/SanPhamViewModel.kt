@@ -12,6 +12,7 @@ import com.example.damon.APIService.SanPhamRetrofitClient
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.DataClass.SanPhamDetail
+import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SizeDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 class SanPhamViewModel():ViewModel(){
     var listSanPham : List<SanPhamCard> by mutableStateOf(emptyList())
     var sanphamAddResult by mutableStateOf("")
+    var sanphamYeuThichAddResult by mutableStateOf("")
     var sanphamUpdateResult by mutableStateOf("")
     var sanpham: SanPhamCard by mutableStateOf(SanPhamCard(0,"","",0,""))
     var sanPhamDetail: SanPhamDetail by mutableStateOf(SanPhamDetail(0,"", "","",0,""))
@@ -72,7 +74,16 @@ class SanPhamViewModel():ViewModel(){
         }
     }
 
-
+    fun addSanPhamYeuThich(sanPhamYeuThich: SanPhamYeuThich){
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                sanphamYeuThichAddResult = SanPhamRetrofitClient.sanPhamAPIService.addSanPhamYeuThich(sanPhamYeuThich).message()
+            }
+            catch (e:Exception){
+                Log.e("SanPhamViewModel", "Error add san pham yeu thich", e)
+            }
+        }
+    }
 
 
 
