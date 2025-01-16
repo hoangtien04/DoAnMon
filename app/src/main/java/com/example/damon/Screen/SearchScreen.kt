@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +17,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -23,6 +27,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,12 +44,16 @@ import com.example.damon.Card.SearchDanhMucCard
 import com.example.damon.Navigation.NavItem
 import com.example.damon.Navigation.ScreenRoute
 import com.example.damon.R
+import com.example.damon.ViewModel.SanPhamViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SearchScreen(navController: NavController) {
+fun SearchScreen(navController: NavController,viewModel: SanPhamViewModel) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
+
+    viewModel.getLoaiSanPham()
+    val listLoaiSanPham by viewModel.loaiSanPham.collectAsState()
 
 
     Column(
@@ -51,21 +61,16 @@ fun SearchScreen(navController: NavController) {
             .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        LazyColumn(
+        LazyVerticalGrid (
+            columns = GridCells.Fixed(2),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(screenHeight * 0.71f)
-                .background(Color.White)
+                .background(Color.White),
+            verticalArrangement = Arrangement.spacedBy(5.dp),
         ) {
-            items(10) {
-                FlowRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(3.dp),
-                ) {
-                    SearchDanhMucCard()
-                    SearchDanhMucCard()
-                }
+            items(listLoaiSanPham) {
+                SearchDanhMucCard(it, onClick = {})
             }
         }
 
@@ -83,7 +88,7 @@ fun SearchScreen(navController: NavController) {
                     .border(0.5.dp, Color.Gray, RoundedCornerShape(100.dp))
                     .height(52.dp)
                     .clickable {
-                        navController.navigate(NavItem.Search2.route)
+                        navController.navigate(NavItem.ProductList.route)
                     },
                 contentAlignment = Alignment.Center
             ) {

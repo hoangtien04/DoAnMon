@@ -45,6 +45,15 @@ data class SanPhamYeuThichResponse(
     var url:String
 )
 
+data class SanPhamYeuThich(
+    val MaSP:Int,
+    val TenSP:String,
+    val DuongDan: String,
+    val DonGia: Int,
+    val MoTa: String,
+    val TenLoai: String
+)
+
 data class Product(
     var imageResId: Int,
     var title:String,

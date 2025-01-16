@@ -1,8 +1,10 @@
 package com.example.damon.APIService
 
+import com.example.damon.DataClass.LoaiSanPham
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.DataClass.SanPhamDetail
+import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SizeDetail
 import com.example.damon.DataClass.ThemSanPhamYeuThich
 
@@ -33,5 +35,13 @@ class Repository(private val apiService: SanPhamAPIService) {
 
     suspend fun getSizeBySanPhamID(MaSP: Int): List<SizeDetail> {
         return apiService.getSizeByID(MaSP)
+    }
+
+    suspend fun getSanPhamYeuThich(MaND: Int): List<SanPhamYeuThich> {
+        return apiService.getSanPhamYeuThich(MaND)
+    }
+
+    suspend fun getLoaiSanPham(): List<LoaiSanPham> {
+        return apiService.getDanhMucSanPham()
     }
 }

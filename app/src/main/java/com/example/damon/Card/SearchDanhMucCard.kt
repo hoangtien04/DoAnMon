@@ -2,8 +2,10 @@ package com.example.damon.Card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,34 +23,34 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.damon.DataClass.LoaiSanPham
 import com.example.damon.R
-@Preview
 @Composable
-fun SearchDanhMucCard() {
+fun SearchDanhMucCard(
+    loaiDanhMuc:LoaiSanPham,
+    onClick: () -> Unit
+) {
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
-    val screenHeigh = configuration.screenHeightDp.dp
     Card(
         modifier = Modifier
             .padding(7.dp, bottom = 0.dp, top = 0.dp)
             .width(screenWidth * 0.47f)
-            .height(60.dp),
+            .height(60.dp)
+            .clickable {  },
         shape = RoundedCornerShape(0.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().background(Color(0xFFf2f2f2)),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxSize().background(Color(0xFFf2f2f2)),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ){
-            Image(painter = painterResource(R.drawable.anh1), contentDescription = null)
             Text(
-                text = "ÁO KHOÁC LEN DAI TAY",
-                modifier = Modifier.padding(start = 7.dp,end = 7.dp),
+                text = loaiDanhMuc.TenLoai,
                 textAlign = TextAlign.Center,
                 color = Color.Black,
-                fontSize = 13.sp
+                fontSize = 18.sp
             )
         }
-
     }
 }

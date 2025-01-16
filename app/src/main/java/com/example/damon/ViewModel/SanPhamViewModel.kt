@@ -10,9 +10,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.damon.APIService.Repository
 import com.example.damon.DataClass.KiemTraSanPhamYeuThich
+import com.example.damon.DataClass.LoaiSanPham
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.DataClass.SanPhamDetail
+import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SizeDetail
 import com.example.damon.DataClass.ThemSanPhamYeuThich
 import kotlinx.coroutines.Dispatchers
@@ -28,11 +30,15 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
     private val _listSanPham = MutableStateFlow<List<SanPhamCard>>(emptyList())
     val listSanPham: StateFlow<List<SanPhamCard>> get() = _listSanPham
 
+    private val _filteredSanPham = MutableStateFlow<List<SanPhamCard>>(emptyList())
+    val filteredSanPham: StateFlow<List<SanPhamCard>> get() = _filteredSanPham
+
     fun getAllSanPham() {
         viewModelScope.launch {
             try {
                 val sanPhamCard = repository.getAllSanPhamCard()
                 _listSanPham.value = sanPhamCard
+                _filteredSanPham.value = sanPhamCard
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -117,6 +123,51 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
             }
         }
     }
+
+    private val _sanPhamYeuThich = MutableStateFlow<List<SanPhamYeuThich>>(emptyList())
+    val SanPhamYeuThich: StateFlow<List<SanPhamYeuThich>> get() = _sanPhamYeuThich
+
+    fun getSanPhamyeuThich(MaND:Int){
+        viewModelScope.launch {
+            try {
+                val sanPhamYeuThich = repository.getSanPhamYeuThich(MaND)
+                _sanPhamYeuThich.value = sanPhamYeuThich
+            } catch (e: Exception) {
+                Log.e("SanPhamViewModel", "Error: ${e.message}")
+            }
+        }
+    }
+
+    private val _loaiSanPham = MutableStateFlow<List<LoaiSanPham>>(emptyList())
+    val loaiSanPham: StateFlow<List<LoaiSanPham>> get() = _loaiSanPham
+
+    fun getLoaiSanPham(){
+        viewModelScope.launch {
+            try {
+                val loaiSanPham = repository.getLoaiSanPham()
+                _loaiSanPham.value = loaiSanPham
+            } catch (e: Exception) {
+                Log.e("SanPhamViewModel", "Error: ${e.message}")
+            }
+        }
+    }
+
+
+
+
+
+    fun searchSanPham(query: String) {
+        viewModelScope.launch {
+            if (query.isBlank()) {
+                _filteredSanPham.value = _listSanPham.value // Hiển thị toàn bộ nếu từ khóa rỗng
+            } else {
+                _filteredSanPham.value = _listSanPham.value.filter {
+                    it.TenSP.contains(query, ignoreCase = true) // Lọc theo tên sản phẩm
+                }
+            }
+        }
+    }
+
 }
 
 

@@ -1,6 +1,7 @@
 package com.example.damon.Screen
 
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,26 +43,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.damon.ViewModel.AllViewModel
+import com.example.damon.ViewModel.SanPhamViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchScreen2(navController: NavController,viewModel: AllViewModel) {
+fun SearchScreen2(navController: NavController,viewModel: SanPhamViewModel) {
     var searchText  by remember{ mutableStateOf("")}
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    TextField(
-                        value = searchText,
-                        onValueChange = {searchText = it},
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.LightGray,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        ),
-                        modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("Bạn đang tìm sản phẩm gì?")}
-                    )
+                    SearchBar(onSearch = {
+                        query ->
+                        viewModel.searchSanPham(query)
+                    })
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -74,29 +70,27 @@ fun SearchScreen2(navController: NavController,viewModel: AllViewModel) {
                 }
             )
         }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                TextButton(onClick = {  }) {
-                    Text("Tất cả", textAlign = TextAlign.Center,
-                        fontSize = 20.sp, color = Color.Black)
-                }
-                TextButton(onClick = {  }) {
-                    Text("Danh mục", textAlign = TextAlign.Center, fontSize = 20.sp,
-                        color = Color.Gray)
-                }
-            }
-            Divider(color = Color.Gray, modifier = Modifier.height(1.dp).fillMaxWidth())
-        }
+    ) {
+        ProductList(navController, viewModel = viewModel,searchText = searchText)
     }
+}
+
+@Composable
+fun SearchBar(onSearch: (String) -> Unit) {
+    var query by remember { mutableStateOf("") }
+
+    TextField(
+        value = query,
+        onValueChange = {
+            query = it
+            onSearch(it)
+        },
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        textStyle = TextStyle(fontSize = 17.sp),
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = { Text("Bạn đang tìm sản phẩm gì?",fontSize = 17.sp)}
+    )
 }

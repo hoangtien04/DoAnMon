@@ -64,7 +64,7 @@ fun CartScreen(navController: NavController, viewModel: AllViewModel) {
             ) {
                 Column(
                     modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.Start
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Tổng cộng:",

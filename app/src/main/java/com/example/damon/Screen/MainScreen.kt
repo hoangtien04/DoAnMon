@@ -108,7 +108,8 @@ fun MainScreen(navRootController: NavHostController,viewModel: AllViewModel,view
             NavigationBarGraph(
                 navItemController = navItemController,
                 navRootController = navRootController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                viewModel2 = viewModel2
             )
         }
     }

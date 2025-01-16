@@ -69,7 +69,7 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
             CartScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = ScreenRoute.Favourite.route) {
-            FavouriteScreen(navController = navController, viewModel = viewModel)
+            FavouriteScreen(navController = navController, viewModel = viewModel2,viewModelAll = viewModel)
         }
         composable(
             route = ScreenRoute.Oder.route,
@@ -91,7 +91,7 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
             RatingScreen(navController = navController)
         }
         composable(route = NavItem.Search2.route) {
-            SearchScreen2(navController = navController,viewModel = viewModel)
+            SearchScreen2(navController = navController,viewModel = viewModel2)
         }
         composable(route = ScreenRoute.ProductList.route) {
             ProductList(navController,viewModel2)
@@ -104,19 +104,22 @@ sealed class NavItem(val icon: ImageVector, val route: String) {
     object Search : NavItem(Icons.Default.Search, "search_screen")
     object Manager : NavItem(Icons.Default.Person, "manager_screen")
     object Search2 : NavItem(Icons.Default.Search, "search2_screen")
+    object ProductList : ScreenRoute("productlist_screen")
+
 }
 
 @Composable
 fun NavigationBarGraph(
     navItemController: NavHostController, navRootController: NavHostController,
-    viewModel: AllViewModel
+    viewModel: AllViewModel,
+    viewModel2: SanPhamViewModel
 ) {
     NavHost(navController = navItemController, startDestination = NavItem.Home.route) {
         composable(route = NavItem.Home.route) {
 //            ProductList(navItemController,viewModel)
         }
         composable(route = NavItem.Search.route) {
-            SearchScreen(navController = navRootController)
+            SearchScreen(navController = navRootController,viewModel2)
         }
         composable(route = NavItem.Manager.route) {
             ManagerScreen(navController = navRootController, viewModel = viewModel)

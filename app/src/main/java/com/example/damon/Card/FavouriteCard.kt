@@ -2,6 +2,7 @@ package com.example.damon.Card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,14 +38,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.example.damon.DataClass.SanPhamCard
+import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.YeuThich
 import com.example.damon.R
 
 
 @Composable
-fun FavouriteCard(yeuthich: YeuThich) {
+fun FavouriteCard(sanPhamYeuThich: SanPhamYeuThich,onClick: () -> Unit,) {
     Card(
-        modifier = Modifier.padding(7.dp,3.dp),
+        modifier = Modifier.padding(7.dp,3.dp).clickable { onClick() },
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFFCECECE)
         )
@@ -56,9 +60,9 @@ fun FavouriteCard(yeuthich: YeuThich) {
                 .padding(12.dp)
         ) {
             Row {
-                Image(
-                    painter = painterResource(id = R.drawable.anh1),
-                    contentDescription = null,
+                AsyncImage(
+                    model = sanPhamYeuThich.DuongDan,
+                    contentDescription = "Product Image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .weight(4f)
@@ -70,7 +74,7 @@ fun FavouriteCard(yeuthich: YeuThich) {
                         .padding(start = 16.dp, top = 3.dp)
                 ) {
                     Text(
-                        yeuthich.TenSP,
+                        sanPhamYeuThich.TenSP,
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 20.sp,
@@ -79,15 +83,15 @@ fun FavouriteCard(yeuthich: YeuThich) {
                     )
                     Spacer(modifier = Modifier.height(20.dp))
                     Text(
-                        yeuthich.DonGia.toString(),
+                        sanPhamYeuThich.DonGia.toString(),
                         style = TextStyle(
                             color = Color.Red,
-                            fontSize = 16.sp,
+                            fontSize = 19.sp,
                         )
                     )
                     Spacer(modifier = Modifier.height(7.dp))
                     Text(
-                        "Mô tả: ${yeuthich.MoTa}",
+                        "Mô tả: ${sanPhamYeuThich.MoTa}",
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 16.sp,

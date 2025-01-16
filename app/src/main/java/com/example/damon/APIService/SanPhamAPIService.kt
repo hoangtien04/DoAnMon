@@ -1,9 +1,11 @@
 package com.example.damon.APIService
 
 import com.example.damon.DataClass.KiemTraSanPhamYeuThich
+import com.example.damon.DataClass.LoaiSanPham
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.DataClass.SanPhamDetail
+import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SanPhamYeuThichResponse
 import com.example.damon.DataClass.SizeDetail
 import com.example.damon.DataClass.ThemSanPhamYeuThich
@@ -73,5 +75,14 @@ interface SanPhamAPIService {
         @Path("mand") userId: Int,
         @Path("masp") productId: Int
     ): Boolean
+
+    @GET("/nguoidung/{MaND}/sanphamyeuthich")
+    suspend fun getSanPhamYeuThich(
+        @Path("MaND") MaND:Int,
+    ):List<SanPhamYeuThich>
+
+    @GET("/danhmuc")
+    suspend fun getDanhMucSanPham():List<LoaiSanPham>
+
 
 }
