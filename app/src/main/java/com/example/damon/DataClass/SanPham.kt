@@ -29,3 +29,24 @@ data class sanphamResponse(
     val code:String,
     var url:String
 )
+
+data class ThemSanPhamYeuThich(
+    val MaND:Int,
+    val MaSP:Int
+)
+
+data class KiemTraSanPhamYeuThich(
+    val YeuThich:Boolean
+)
+
+data class SanPhamYeuThichResponse(
+    val protocol: String,
+    val code:String,
+    var url:String
+)
+
+data class Product(
+    var imageResId: Int,
+    var title:String,
+    var subtitle:String
+)

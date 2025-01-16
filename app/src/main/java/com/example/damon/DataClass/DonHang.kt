@@ -9,7 +9,7 @@ data class DonHang(
     val TongTien:Int,
     val PhuongThucTT:String,
     val TrangThaiTT:String,
-    val TrangThaiDH:String
+    var TrangThaiDH:Int
 )
 data class DonHangResponse(
     val protocol: String,

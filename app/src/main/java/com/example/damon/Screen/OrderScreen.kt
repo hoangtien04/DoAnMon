@@ -16,13 +16,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.damon.R
+import com.example.damon.ViewModel.AllViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.*
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun OrderScreen(navController: NavController, initialTab: Int = 0) {
+fun OrderScreen(navController: NavController, initialTab: Int = 0, viewModel: AllViewModel) {
     var selectedTab by remember { mutableStateOf(initialTab) }
     val tabs = listOf("Chờ xác nhận", "Chờ lấy hàng", "Chờ giao hàng", "Đánh giá", "Hủy đơn hàng")
 

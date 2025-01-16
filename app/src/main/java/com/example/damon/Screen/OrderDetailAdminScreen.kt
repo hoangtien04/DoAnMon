@@ -1,6 +1,5 @@
 package com.example.damon.Screen
 
-import Product
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -20,12 +19,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.damon.DataClass.Product
 import com.example.damon.R
+import com.example.damon.ViewModel.AllViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun OrderDetailAdminScreen(/*product: Product, customerName: String, customerPhone: String, customerAddress: String, orderStatus: String*/) {
+fun OrderDetailAdminScreen(navController: NavController,viewModel: AllViewModel,id:Int=0) {
+
+
     val product = Product(
         imageResId = R.drawable.anh1,
         title = "Áo len nam",

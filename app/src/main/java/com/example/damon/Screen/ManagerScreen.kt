@@ -32,7 +32,7 @@ import com.example.damon.ViewModel.AllViewModel
 fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
     var menuItems = listOf(
         "Hồ sơ" to { navController.navigate(ScreenRoute.Member.route) },
-        "Admin" to {}
+        "Admin" to {navController.navigate(ScreenRoute.Admin.route)}
     )
     Column(
         modifier = Modifier
@@ -40,7 +40,7 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
             .background(Color.White)
     ) {
         AccountHeader()
-        PurchaseStatusHeader(navController)
+        PurchaseStatusHeader(navController,viewModel)
 
 
         Column(modifier = Modifier.fillMaxWidth()) {
@@ -66,7 +66,7 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
             }
         }
         viewModel.kiemtratrangthai()
-        var trangthai:Boolean = viewModel.trangthaiDangNhap
+        var trangthai = viewModel.trangthaiDangNhap
         if(!trangthai) {
             Text(
                 text = "Đăng nhập",
@@ -88,7 +88,8 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
                     },
                 fontSize = 18.sp
             )
-        }else{
+        }
+        if(trangthai){
             Text(
                 text = "Đăng xuất",
                 color = Color.Black,
@@ -116,7 +117,7 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
 }
 
 @Composable
-fun PurchaseStatusHeader(navController: NavController) {
+fun PurchaseStatusHeader(navController: NavController, viewModel: AllViewModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,29 +134,33 @@ fun PurchaseStatusHeader(navController: NavController) {
             PurchaseStatusItem(
                 iconResId = R.drawable.box_archive_solid,
                 label = "Chờ xác nhận",
-                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(0))}
+                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(0))},
+                viewModel
             )
             PurchaseStatusItem(
                 iconResId = R.drawable.box_solid,
                 label = "Chờ lấy hàng",
-                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(1))}
+                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(1))},
+                viewModel
             )
             PurchaseStatusItem(
                 iconResId = R.drawable.truck_solid,
                 label = "Chờ giao hàng",
-                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(2))}
+                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(2))},
+                viewModel
             )
             PurchaseStatusItem(
                 iconResId = R.drawable.star_solid,
                 label = "Đánh giá",
-                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(3))}
+                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(3))},
+                viewModel
             )
         }
     }
 }
 
 @Composable
-fun PurchaseStatusItem(iconResId: Int, label: String, onClickCard: () -> Unit) {
+fun PurchaseStatusItem(iconResId: Int, label: String, onClickCard: () -> Unit, viewModel: AllViewModel) {
     Card(
         onClick = onClickCard,
         modifier = Modifier

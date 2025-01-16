@@ -1,13 +1,11 @@
 package com.example.damon.Navigation
 
-import FullScreenProductList
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.damon.Screen.*
 import com.example.damon.ViewModel.AllViewModel
+import com.example.damon.ViewModel.SanPhamViewModel
 
 sealed class ScreenRoute(val route: String) {
     object Main : ScreenRoute("main_screen")
@@ -30,6 +29,8 @@ sealed class ScreenRoute(val route: String) {
     object Oder : ScreenRoute("oder_screen/{selectedTab}") {
         fun createRoute(selectedTab: Int) = "oder_screen/$selectedTab"
     }
+    object Admin:ScreenRoute("admin")
+    object DetailDonHang:ScreenRoute("detaildonhang")
 
     object WaitingForConfirmation : ScreenRoute("waiting_for_confirmation_screen")
     object WaitingForPickup : ScreenRoute("waiting_for_pickup_screen")
@@ -38,13 +39,13 @@ sealed class ScreenRoute(val route: String) {
 }
 
 @Composable
-fun NavGraph(navController: NavHostController,viewModel: AllViewModel) {
+fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2: SanPhamViewModel) {
     NavHost(
         navController = navController,
         startDestination = ScreenRoute.Main.route
     ) {
         composable(route = ScreenRoute.Main.route) {
-            MainScreen(navRootController = navController, viewModel = viewModel)
+            MainScreen(navRootController = navController,viewModel = viewModel ,viewModel2 = viewModel2)
         }
         composable(route = ScreenRoute.EditProfile.route) {
             EditProfile(navController = navController, viewModel = viewModel)
@@ -64,7 +65,7 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel) {
         ) {
             var MaSP = it.arguments?.getString("MaSP")
             if(MaSP!=null)
-            ProductDetailScreen(navController = navController,MaSP,viewModel)
+            ProductDetailScreen(navController = navController,MaSP,viewModel2)
         }
         composable(route = ScreenRoute.Cart.route) {
             CartScreen(navController = navController, viewModel = viewModel)
@@ -77,7 +78,7 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel) {
             arguments = listOf(navArgument("selectedTab") { type = NavType.IntType })
         ) { backStackEntry ->
             val selectedTab = backStackEntry.arguments?.getInt("selectedTab") ?: 0
-            OrderScreen(navController = navController, initialTab = selectedTab)
+            OrderScreen(navController = navController, initialTab = selectedTab,viewModel)
         }
         composable(route = ScreenRoute.WaitingForConfirmation.route) {
             WaitingForConfirmationScreen(navController = navController)
@@ -95,7 +96,20 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel) {
             SearchScreen2(navController = navController,viewModel = viewModel)
         }
         composable(route = ScreenRoute.ProductList.route) {
-            ProductList(navController,viewModel)
+            ProductList(navController,viewModel2)
+        }
+
+        composable(route = ScreenRoute.Admin.route) {
+            OrderConfirmationScreen(navController = navController,viewModel = viewModel)
+        }
+
+        composable(ScreenRoute.DetailDonHang.route+"?id={id}"){
+            var id = it.arguments?.getString("id")
+            if (id!=null){
+                OrderDetailAdminScreen(navController,viewModel,id.toInt())
+            }else{
+                OrderDetailAdminScreen(navController,viewModel)
+            }
         }
     }
 }
@@ -108,7 +122,10 @@ sealed class NavItem(val icon: ImageVector, val route: String) {
 }
 
 @Composable
-fun NavigationBarGraph(navItemController: NavHostController, navRootController: NavHostController,viewModel: AllViewModel) {
+fun NavigationBarGraph(
+    navItemController: NavHostController, navRootController: NavHostController,
+    viewModel: AllViewModel
+) {
     NavHost(navController = navItemController, startDestination = NavItem.Home.route) {
         composable(route = NavItem.Home.route) {
 //            ProductList(navItemController,viewModel)

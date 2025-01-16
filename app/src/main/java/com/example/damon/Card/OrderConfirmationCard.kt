@@ -1,6 +1,5 @@
 package com.example.damon.Card
 
-import Product
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,6 +8,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,12 +22,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.damon.DataClass.DonHang
 import com.example.damon.R
 
 @Composable
-fun OrderConfirmationCard(product: Product, orderId: String = "001", orderStatus: String = "Chờ xác thực") {
+fun OrderConfirmationCard( donHang: DonHang,onClick: () -> Unit) {
     val quantity = 3
-
+    var trangthai by remember { mutableStateOf("") }
+    if(donHang.TrangThaiDH==1){
+        trangthai = "Chờ xác nhận"
+    }else{
+        if (donHang.TrangThaiDH==2){
+            trangthai = "Chờ lấy hàng"
+        }else{
+            if (donHang.TrangThaiDH==3){
+                trangthai = "Chờ giao hàng"
+            }else{
+                if (donHang.TrangThaiDH==4){
+                    trangthai = "Đánh giá"
+                }else{
+                    trangthai = "Hủy đơn hàng"
+                }
+            }
+        }
+    }
     Box(modifier = Modifier.fillMaxWidth()) {
         Card(
             modifier = Modifier
@@ -33,7 +54,8 @@ fun OrderConfirmationCard(product: Product, orderId: String = "001", orderStatus
             colors = CardDefaults.cardColors(
                 containerColor = Color(0xFFCECECE)
             ),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            onClick = {onClick}
         ) {
             Column(
                 modifier = Modifier
@@ -46,7 +68,7 @@ fun OrderConfirmationCard(product: Product, orderId: String = "001", orderStatus
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Mã đơn hàng: $orderId",
+                            text = "Mã đơn hàng: ${donHang.MaDH}",
                             style = TextStyle(
                                 color = Color.Black,
                                 fontSize = 16.sp,
@@ -55,7 +77,8 @@ fun OrderConfirmationCard(product: Product, orderId: String = "001", orderStatus
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
-                            text = "Trạng thái: $orderStatus",
+
+                            text = "Trạng thái: $trangthai",
                             style = TextStyle(
                                 color = Color.Black,
                                 fontSize = 16.sp
@@ -80,7 +103,7 @@ fun OrderConfirmationCard(product: Product, orderId: String = "001", orderStatus
                     }
                 }
 
-                if (orderStatus == "Chờ xác thực") {
+                if (trangthai == "Chờ xác thực") {
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Row(

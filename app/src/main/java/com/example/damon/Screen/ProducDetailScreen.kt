@@ -34,6 +34,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -58,26 +59,30 @@ import coil.compose.AsyncImage
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamDetail
 import com.example.damon.DataClass.SizeDetail
-import com.example.damon.ViewModel.AllViewModel
+import com.example.damon.DataClass.ThemSanPhamYeuThich
+import com.example.damon.ViewModel.SanPhamViewModel
+import retrofit2.http.Query
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: AllViewModel) {
-    var sanPhamDetail: SanPhamDetail by remember { mutableStateOf(SanPhamDetail(0,"", "","",0,"")) }
+fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: SanPhamViewModel) {
+    val sanPhamDetail by viewModel.sanPhamDetail.collectAsState()
+
+    LaunchedEffect(MaSP) {
+        viewModel.getSanPhamDetailByID(maSP = MaSP.toInt())
+    }
+
+
     viewModel.getSanPhamDetailByID(MaSP.toInt())
-    sanPhamDetail = viewModel.sanPhamDetail
     viewModel.getMauSacByID(MaSP.toInt())
     viewModel.getSizeByID(MaSP.toInt())
-    val listMauSac:List<MauSac> = viewModel.listMauSac
-    val listSize:List<SizeDetail> = viewModel.listSize
-    var isFavorite by remember { mutableStateOf(false) }
-    val colors = listMauSac.map { it.MaHex }
+    viewModel.getKiemTraSPYeuThich(3,MaSP.toInt())
 
-    val nguoidung  = viewModel.nguoidungtaikhoan
-    viewModel.kiemtratrangthai()
-    val trangthaiDangNhap = viewModel.trangthaiDangNhap
-    val danhsachyeuthich = viewModel.listYeuThich
+    val listMauSac:List<MauSac> = viewModel.listMauSac
+    val listSize by viewModel.sizeDetail.collectAsState()
+    val colors = listMauSac.map { it.MaHex }
+    val isFavorite by viewModel.kiemTraSPYeuThich.collectAsState()
 
 
     Scaffold(
@@ -132,7 +137,14 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
             verticalArrangement = Arrangement.spacedBy(7.dp)
         ) {
             item { ProductImage(sanPhamDetail.DuongDan) }
-            item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite) { isFavorite = !isFavorite } }
+            item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite) {
+                if (isFavorite) {
+
+                    viewModel.deleteSPYeuThich(3, MaSP.toInt())
+                } else {
+                    viewModel.addSanPhamYeuThich(ThemSanPhamYeuThich(3, MaSP.toInt()))
+                }
+            }}
             item { ProductColorSelector(colors) }
             item { ProductSizeSelector(listSize) }
             item { ProductPriceAndRating(sanPhamDetail.DonGia) }
@@ -156,7 +168,11 @@ fun ProductImage(imageResId: String) {
 }
 
 @Composable
-fun ProductTitleRow(title: String, isFavorite: Boolean, onFavoriteClick: () -> Unit) {
+fun ProductTitleRow(
+    title: String,
+    isFavorite: Boolean,
+    onFavoriteClick: () -> Unit,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -165,7 +181,8 @@ fun ProductTitleRow(title: String, isFavorite: Boolean, onFavoriteClick: () -> U
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = title, style = MaterialTheme.typography.titleLarge, color = Color.Black)
-        IconButton(onClick = onFavoriteClick) {
+        IconButton(
+            onClick =  onFavoriteClick) {
             Icon(
                 imageVector = if (isFavorite) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
                 contentDescription = "Favorite",
@@ -222,10 +239,11 @@ fun ProductColorSelector(listMauSac: List<String>) {
 
 @Composable
 fun ProductSizeSelector(listSize:List<SizeDetail>) {
-    // Danh sách các kích cỡ
+    val defaultSize = remember(listSize) { listSize.firstOrNull()?.Size ?: "" }
 
-    // State lưu trạng thái của lựa chọn
-    var selectedSize by remember { mutableStateOf(listSize.firstOrNull()?.Size ?: "") }
+    // State cho kích thước được chọn, luôn làm mới khi danh sách thay đổi
+    var selectedSize by remember { mutableStateOf(defaultSize) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()

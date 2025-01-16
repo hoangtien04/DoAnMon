@@ -4,11 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.damon.APIService.SanPhamRetrofitClient
 import com.example.damon.DataClass.ChiTietDonHang
 import com.example.damon.DataClass.ChiTietSanPham
 import com.example.damon.DataClass.DiaChiGiaoHang
@@ -63,105 +60,6 @@ class AllViewModel: ViewModel(){
 
     var listSize : List<SizeDetail> by mutableStateOf(emptyList())
 
-    fun getAllSanPham(){
-        viewModelScope.launch {
-            try{
-                listSanPham = SanPhamRetrofitClient.sanPhamAPIService.getAllSanPham()
-            }
-            catch (e:Exception){
-                Log.e("SanPhamViewModel","Error: ${e.message}")
-            }
-        }
-    }
-
-    fun getSanPhamDetailByID(MaSP:Int){
-        viewModelScope.launch (Dispatchers.IO){
-            try{
-                sanPhamDetail = SanPhamRetrofitClient.sanPhamAPIService.getSanPhamDetailByID(MaSP)
-            }
-            catch (e:Exception){
-                Log.e("SanPhamViewModel","Error: ${e.message}")
-            }
-        }
-    }
-
-    fun getMauSacByID(MaSP:Int){
-        viewModelScope.launch (Dispatchers.IO){
-            try{
-                listMauSac = SanPhamRetrofitClient.sanPhamAPIService.getMauSacByID(MaSP)
-            }
-            catch (e:Exception){
-                Log.e("SanPhamViewModel","Error: ${e.message}")
-            }
-        }
-    }
-
-    fun getSizeByID(MaSP:Int){
-        viewModelScope.launch (Dispatchers.IO){
-            try{
-                listSize = SanPhamRetrofitClient.sanPhamAPIService.getSizeByID(MaSP)
-            }
-            catch (e:Exception){
-                Log.e("SanPhamViewModel","Error: ${e.message}")
-            }
-        }
-    }
-
-
-
-
-
-    fun getSanPhamByID(MaSP:Int){
-        viewModelScope.launch (Dispatchers.IO){
-            try{
-                sanpham = SanPhamRetrofitClient.sanPhamAPIService.getSanPhamByID(MaSP)
-            }
-            catch (e:Exception){
-                Log.e("SanPhamViewModel","Error: ${e.message}")
-            }
-        }
-    }
-    fun addSanPham(sanpham: SanPhamCard){
-        viewModelScope.launch (Dispatchers.IO) {
-            try {
-                sanphamAddResult = SanPhamRetrofitClient.sanPhamAPIService.toString()
-                listSanPham = SanPhamRetrofitClient.sanPhamAPIService.getAllSanPham()
-            } catch (e: Exception) {
-                Log.e("SanPhamViewModel", "Error: ${e.message}")
-            }
-        }
-    }
-
-    fun updateSanPham(MaSP: Int, sanpham: SanPhamCard) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try{
-                sanphamUpdateResult = SanPhamRetrofitClient.sanPhamAPIService.updateSanPham(MaSP, sanpham).toString()
-                listSanPham = SanPhamRetrofitClient.sanPhamAPIService.getAllSanPham()
-            }
-            catch (e:Exception){
-                Log.e("SanPhamViewModel","Error: ${e.message}")
-            }
-        }
-    }
-
-    fun newSanPham() : Int{
-        if(listSanPham.isEmpty()){
-            return 1
-        }
-        return listSanPham.maxOf{ it.MaSP.toInt() } + 1
-    }
-
-    suspend fun deleteSanPham(MaSP: Int) {
-        viewModelScope.launch(Dispatchers.IO){
-            try{
-                SanPhamRetrofitClient.sanPhamAPIService.deleteSanPham(MaSP)
-                listSanPham = SanPhamRetrofitClient.sanPhamAPIService.getAllSanPham()
-            }
-            catch (e:Exception){
-                Log.e("SanPhamViewModel","Error: ${e.message}")
-            }
-        }
-    }
 
     var listNguoiDung:List<NguoiDung> by mutableStateOf(emptyList())
     var nguoidungaddResult by mutableStateOf("")
@@ -306,7 +204,7 @@ class AllViewModel: ViewModel(){
     var listDonHang:List<DonHang> by mutableStateOf(emptyList())
     var donhangaddResult by mutableStateOf("")
     var donhangupdateResult by mutableStateOf("")
-    var donhang: DonHang by mutableStateOf(DonHang(0,0,0,"","",0,"","",""))
+    var donhang: DonHang by mutableStateOf(DonHang(0,0,0,"","",0,"","",0))
 
     //Đơn Hàng
     fun getAllDonHang() {

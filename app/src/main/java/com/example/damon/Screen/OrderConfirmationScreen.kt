@@ -1,6 +1,5 @@
 package com.example.damon.Screen
 
-import Product
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -32,25 +31,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.damon.Card.OrderConfirmationCard
+import com.example.damon.DataClass.DonHang
+import com.example.damon.DataClass.Product
+import com.example.damon.DataClass.YeuThich
 import com.example.damon.R
 import com.example.damon.Navigation.ScreenRoute
+import com.example.damon.ViewModel.AllViewModel
 
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OrderConfirmationScreen(){
-    val productList = listOf(
-        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
-        Product(R.drawable.anh1, "Áo hoodie", "Phong cách trẻ trung"),
-        Product(R.drawable.anh1, "Áo khoác dạ", "Thời thượng và ấm áp"),
-        Product(R.drawable.anh1, "Áo sơ mi", "Lịch sự, sang trọng")
-    )
+fun OrderConfirmationScreen(navController: NavController, viewModel: AllViewModel){
+    viewModel.getAllDonHang()
+    var listDonHang: List<DonHang> = viewModel.listDonHang
     Scaffold(
         topBar = {
             TopAppBar(
@@ -58,6 +55,7 @@ fun OrderConfirmationScreen(){
                     IconButton(
                         modifier = Modifier.size(65.dp).clip(CircleShape),
                         onClick = {
+                            navController.navigate(ScreenRoute.Main.route)
                         },
                     ){
                         Icon(painter = painterResource(id = R.drawable.user_group_solid),
@@ -79,6 +77,7 @@ fun OrderConfirmationScreen(){
                     IconButton(
                         modifier = Modifier.size(65.dp).clip(CircleShape),
                         onClick = {
+
                         },
                     ){
                         Icon(painter = painterResource(id = R.drawable.filter_solid),
@@ -91,8 +90,12 @@ fun OrderConfirmationScreen(){
         }
     ) {padding->
         LazyColumn(modifier = Modifier.padding(padding)) {
-            items(productList){
-                OrderConfirmationCard(product =it)
+            items(listDonHang){
+                OrderConfirmationCard(donHang = it,{
+                    navController.navigate(
+                        ScreenRoute.DetailDonHang.route + "?id=${it.MaDH}"
+                    )
+                })
             }
         }
     }
