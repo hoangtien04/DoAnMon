@@ -17,18 +17,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.damon.Card.CartItemCard
+import com.example.damon.DataClass.GioHang
+import com.example.damon.DataClass.YeuThich
 import com.example.damon.R
+import com.example.damon.ViewModel.AllViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CartScreen(navController: NavController) {
-    val productList = listOf(
-        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
-        Product(R.drawable.anh1, "Áo hoodie", "Phong cách trẻ trung"),
-        Product(R.drawable.anh1, "Áo khoác dạ", "Thời thượng và ấm áp"),
-        Product(R.drawable.anh1, "Áo sơ mi", "Lịch sự, sang trọng")
-    )
+fun CartScreen(navController: NavController, viewModel: AllViewModel) {
+    viewModel.getAllGioHang(viewModel.nguoidungdangnhap.MaND)
+    var listGioHang: List<GioHang> = viewModel.listGioHang
+
 
     Scaffold(
         topBar = {
@@ -104,8 +104,8 @@ fun CartScreen(navController: NavController) {
                 .padding(padding)
                 .padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
-            items(productList) { product ->
-                CartItemCard(product = product)
+            items(listGioHang) { giohang ->
+                CartItemCard(gioHang = giohang, viewModel = viewModel)
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }

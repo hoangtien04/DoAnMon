@@ -52,12 +52,12 @@ import com.example.damon.Navigation.NavigationAppBar
 import com.example.damon.Navigation.NavigationBarGraph
 import com.example.damon.Navigation.ScreenRoute
 import com.example.damon.R
-import com.example.damon.ViewModel.SanPhamViewModel
+import com.example.damon.ViewModel.AllViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navRootController: NavHostController,viewModel: SanPhamViewModel) {
+fun MainScreen(navRootController: NavHostController,viewModel: AllViewModel) {
     val navItemController = rememberNavController()
     val currentBackStackEntry by navItemController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
@@ -125,7 +125,7 @@ fun MainScreen(navRootController: NavHostController,viewModel: SanPhamViewModel)
             NavigationBarGraph(
                 navItemController = navItemController,
                 navRootController = navRootController,
-                viewModel = SanPhamViewModel()
+                viewModel = AllViewModel()
             )
         }
     }

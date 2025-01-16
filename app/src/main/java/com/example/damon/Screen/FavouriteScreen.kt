@@ -21,20 +21,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.damon.Card.FavouriteCard
+import com.example.damon.DataClass.SanPhamCard
+import com.example.damon.DataClass.YeuThich
 import com.example.damon.Navigation.ScreenRoute
 import com.example.damon.R
+import com.example.damon.ViewModel.AllViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavouriteScreen(navController: NavController) {
-    val productList = listOf(
-        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
-        Product(R.drawable.anh1, "Áo hoodie", "Phong cách trẻ trung"),
-        Product(R.drawable.anh1, "Áo khoác dạ", "Thời thượng và ấm áp"),
-        Product(R.drawable.anh1, "Áo sơ mi", "Lịch sự, sang trọng")
-    )
-
+fun FavouriteScreen(navController: NavController, viewModel: AllViewModel) {
+    viewModel.getAllDanhSachYeuThichCuaNguoiDung(viewModel.nguoidungdangnhap.MaND)
+    var listSanPham: List<YeuThich> = viewModel.listYeuThich
     Scaffold(
         topBar = {
             TopAppBar(
@@ -83,8 +81,8 @@ fun FavouriteScreen(navController: NavController) {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(productList) { product ->
-                FavouriteCard(product = product)
+            items(listSanPham) { product ->
+                FavouriteCard(yeuthich = product)
             }
         }
     }

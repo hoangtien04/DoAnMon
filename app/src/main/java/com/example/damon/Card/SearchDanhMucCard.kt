@@ -42,7 +42,7 @@ fun SearchDanhMucCard() {
         ){
             Image(painter = painterResource(R.drawable.anh1), contentDescription = null)
             Text(
-                text = "ÁO KHOÁC LEN DAIF TAY",
+                text = "ÁO KHOÁC LEN DAI TAY",
                 modifier = Modifier.padding(start = 7.dp,end = 7.dp),
                 textAlign = TextAlign.Center,
                 color = Color.Black,

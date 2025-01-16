@@ -23,11 +23,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.damon.DataClass.NguoiDung
 import com.example.damon.Navigation.ScreenRoute
 import com.example.damon.R
+import com.example.damon.ViewModel.AllViewModel
 
 @Composable
-fun ManagerScreen(navController: NavController) {
+fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
+    var menuItems = listOf(
+        "Hồ sơ" to { navController.navigate(ScreenRoute.Member.route) },
+        "Admin" to {}
+    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,11 +42,6 @@ fun ManagerScreen(navController: NavController) {
         AccountHeader()
         PurchaseStatusHeader(navController)
 
-        val menuItems = listOf(
-            "Hồ sơ" to {navController.navigate(ScreenRoute.Member.route)},
-            "Đăng nhập" to {navController.navigate(ScreenRoute.Login.route)},
-            "Admin" to {}
-        )
 
         Column(modifier = Modifier.fillMaxWidth()) {
             menuItems.forEach { (title, action) ->
@@ -64,7 +65,52 @@ fun ManagerScreen(navController: NavController) {
                 )
             }
         }
-
+        viewModel.kiemtratrangthai()
+        var trangthai:Boolean = viewModel.trangthaiDangNhap
+        if(!trangthai) {
+            Text(
+                text = "Đăng nhập",
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(horizontal = 15.dp, vertical = 10.dp)
+                    .clickable(onClick = {
+                        navController.navigate(ScreenRoute.Login.route)
+                    })
+                    .fillMaxWidth()
+                    .drawBehind {
+                        val lineHeight = 1.dp.toPx()
+                        drawLine(
+                            color = Color.LightGray,
+                            start = Offset(0f, size.height),
+                            end = Offset(size.width, size.height),
+                            strokeWidth = lineHeight
+                        )
+                    },
+                fontSize = 18.sp
+            )
+        }else{
+            Text(
+                text = "Đăng xuất",
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(horizontal = 15.dp, vertical = 10.dp)
+                    .clickable(onClick = {
+                        viewModel.trangthaiDangNhap = false
+                        viewModel.nguoidungtaikhoan = NguoiDung(0,"",0,"","","","","",0)
+                    })
+                    .fillMaxWidth()
+                    .drawBehind {
+                        val lineHeight = 1.dp.toPx()
+                        drawLine(
+                            color = Color.LightGray,
+                            start = Offset(0f, size.height),
+                            end = Offset(size.width, size.height),
+                            strokeWidth = lineHeight
+                        )
+                    },
+                fontSize = 18.sp
+            )
+        }
         Spacer(modifier = Modifier.weight(1f))
     }
 }
