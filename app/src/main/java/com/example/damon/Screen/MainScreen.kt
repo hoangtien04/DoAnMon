@@ -33,6 +33,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -62,7 +63,7 @@ fun MainScreen(navRootController: NavHostController,viewModel: SanPhamViewModel)
     val currentBackStackEntry by navItemController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
     viewModel.getAllSanPham()
-    var listSanPham: List<SanPhamCard> = viewModel.listSanPham
+    val listSanPham by viewModel.listSanPham.collectAsState()
 
     // Kiểm tra xem trang hiện tại có phải là Manager hay không
     val isManagerRoute = currentRoute == NavItem.Manager.route
@@ -125,7 +126,7 @@ fun MainScreen(navRootController: NavHostController,viewModel: SanPhamViewModel)
             NavigationBarGraph(
                 navItemController = navItemController,
                 navRootController = navRootController,
-                viewModel = SanPhamViewModel()
+                viewModel = viewModel
             )
         }
     }

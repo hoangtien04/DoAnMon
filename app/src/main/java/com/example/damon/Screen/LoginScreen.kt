@@ -40,7 +40,7 @@ import com.example.damon.Navigation.ScreenRoute
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 
 @Composable
-fun LoginScreen(navController: NavController){
+fun LoginScreen(navController: NavController,){
     var TaiKhoan by remember { mutableStateOf<String>("") }
     var MatKhau by remember { mutableStateOf<String>("") }
     Column (modifier = Modifier.fillMaxSize().background(Color.White),

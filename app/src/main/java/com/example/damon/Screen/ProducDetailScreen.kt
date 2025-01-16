@@ -34,6 +34,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -54,27 +55,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.media3.common.util.Log
 import coil.compose.AsyncImage
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamDetail
-import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SizeDetail
+import com.example.damon.DataClass.ThemSanPhamYeuThich
 import com.example.damon.ViewModel.SanPhamViewModel
+import retrofit2.http.Query
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: SanPhamViewModel) {
-    var sanPhamDetail: SanPhamDetail by remember { mutableStateOf(SanPhamDetail(0,"", "","",0,"")) }
+    val sanPhamDetail by viewModel.sanPhamDetail.collectAsState()
+    LaunchedEffect(MaSP) {
+        viewModel.getSanPhamDetailByID(maSP = MaSP.toInt())
+    }
+
+
     viewModel.getSanPhamDetailByID(MaSP.toInt())
-    sanPhamDetail = viewModel.sanPhamDetail
     viewModel.getMauSacByID(MaSP.toInt())
     viewModel.getSizeByID(MaSP.toInt())
+    viewModel.getKiemTraSPYeuThich(3,MaSP.toInt())
     val listMauSac:List<MauSac> = viewModel.listMauSac
-    val listSize:List<SizeDetail> = viewModel.listSize
-    var isFavorite by remember { mutableStateOf(false) }
+    val listSize by viewModel.sizeDetail.collectAsState()
     val colors = listMauSac.map { it.MaHex }
+    val isFavorite by viewModel.kiemTraSPYeuThich.collectAsState()
+
 
     Scaffold(
         topBar = {
@@ -128,7 +135,14 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
             verticalArrangement = Arrangement.spacedBy(7.dp)
         ) {
             item { ProductImage(sanPhamDetail.DuongDan) }
-            item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite,MaSP = MaSP, onFavoriteClick = { isFavorite = !isFavorite }, viewModel = viewModel)}
+            item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite) {
+                if (isFavorite) {
+
+                    viewModel.deleteSPYeuThich(3, MaSP.toInt())
+                } else {
+                    viewModel.addSanPhamYeuThich(ThemSanPhamYeuThich(3, MaSP.toInt()))
+                }
+            }}
             item { ProductColorSelector(colors) }
             item { ProductSizeSelector(listSize) }
             item { ProductPriceAndRating(sanPhamDetail.DonGia) }
@@ -152,7 +166,11 @@ fun ProductImage(imageResId: String) {
 }
 
 @Composable
-fun ProductTitleRow(title: String, isFavorite: Boolean, onFavoriteClick: () -> Unit,MaSP:String,viewModel: SanPhamViewModel) {
+fun ProductTitleRow(
+    title: String,
+    isFavorite: Boolean,
+    onFavoriteClick: () -> Unit,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -162,14 +180,7 @@ fun ProductTitleRow(title: String, isFavorite: Boolean, onFavoriteClick: () -> U
     ) {
         Text(text = title, style = MaterialTheme.typography.titleLarge, color = Color.Black)
         IconButton(
-            onClick = {
-                val sanPhamYeuThich = SanPhamYeuThich(
-                    MaND = 3,
-                    MaSP = MaSP.toInt()
-                )
-                viewModel.addSanPhamYeuThich(sanPhamYeuThich)
-
-        }) {
+            onClick =  onFavoriteClick) {
             Icon(
                 imageVector = if (isFavorite) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
                 contentDescription = "Favorite",

@@ -1,11 +1,12 @@
 package com.example.damon.APIService
 
+import com.example.damon.DataClass.KiemTraSanPhamYeuThich
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.DataClass.SanPhamDetail
-import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SanPhamYeuThichResponse
 import com.example.damon.DataClass.SizeDetail
+import com.example.damon.DataClass.ThemSanPhamYeuThich
 import com.example.damon.DataClass.sanphamResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -14,6 +15,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface SanPhamAPIService {
     @GET("sanphamcard")
@@ -26,7 +28,7 @@ interface SanPhamAPIService {
 
     @POST("/adddanhsachyeuthich")
     suspend fun addSanPhamYeuThich(
-        @Body sanPhamYeuThich: SanPhamYeuThich
+        @Body sanPhamYeuThich: ThemSanPhamYeuThich
     ): Response<SanPhamYeuThichResponse>
 
     @GET("/mausac/{MaSP}")
@@ -59,4 +61,17 @@ interface SanPhamAPIService {
     suspend fun deleteSanPham(
         @Path("MaSP") MaSP: Int
     ):Response<sanphamResponse>
+
+    @DELETE("/xoadanhsachyeuthich/{manguoidung}/{masanpham}")
+    suspend fun deleteSanPhamYeuThich(
+        @Path("manguoidung") MaND: Int,
+        @Path("masanpham") MaSP: Int
+    ):Response<SanPhamYeuThichResponse>
+
+    @GET("/kiemtrayeuthich/{mand}/{masp}")
+    suspend fun kiemTraSPYeuThich(
+        @Path("mand") userId: Int,
+        @Path("masp") productId: Int
+    ): Boolean
+
 }

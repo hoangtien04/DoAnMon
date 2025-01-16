@@ -7,6 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.navigation.compose.rememberNavController
+import com.example.damon.APIService.Repository
+import com.example.damon.APIService.RetrofitClient
 import com.example.damon.Navigation.NavGraph
 import com.example.damon.Screen.EditProfile
 import com.example.damon.Screen.LoginScreen
@@ -21,7 +23,9 @@ class MainActivity : ComponentActivity() {
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val viewModel: SanPhamViewModel by viewModels<SanPhamViewModel>()
+        val apiService = RetrofitClient.apiService
+        val repository = Repository(apiService)
+        val viewModel = SanPhamViewModel(repository)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {

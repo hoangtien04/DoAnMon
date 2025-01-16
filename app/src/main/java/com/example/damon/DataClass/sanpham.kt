@@ -23,9 +23,13 @@ data class sanphamResponse(
     var url:String
 )
 
-data class SanPhamYeuThich(
+data class ThemSanPhamYeuThich(
     val MaND:Int,
     val MaSP:Int
+)
+
+data class KiemTraSanPhamYeuThich(
+    val YeuThich:Boolean
 )
 
 data class SanPhamYeuThichResponse(
@@ -33,3 +37,4 @@ data class SanPhamYeuThichResponse(
     val code:String,
     var url:String
 )
+

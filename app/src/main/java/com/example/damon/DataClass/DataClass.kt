@@ -1,6 +1,6 @@
 package com.example.damon.DataClass
 
-data class nguoidung(
+data class NguoiDung(
     val MaND: Int,
     val HoTen:String,
     val GioiTinh:Boolean,
@@ -10,6 +10,11 @@ data class nguoidung(
     val TaiKhoan:String,
     val MatKhau:String,
     val isAdmin:Boolean
+)
+
+data class ThongTinDangNhap(
+    val TaiKhoan:String,
+    val MatKhau:String
 )
 
 data class nguoidungResponse(

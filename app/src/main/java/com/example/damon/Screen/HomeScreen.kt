@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
@@ -28,7 +30,7 @@ data class Product(
 @Composable
 fun FullScreenProductList(navRootController: NavHostController,viewModel: SanPhamViewModel) {
     viewModel.getAllSanPham()
-    var listSanPhamMain: List<SanPhamCard> = viewModel.listSanPham
+    val listSanPhamMain by viewModel.listSanPham.collectAsState()
 
     val pagerState = rememberPagerState { listSanPhamMain.size }
     Box(modifier = Modifier.fillMaxSize().background(Color(0xffF2F2F2))) {

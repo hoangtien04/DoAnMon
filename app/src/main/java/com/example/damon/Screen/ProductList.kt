@@ -45,7 +45,7 @@ fun ProductList(navController: NavController, viewModel: SanPhamViewModel) {
 //    }
 
     viewModel.getAllSanPham()
-    var listSanPham: List<SanPhamCard> = viewModel.listSanPham
+    val listSanPham by viewModel.listSanPham.collectAsState()
 
 //    val productList = listOf(
 //        Product(R.drawable.anh1, "Áo len nam", "Thời trang thu đông"),
