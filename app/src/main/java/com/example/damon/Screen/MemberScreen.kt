@@ -1,7 +1,6 @@
 package com.example.damon.Screen
 
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -44,25 +43,23 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.damon.DataClass.NguoiDung
 import com.example.damon.Navigation.ScreenRoute
-
+import com.example.damon.ViewModel.AllViewModel
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MemberScreen(navController: NavController) {
-    var email by remember { mutableStateOf("example@domain.com") }
-    var fullName by remember { mutableStateOf("Nguyễn Văn A") }
-    var phoneNumber by remember { mutableStateOf("0123456789") }
-    var province by remember { mutableStateOf("Hà Nội") }
-    var district by remember { mutableStateOf("Cầu Giấy") }
-    var ward by remember { mutableStateOf("Dịch Vọng Hậu") }
-    var detailedAddress by remember { mutableStateOf("Số 1, Đường Láng") }
-    var gender by remember { mutableStateOf("Nam") }
-
+fun MemberScreen(navController: NavController,viewModel: AllViewModel) {
+    var nguoidung:NguoiDung = viewModel.nguoidungdangnhap
+    var email by remember { mutableStateOf(nguoidung.Email) }
+    var fullName by remember { mutableStateOf(nguoidung.HoTen) }
+    var phoneNumber by remember { mutableStateOf(nguoidung.SDT) }
+    var NgaySinh by remember { mutableStateOf(nguoidung.NgaySinh) }
+    var TaiKhoan by remember { mutableStateOf(nguoidung.TaiKhoan) }
+    var gender by remember { mutableStateOf(nguoidung.GioiTinh) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -100,21 +97,19 @@ fun MemberScreen(navController: NavController) {
                 ProfileField(label = "Số điện thoại", value = phoneNumber)
             }
             item {
-                ProfileField(label = "Tỉnh/Thành phố", value = province)
+                ProfileField(label = "Ngày Sinh", value = NgaySinh)
             }
             item {
-                ProfileField(label = "Quận/Huyện", value = district)
+                ProfileField(label = "Tài Khoản", value = TaiKhoan)
             }
             item {
-                ProfileField(label = "Xã/Phường", value = ward)
+                ProfileField(label = "Giới tính", value = if(gender==1){
+                    "Nam"
+                }else{
+                    "Nữ"
+                }
+                )
             }
-            item {
-                ProfileField(label = "Địa chỉ chi tiết", value = detailedAddress)
-            }
-            item {
-                ProfileField(label = "Giới tính", value = gender)
-            }
-
             item {
                 Column(
                     modifier = Modifier

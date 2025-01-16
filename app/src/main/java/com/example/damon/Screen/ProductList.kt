@@ -26,11 +26,11 @@ import com.example.damon.Card.ProductListCard
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.Navigation.ScreenRoute
 import com.example.damon.R
-import com.example.damon.ViewModel.SanPhamViewModel
+import com.example.damon.ViewModel.AllViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductList(navController: NavController, viewModel: SanPhamViewModel) {
+fun ProductList(navController: NavController, viewModel: AllViewModel) {
     // Trạng thái của từng menu
     var expandedKM by remember { mutableStateOf(false) } // Menu "Chương trình khuyến mãi"
     var expandedKC by remember { mutableStateOf(false) } // Menu "Kích cỡ"

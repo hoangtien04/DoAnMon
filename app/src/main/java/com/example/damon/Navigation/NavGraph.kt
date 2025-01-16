@@ -14,7 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.damon.Screen.*
-import com.example.damon.ViewModel.SanPhamViewModel
+import com.example.damon.ViewModel.AllViewModel
 
 sealed class ScreenRoute(val route: String) {
     object Main : ScreenRoute("main_screen")
@@ -26,6 +26,7 @@ sealed class ScreenRoute(val route: String) {
     object Cart : ScreenRoute("cart_screen")
     object Favourite : ScreenRoute("favourite_screen")
     object ProductList : ScreenRoute("productlist_screen")
+    object comfirmPassword:ScreenRoute("comfrimpassword")
     object Oder : ScreenRoute("oder_screen/{selectedTab}") {
         fun createRoute(selectedTab: Int) = "oder_screen/$selectedTab"
     }
@@ -37,7 +38,7 @@ sealed class ScreenRoute(val route: String) {
 }
 
 @Composable
-fun NavGraph(navController: NavHostController,viewModel: SanPhamViewModel) {
+fun NavGraph(navController: NavHostController,viewModel: AllViewModel) {
     NavHost(
         navController = navController,
         startDestination = ScreenRoute.Main.route
@@ -46,16 +47,16 @@ fun NavGraph(navController: NavHostController,viewModel: SanPhamViewModel) {
             MainScreen(navRootController = navController, viewModel = viewModel)
         }
         composable(route = ScreenRoute.EditProfile.route) {
-            EditProfile(navController = navController)
+            EditProfile(navController = navController, viewModel = viewModel)
         }
         composable(route = ScreenRoute.Member.route) {
-            MemberScreen(navController = navController)
+            MemberScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = ScreenRoute.Register.route) {
             RegisterScreen(navController = navController)
         }
         composable(route = ScreenRoute.Login.route) {
-            LoginScreen(navController = navController)
+            LoginScreen(navController = navController, viewModel = viewModel)
         }
         composable(
             route = ScreenRoute.ProductDetail.route + "?MaSP={MaSP}",
@@ -66,10 +67,10 @@ fun NavGraph(navController: NavHostController,viewModel: SanPhamViewModel) {
             ProductDetailScreen(navController = navController,MaSP,viewModel)
         }
         composable(route = ScreenRoute.Cart.route) {
-            CartScreen(navController = navController)
+            CartScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = ScreenRoute.Favourite.route) {
-            FavouriteScreen(navController = navController)
+            FavouriteScreen(navController = navController, viewModel = viewModel)
         }
         composable(
             route = ScreenRoute.Oder.route,
@@ -91,7 +92,7 @@ fun NavGraph(navController: NavHostController,viewModel: SanPhamViewModel) {
             RatingScreen(navController = navController)
         }
         composable(route = NavItem.Search2.route) {
-            SearchScreen2(navController = navController)
+            SearchScreen2(navController = navController,viewModel = viewModel)
         }
         composable(route = ScreenRoute.ProductList.route) {
             ProductList(navController,viewModel)
@@ -107,7 +108,7 @@ sealed class NavItem(val icon: ImageVector, val route: String) {
 }
 
 @Composable
-fun NavigationBarGraph(navItemController: NavHostController, navRootController: NavHostController,viewModel: SanPhamViewModel) {
+fun NavigationBarGraph(navItemController: NavHostController, navRootController: NavHostController,viewModel: AllViewModel) {
     NavHost(navController = navItemController, startDestination = NavItem.Home.route) {
         composable(route = NavItem.Home.route) {
 //            ProductList(navItemController,viewModel)
@@ -116,7 +117,7 @@ fun NavigationBarGraph(navItemController: NavHostController, navRootController: 
             SearchScreen(navController = navRootController)
         }
         composable(route = NavItem.Manager.route) {
-            ManagerScreen(navController = navRootController)
+            ManagerScreen(navController = navRootController, viewModel = viewModel)
         }
 
     }

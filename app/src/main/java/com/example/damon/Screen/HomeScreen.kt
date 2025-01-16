@@ -17,7 +17,7 @@ import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.Navigation.NavItem
 import com.example.damon.R
 import com.example.damon.Navigation.ScreenRoute
-import com.example.damon.ViewModel.SanPhamViewModel
+import com.example.damon.ViewModel.AllViewModel
 
 data class Product(
     val imageResId: Int,
@@ -28,7 +28,7 @@ data class Product(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FullScreenProductList(navRootController: NavHostController,viewModel: SanPhamViewModel) {
+fun FullScreenProductList(navRootController: NavHostController,viewModel: AllViewModel) {
     viewModel.getAllSanPham()
     val listSanPhamMain by viewModel.listSanPham.collectAsState()
 

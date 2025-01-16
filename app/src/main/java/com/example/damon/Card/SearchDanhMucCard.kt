@@ -18,10 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.damon.R
-
+@Preview
 @Composable
 fun SearchDanhMucCard() {
     val configuration = LocalConfiguration.current
@@ -41,11 +42,11 @@ fun SearchDanhMucCard() {
         ){
             Image(painter = painterResource(R.drawable.anh1), contentDescription = null)
             Text(
-                text = "ÁO KHOÁC LEN DAIF TAY",
-                modifier = Modifier.padding(end = 7.dp),
+                text = "ÁO KHOÁC LEN DAI TAY",
+                modifier = Modifier.padding(start = 7.dp,end = 7.dp),
                 textAlign = TextAlign.Center,
                 color = Color.Black,
-                fontSize = 15.sp
+                fontSize = 13.sp
             )
         }
 

@@ -20,8 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
@@ -139,7 +139,7 @@ fun PayScreen(){
                         Text(text = "Phường 10, Quận Gò Vấp, Tp, Hồ Chí Minh", fontSize = 15.sp, modifier = Modifier.padding(top = 5.dp))
                     }
                     IconButton(onClick = {}) {
-                        Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "")
+                        Icon(imageVector = Icons.Default.ChevronRight, contentDescription = "")
                     }
                 }
             }
@@ -179,7 +179,7 @@ fun PayScreen(){
                             "Áo khoác dù",
                             style = TextStyle(
                                 color = Color.Black,
-                                fontSize = 20.sp,
+                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         )

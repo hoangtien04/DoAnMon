@@ -1,5 +1,6 @@
 package com.example.damon.Screen
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,20 +33,20 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 
 @Composable
-fun RegisterScreen(navController: NavHostController){
-    var TaiKhoan by remember { mutableStateOf<String>("") }
-    var MatKhau by remember { mutableStateOf<String>("") }
-    var NhapLaiMatKhau by remember { mutableStateOf<String>("") }
+fun ComfirmPasswordScreen(navController: NavHostController){
+    var MatKhauCu by remember { mutableStateOf<String>("") }
+    var MatKhauMoi by remember { mutableStateOf<String>("") }
+    var NhapLaiMatKhauMoi by remember { mutableStateOf<String>("") }
     Column(modifier = Modifier
         .fillMaxSize()
         .background(Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        Text(text = "ĐĂNG KÝ", fontSize = 35.sp, fontWeight = FontWeight.Bold)
+        Text(text ="ĐỔI MẬT KHẨU", fontSize = 35.sp, fontWeight = FontWeight.Bold)
 
-        TextField(value = TaiKhoan,
-            onValueChange = {TaiKhoan = it},
+        TextField(value = MatKhauCu,
+            onValueChange = {MatKhauCu = it},
             modifier = Modifier.fillMaxWidth().padding(top = 50.dp, start = 15.dp, end = 15.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
@@ -53,12 +54,11 @@ fun RegisterScreen(navController: NavHostController){
                 focusedContainerColor = Color.LightGray,
                 unfocusedContainerColor = Color.LightGray
             ),
-            label = { Text(text = "Tài Khoản")},
+            label = { Text(text = "Mật khẩu cũ")},
             shape = RoundedCornerShape(12.dp)
-
         )
-        TextField(value = MatKhau,
-            onValueChange = {MatKhau = it},
+        TextField(value = MatKhauMoi,
+            onValueChange = {MatKhauMoi = it},
             modifier = Modifier.fillMaxWidth().padding(top = 15.dp, start = 15.dp, end = 15.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
@@ -66,12 +66,12 @@ fun RegisterScreen(navController: NavHostController){
                 focusedContainerColor = Color.LightGray,
                 unfocusedContainerColor = Color.LightGray
             ),
-            label = { Text(text = "Mật khẩu")},
+            label = { Text(text = "Mật khẩu mới")},
             shape = RoundedCornerShape(12.dp)
 
         )
-        TextField(value = NhapLaiMatKhau,
-            onValueChange = {NhapLaiMatKhau = it},
+        TextField(value = NhapLaiMatKhauMoi,
+            onValueChange = {NhapLaiMatKhauMoi = it},
             modifier = Modifier.fillMaxWidth().padding(top = 15.dp, start = 15.dp, end = 15.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
@@ -79,10 +79,9 @@ fun RegisterScreen(navController: NavHostController){
                 focusedContainerColor = Color.LightGray,
                 unfocusedContainerColor = Color.LightGray
             ),
-            label = { Text(text = "Nhập lại mật khẩu")},
+            label = { Text(text = "Nhập lại mật khẩu mới")},
             shape = RoundedCornerShape(12.dp)
         )
-
         Button(onClick = { /*TODO*/ },
             modifier = Modifier
                 .padding(top = 35.dp)
@@ -95,7 +94,7 @@ fun RegisterScreen(navController: NavHostController){
             shape = RoundedCornerShape(15.dp)
         ) {
             Text(
-                text = "ĐĂNG KÝ",
+                text = "XÁC NHẬN",
                 fontSize = 18.sp,
                 color = Color.White
             )

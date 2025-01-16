@@ -2,6 +2,8 @@ package com.example.damon.Screen
 
 
 import android.annotation.SuppressLint
+
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -34,15 +37,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.example.damon.DataClass.NguoiDung
 import com.example.damon.Navigation.ScreenRoute
+import com.example.damon.ViewModel.AllViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-
 @Composable
-fun LoginScreen(navController: NavController,){
+fun LoginScreen(navController: NavHostController, viewModel: AllViewModel){
     var TaiKhoan by remember { mutableStateOf<String>("") }
     var MatKhau by remember { mutableStateOf<String>("") }
+    var showDialog by remember { mutableStateOf(false) }
+    var isSuccess by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
+
     Column (modifier = Modifier.fillMaxSize().background(Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -84,7 +97,7 @@ fun LoginScreen(navController: NavController,){
         Row(modifier = Modifier.fillMaxWidth().padding(start = 15.dp, end = 15.dp),horizontalArrangement = Arrangement.SpaceBetween ){
             Text(text = "Quên mật khẩu?",
                 modifier = Modifier
-                    .clickable { /*TODO*/ },
+                    .clickable {navController.navigate(ScreenRoute.comfirmPassword.route)},
                 color = Color.Blue
             )
             Text(text = "Tạo Tài Khoản",
@@ -93,10 +106,27 @@ fun LoginScreen(navController: NavController,){
                 color = Color.Blue
             )
         }
-        Button(onClick = { /*TODO*/ }, modifier = Modifier
-            .padding(top = 35.dp)
-            .width(250.dp)
-            .height(55.dp),
+        Button(
+            onClick = {
+                CoroutineScope(Dispatchers.Main).launch {
+                viewModel.getNguoiDungByTaiKhoanMatKhau(TaiKhoan, MatKhau)
+                    delay(800)
+                val nguoiDung: NguoiDung = viewModel.nguoidungdangnhap
+                if (nguoiDung.MaND == 0) {
+                    isSuccess = false
+                    errorMessage = "Tên đăng nhập hoặc mật khẩu không đúng."
+                } else {
+                    viewModel.nguoidungtaikhoan = nguoiDung
+                    isSuccess = true
+                }
+                showDialog = true
+                viewModel.kiemtratrangthai()
+                }
+            },
+            modifier = Modifier
+                .padding(top = 35.dp)
+                .width(250.dp)
+                .height(55.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Red,
                 contentColor = Color.White
@@ -109,5 +139,60 @@ fun LoginScreen(navController: NavController,){
                 color = Color.White
             )
         }
+    }
+
+    if (showDialog) {
+        handleLoginResult(
+            isSuccess = isSuccess,
+            errorMessage = errorMessage,
+            onDismiss = { showDialog = false },
+            navController
+        )
+    }
+}
+
+@Composable
+fun showSuccessDialog(onDismiss: () -> Unit,navController: NavController) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(text = "Đăng Nhập Thành Công") },
+        text = { Text(text = "Chào mừng bạn đã đăng nhập thành công!") },
+        confirmButton = {
+            Button(onClick = {
+                onDismiss()
+                navController.navigate(ScreenRoute.Main.route)
+            }) {
+                Text("OK")
+            }
+        }
+    )
+}
+
+@Composable
+fun showFailureDialog(errorMessage: String, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(text = "Đăng Nhập Thất Bại") },
+        text = { Text(text = "Đăng nhập không thành công. \nLỗi: $errorMessage") },
+        confirmButton = {
+            Button(onClick = onDismiss) {
+                Text("Thử lại")
+            }
+        }
+    )
+}
+
+
+@Composable
+fun handleLoginResult(
+    isSuccess: Boolean,
+    errorMessage: String = "",
+    onDismiss: () -> Unit,
+    navController: NavController
+) {
+    if (isSuccess) {
+        showSuccessDialog(onDismiss = onDismiss,navController)
+    } else {
+        showFailureDialog(errorMessage = errorMessage, onDismiss = onDismiss)
     }
 }
