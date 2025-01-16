@@ -58,12 +58,12 @@ import coil.compose.AsyncImage
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamDetail
 import com.example.damon.DataClass.SizeDetail
-import com.example.damon.ViewModel.SanPhamViewModel
+import com.example.damon.ViewModel.AllViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: SanPhamViewModel) {
+fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: AllViewModel) {
     var sanPhamDetail: SanPhamDetail by remember { mutableStateOf(SanPhamDetail(0,"", "","",0,"")) }
     viewModel.getSanPhamDetailByID(MaSP.toInt())
     sanPhamDetail = viewModel.sanPhamDetail
@@ -73,6 +73,12 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
     val listSize:List<SizeDetail> = viewModel.listSize
     var isFavorite by remember { mutableStateOf(false) }
     val colors = listMauSac.map { it.MaHex }
+
+    val nguoidung  = viewModel.nguoidungtaikhoan
+    viewModel.kiemtratrangthai()
+    val trangthaiDangNhap = viewModel.trangthaiDangNhap
+    val danhsachyeuthich = viewModel.listYeuThich
+
 
     Scaffold(
         topBar = {

@@ -56,7 +56,6 @@ fun ComfirmPasswordScreen(navController: NavHostController){
             ),
             label = { Text(text = "Mật khẩu cũ")},
             shape = RoundedCornerShape(12.dp)
-
         )
         TextField(value = MatKhauMoi,
             onValueChange = {MatKhauMoi = it},

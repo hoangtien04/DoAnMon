@@ -35,7 +35,6 @@ import coil.compose.AsyncImage
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.R
-import com.example.damon.ViewModel.SanPhamViewModel
 import org.jetbrains.annotations.Async
 
 @Composable

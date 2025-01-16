@@ -37,13 +37,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.damon.DataClass.GioHang
 import com.example.damon.R
+import com.example.damon.ViewModel.AllViewModel
 
 @Composable
-fun CartItemCard(product: Product) {
+fun CartItemCard(gioHang: GioHang, viewModel: AllViewModel) {
 
-    var soLuong by remember { mutableStateOf(1) } // Số lượng mặc định
-    val donGia = 489000 // Đơn giá sản phẩm
+    var soLuong by remember { mutableStateOf(gioHang.SoLuongTrongGio) }
+    var donGia = gioHang.DonGia
 
     Card(
         modifier = Modifier.padding(7.dp,3.dp)
@@ -107,8 +109,11 @@ fun CartItemCard(product: Product) {
                     ) {
                         IconButton(
                             onClick = {
+
                                 if (soLuong > 1) {
                                     soLuong--
+                                    gioHang.SoLuongTrongGio = soLuong
+                                    viewModel.editGioHang(viewModel.nguoidungdangnhap.MaND,gioHang.MaCTSP,gioHang)
                                 }
                             },
                             modifier = Modifier.size(40.dp)
@@ -135,6 +140,8 @@ fun CartItemCard(product: Product) {
                         IconButton(
                             onClick = {
                                 soLuong++
+                                gioHang.SoLuongTrongGio = soLuong
+                                viewModel.editGioHang(viewModel.nguoidungdangnhap.MaND,gioHang.MaCTSP,gioHang)
                             },
                             modifier = Modifier.size(40.dp)
                         ) {

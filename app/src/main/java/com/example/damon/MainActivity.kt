@@ -14,14 +14,14 @@ import com.example.damon.Screen.ManagerScreen
 import com.example.damon.Screen.MemberScreen
 import com.example.damon.Screen.ProductList
 import com.example.damon.Screen.RegisterScreen
-import com.example.damon.ViewModel.SanPhamViewModel
+import com.example.damon.ViewModel.AllViewModel
 import com.example.damon.ui.theme.DAMONTheme
 
 class MainActivity : ComponentActivity() {
 
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
-        val viewModel: SanPhamViewModel by viewModels<SanPhamViewModel>()
+        val viewModel: AllViewModel by viewModels<AllViewModel>()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
