@@ -92,11 +92,11 @@ interface SanPhamAPIService {
     @GET("/hinhanh")
     suspend fun getHinhAnh():List<HinhAnhSanPham>
 
-    @POST("/adddanhsachgiohang")
+    @POST("/adddanhsachgiohang/{MaND}/{MaCTSP}/{SoLuong}")
     suspend fun addDanhSachGioHang(
-        @Query("MaND") MaND:Int,
-        @Query ("MaCTSP") MaCTSP:Int,
-        @Query ("SoLuong") SoLuong:Int,
+        @Path("MaND") MaND:Int,
+        @Path ("MaCTSP") MaCTSP:Int,
+        @Path ("SoLuong") SoLuong:Int,
     )
 
     @GET("chitietsanpham/{MaSP}/{MaMau}/{MaSize}")
