@@ -1,5 +1,6 @@
 package com.example.damon.APIService
 
+import com.example.damon.DataClass.ChiTietSanPham
 import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.LoaiSanPham
 import com.example.damon.DataClass.MauSac
@@ -7,7 +8,10 @@ import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.DataClass.SanPhamDetail
 import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SizeDetail
+import com.example.damon.DataClass.ThemGioHang
+import com.example.damon.DataClass.ThemGioHangResponse
 import com.example.damon.DataClass.ThemSanPhamYeuThich
+import retrofit2.Response
 
 class Repository(private val apiService: SanPhamAPIService) {
     suspend fun getAllSanPhamCard(): List<SanPhamCard> {
@@ -48,5 +52,13 @@ class Repository(private val apiService: SanPhamAPIService) {
 
     suspend fun getHinhAnh(): List<HinhAnhSanPham> {
         return apiService.getHinhAnh()
+    }
+
+    suspend fun addDanhSachGioHang(themGioHang: ThemGioHang): Response<ThemGioHangResponse> {
+        return apiService.addDanhSachGioHang(themGioHang)
+    }
+
+    suspend fun getChiTietSanPham(MaSP: Int, MaMau: Int, MaSize: Int):  ChiTietSanPham {
+        return apiService.getChiTietSanPham(MaSP, MaMau, MaSize)
     }
 }

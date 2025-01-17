@@ -70,7 +70,9 @@ fun SearchScreen(navController: NavController,viewModel: SanPhamViewModel) {
             verticalArrangement = Arrangement.spacedBy(5.dp),
         ) {
             items(listLoaiSanPham) {
-                SearchDanhMucCard(it, onClick = {})
+                SearchDanhMucCard(it, onClick = {
+                    navController.navigate(NavItem.ProductList.route)
+                })
             }
         }
 

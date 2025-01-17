@@ -93,8 +93,10 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
         composable(route = NavItem.Search2.route) {
             SearchScreen2(navController = navController,viewModel = viewModel2)
         }
-        composable(route = ScreenRoute.ProductList.route) {
-            ProductList(navController,viewModel2)
+        composable(
+            route = ScreenRoute.ProductList.route,
+        ) {
+            ProductList(navController,viewModel2,"")
         }
     }
 }

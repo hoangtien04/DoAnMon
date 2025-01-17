@@ -49,48 +49,29 @@ import com.example.damon.ViewModel.SanPhamViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen2(navController: NavController,viewModel: SanPhamViewModel) {
-    var searchText  by remember{ mutableStateOf("")}
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    SearchBar(onSearch = {
-                        query ->
-                        viewModel.searchSanPham(query)
-                    })
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color.Black
-                        )
-                    }
-                }
-            )
-        }
-    ) {
-        ProductList(navController, viewModel = viewModel,searchText = searchText)
-    }
+//    var searchText  by remember{ mutableStateOf("")}
+//    Scaffold(
+//        topBar = {
+//            TopAppBar(
+//                title = {
+//                    SearchBar(onSearch = {
+//                        query ->
+//                        viewModel.searchSanPham(query)
+//                    })
+//                },
+//                navigationIcon = {
+//                    IconButton(onClick = { navController.popBackStack() }) {
+//                        Icon(
+//                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+//                            contentDescription = "Back",
+//                            tint = Color.Black
+//                        )
+//                    }
+//                }
+//            )
+//        }
+//    ) {
+////        ProductList(navController, MaLoai =  ,viewModel = viewModel,searchText = searchText)
+//    }
 }
 
-@Composable
-fun SearchBar(onSearch: (String) -> Unit) {
-    var query by remember { mutableStateOf("") }
-
-    TextField(
-        value = query,
-        onValueChange = {
-            query = it
-            onSearch(it)
-        },
-        colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
-        ),
-        textStyle = TextStyle(fontSize = 17.sp),
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text("Bạn đang tìm sản phẩm gì?",fontSize = 17.sp)}
-    )
-}

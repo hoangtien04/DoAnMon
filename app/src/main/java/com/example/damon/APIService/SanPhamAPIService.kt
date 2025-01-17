@@ -1,5 +1,6 @@
 package com.example.damon.APIService
 
+import com.example.damon.DataClass.ChiTietSanPham
 import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.KiemTraSanPhamYeuThich
 import com.example.damon.DataClass.LoaiSanPham
@@ -9,6 +10,8 @@ import com.example.damon.DataClass.SanPhamDetail
 import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SanPhamYeuThichResponse
 import com.example.damon.DataClass.SizeDetail
+import com.example.damon.DataClass.ThemGioHang
+import com.example.damon.DataClass.ThemGioHangResponse
 import com.example.damon.DataClass.ThemSanPhamYeuThich
 import com.example.damon.DataClass.sanphamResponse
 import retrofit2.Response
@@ -87,6 +90,19 @@ interface SanPhamAPIService {
 
     @GET("/hinhanh")
     suspend fun getHinhAnh():List<HinhAnhSanPham>
+
+    @POST("/adddanhsachgiohang")
+    suspend fun addDanhSachGioHang(
+        @Body themGioHang: ThemGioHang
+    ):Response<ThemGioHangResponse>
+
+    @GET("/chitietsanpham/{MaSP}/{MaMau}/{MaSize}")
+    suspend fun getChiTietSanPham(
+        @Path("MaSP") MaSP:Int,
+        @Path("MaMau") MaMau:Int,
+        @Path("MaSize") MaSize:Int,
+    ):ChiTietSanPham
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.damon.ViewModel
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.damon.APIService.Repository
+import com.example.damon.DataClass.ChiTietSanPham
 import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.KiemTraSanPhamYeuThich
 import com.example.damon.DataClass.LoaiSanPham
@@ -17,6 +19,7 @@ import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.DataClass.SanPhamDetail
 import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SizeDetail
+import com.example.damon.DataClass.ThemGioHang
 import com.example.damon.DataClass.ThemSanPhamYeuThich
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -154,14 +157,16 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
     fun searchSanPham(query: String) {
         viewModelScope.launch {
             if (query.isBlank()) {
-                _filteredSanPham.value = _listSanPham.value // Hiển thị toàn bộ nếu từ khóa rỗng
+                _filteredSanPham.value = _listSanPham.value
             } else {
                 _filteredSanPham.value = _listSanPham.value.filter {
-                    it.TenSP.contains(query, ignoreCase = true) // Lọc theo tên sản phẩm
+                    it.TenSP.contains(query, ignoreCase = true) || it.TenLoai.contains(query, ignoreCase = true)
                 }
             }
         }
     }
+
+
 
     private val _danhSachHinhAnh = MutableStateFlow<List<HinhAnhSanPham>>(emptyList())
     val danhSachHinhAnh: StateFlow<List<HinhAnhSanPham>> get() = _danhSachHinhAnh
@@ -177,7 +182,6 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
         }
     }
 
-
     fun getHinhAnhTheoMaSPVaMaMau(maSP: Int, maMau: Int) {
         viewModelScope.launch {
             _danhSachHinhAnh.value = repository.getHinhAnh().filter {
@@ -186,6 +190,30 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
         }
     }
 
+    fun addDanhSachGioHang(themGioHang: ThemGioHang) {
+        viewModelScope.launch {
+            try {
+                repository.addDanhSachGioHang(themGioHang)
+            } catch (e: Exception) {
+                Log.e("SanPhamViewModel", "Error add san pham vao gio hang", e)
+            }
+        }
+    }
+
+
+    private val _chiTietSanPham = MutableStateFlow(ChiTietSanPham(0, 0,0,0,0))
+    val chiTietSanPham: StateFlow<ChiTietSanPham> get() = _chiTietSanPham
+
+    fun getChiTietSanPham(MaSP: Int, MaMau: Int, MaSize: Int) {
+        viewModelScope.launch {
+            try {
+                val chiTietSanPham = repository.getChiTietSanPham(MaSP, MaMau, MaSize)
+                _chiTietSanPham.value = chiTietSanPham
+            } catch (e: Exception) {
+                Log.e("SanPhamViewModel", "Error: ${e.message}")
+            }
+        }
+    }
 }
 
 
