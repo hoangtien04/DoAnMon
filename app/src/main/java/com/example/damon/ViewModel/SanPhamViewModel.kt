@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.damon.APIService.Repository
+import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.KiemTraSanPhamYeuThich
 import com.example.damon.DataClass.LoaiSanPham
 import com.example.damon.DataClass.MauSac
@@ -20,13 +21,11 @@ import com.example.damon.DataClass.ThemSanPhamYeuThich
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 class SanPhamViewModel(private val repository: Repository):ViewModel() {
-    var listMauSac: List<MauSac> by mutableStateOf(emptyList())
-    var listSize: List<SizeDetail> by mutableStateOf(emptyList())
 
-    //Danh sách sản phẩm card
     private val _listSanPham = MutableStateFlow<List<SanPhamCard>>(emptyList())
     val listSanPham: StateFlow<List<SanPhamCard>> get() = _listSanPham
 
@@ -61,7 +60,7 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
     }
 
     private val _mauSacByID = MutableStateFlow<List<MauSac>>(emptyList())
-    val MauSac: StateFlow<SanPhamDetail> get() = _sanPhamDetail
+    val listMauSac: StateFlow<List<MauSac>> get() = _mauSacByID
 
     fun getMauSacByID(MaSP: Int) {
         viewModelScope.launch {
@@ -152,10 +151,6 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
         }
     }
 
-
-
-
-
     fun searchSanPham(query: String) {
         viewModelScope.launch {
             if (query.isBlank()) {
@@ -164,6 +159,29 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
                 _filteredSanPham.value = _listSanPham.value.filter {
                     it.TenSP.contains(query, ignoreCase = true) // Lọc theo tên sản phẩm
                 }
+            }
+        }
+    }
+
+    private val _danhSachHinhAnh = MutableStateFlow<List<HinhAnhSanPham>>(emptyList())
+    val danhSachHinhAnh: StateFlow<List<HinhAnhSanPham>> get() = _danhSachHinhAnh
+
+    fun getHinhAnhTheoMauSac() {
+        viewModelScope.launch {
+            try {
+                val danhSachHinhAnh = repository.getHinhAnh()
+                _danhSachHinhAnh.value = danhSachHinhAnh
+            } catch (e: Exception) {
+                Log.e("SanPhamViewModel", "Error: ${e.message}")
+            }
+        }
+    }
+
+
+    fun getHinhAnhTheoMaSPVaMaMau(maSP: Int, maMau: Int) {
+        viewModelScope.launch {
+            _danhSachHinhAnh.value = repository.getHinhAnh().filter {
+                it.MaSp == maSP && it.MaMau == maMau
             }
         }
     }

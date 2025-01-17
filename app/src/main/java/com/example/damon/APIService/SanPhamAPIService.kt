@@ -1,5 +1,6 @@
 package com.example.damon.APIService
 
+import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.KiemTraSanPhamYeuThich
 import com.example.damon.DataClass.LoaiSanPham
 import com.example.damon.DataClass.MauSac
@@ -83,6 +84,9 @@ interface SanPhamAPIService {
 
     @GET("/danhmuc")
     suspend fun getDanhMucSanPham():List<LoaiSanPham>
+
+    @GET("/hinhanh")
+    suspend fun getHinhAnh():List<HinhAnhSanPham>
 
 
 }

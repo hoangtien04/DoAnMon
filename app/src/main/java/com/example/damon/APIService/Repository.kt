@@ -1,5 +1,6 @@
 package com.example.damon.APIService
 
+import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.LoaiSanPham
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
@@ -43,5 +44,9 @@ class Repository(private val apiService: SanPhamAPIService) {
 
     suspend fun getLoaiSanPham(): List<LoaiSanPham> {
         return apiService.getDanhMucSanPham()
+    }
+
+    suspend fun getHinhAnh(): List<HinhAnhSanPham> {
+        return apiService.getHinhAnh()
     }
 }

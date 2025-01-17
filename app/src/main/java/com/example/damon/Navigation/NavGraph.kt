@@ -65,7 +65,7 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
         ) {
             var MaSP = it.arguments?.getString("MaSP")
             if(MaSP!=null)
-            ProductDetailScreen(navController = navController,MaSP,viewModel2)
+            ProductDetailScreen(navController = navController,MaSP,viewModel2,viewModel)
         }
         composable(route = ScreenRoute.Cart.route) {
             CartScreen(navController = navController, viewModel = viewModel)

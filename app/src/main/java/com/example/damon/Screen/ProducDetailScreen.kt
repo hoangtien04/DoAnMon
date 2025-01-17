@@ -1,5 +1,6 @@
 package com.example.damon.Screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -7,7 +8,9 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +19,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,36 +58,47 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamDetail
 import com.example.damon.DataClass.SizeDetail
 import com.example.damon.DataClass.ThemSanPhamYeuThich
+import com.example.damon.ViewModel.AllViewModel
 import com.example.damon.ViewModel.SanPhamViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 import retrofit2.http.Query
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: SanPhamViewModel) {
+fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: SanPhamViewModel,viewModelAll: AllViewModel) {
     val sanPhamDetail by viewModel.sanPhamDetail.collectAsState()
+    val NguoiDung = viewModelAll.nguoidungdangnhap
 
     LaunchedEffect(MaSP) {
         viewModel.getSanPhamDetailByID(maSP = MaSP.toInt())
     }
 
 
+
     viewModel.getSanPhamDetailByID(MaSP.toInt())
     viewModel.getMauSacByID(MaSP.toInt())
     viewModel.getSizeByID(MaSP.toInt())
-    viewModel.getKiemTraSPYeuThich(3,MaSP.toInt())
+    viewModel.getKiemTraSPYeuThich(NguoiDung.MaND,MaSP.toInt())
 
-    val listMauSac:List<MauSac> = viewModel.listMauSac
+    val listMauSac by viewModel.listMauSac.collectAsState()
     val listSize by viewModel.sizeDetail.collectAsState()
-    val colors = listMauSac.map { it.MaHex }
     val isFavorite by viewModel.kiemTraSPYeuThich.collectAsState()
+    val hinhAnhSanPham by viewModel.danhSachHinhAnh.collectAsState()
+
 
 
     Scaffold(
@@ -136,16 +152,23 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
                 .padding(padding),
             verticalArrangement = Arrangement.spacedBy(7.dp)
         ) {
-            item { ProductImage(sanPhamDetail.DuongDan) }
+            item { FullWidthImageCarousel(hinhAnhSanPham) }
             item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite) {
-                if (isFavorite) {
-
-                    viewModel.deleteSPYeuThich(3, MaSP.toInt())
-                } else {
-                    viewModel.addSanPhamYeuThich(ThemSanPhamYeuThich(3, MaSP.toInt()))
+                if(NguoiDung.MaND == 0){
+                    navController.navigate(ScreenRoute.Login.route)
                 }
+                else{
+                    if (isFavorite) {
+                        viewModel.deleteSPYeuThich(NguoiDung.MaND, MaSP.toInt())
+                    } else {
+                        viewModel.addSanPhamYeuThich(ThemSanPhamYeuThich(NguoiDung.MaND, MaSP.toInt()))
+                    }
+                }
+
             }}
-            item { ProductColorSelector(colors) }
+            item { ProductColorSelector(listMauSac) { maMau ->
+                viewModel.getHinhAnhTheoMaSPVaMaMau(MaSP.toInt(), maMau)
+            }  }
             item { ProductSizeSelector(listSize) }
             item { ProductPriceAndRating(sanPhamDetail.DonGia) }
             item { QuantitySelector() }
@@ -156,14 +179,63 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
 }
 
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ProductImage(imageResId: String) {
-    AsyncImage(
-        model = imageResId,
-        contentDescription = "Product Image",
+fun FullWidthImageCarousel(imageUrls: List<HinhAnhSanPham>) {
+    val pagerState = rememberPagerState()
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp // Chiều ngang màn hình
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (imageUrls.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(screenWidth * 1.35f),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Không có hình ảnh", color = Color.Gray)
+            }
+        } else {
+            HorizontalPager(
+                count = imageUrls.size,
+                state = pagerState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(screenWidth * 1.35f)
+            ) { page ->
+                Image(
+                    painter = rememberAsyncImagePainter(imageUrls[page].DuongDan),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            HorizontalPagerIndicator(
+                pagerState = pagerState,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(16.dp),
+                activeColor = Color.Gray,
+                inactiveColor = Color.LightGray
+            )
+        }
+    }
+}
+
+@Composable
+fun ImageItem(imageUrl: String) {
+    Image(
+        painter = rememberAsyncImagePainter(imageUrl),
+        contentDescription = null,
         modifier = Modifier
-            .fillMaxWidth(),
-        contentScale = ContentScale.Crop
+            .size(200.dp)
+            .background(Color.LightGray)
+            .fillMaxWidth()
+            .height(735.dp)
     )
 }
 
@@ -193,10 +265,8 @@ fun ProductTitleRow(
 }
 
 @Composable
-fun ProductColorSelector(listMauSac: List<String>) {
-    val colors = listOf("#b0b0b0", "#ff5733", "#33ff57", "#3357ff", "#000000", "#b0b0b0")
-    var selectedColor by remember { mutableStateOf(colors.firstOrNull() ?: "#FFFFFF") }
-
+fun ProductColorSelector(listMauSac: List<MauSac>, onColorSelected: (Int) -> Unit) {
+    var selectedMaMau by remember { mutableStateOf(listMauSac.firstOrNull()?.MaMau) }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
@@ -211,21 +281,24 @@ fun ProductColorSelector(listMauSac: List<String>) {
                 .padding(16.dp)
                 .horizontalScroll(rememberScrollState())
         ) {
-            colors.forEach { colorHex ->
+            listMauSac.forEach { colorHex ->
                 Box(
                     modifier = Modifier
                         .border(
                             width = 2.dp,
-                            color = if (selectedColor == colorHex) Color.Black else Color.Transparent,
+                            color = if (selectedMaMau == colorHex.MaMau) Color.Black else Color.Transparent,
                             shape = RoundedCornerShape(50.dp)
                         )
                         .padding(4.dp)
                         .size(41.dp)
                         .clip(CircleShape)
-                        .clickable { selectedColor = colorHex }
+                        .clickable {
+                            selectedMaMau = colorHex.MaMau
+                            onColorSelected(colorHex.MaMau) // Gọi callback để lọc hình ảnh
+                        }
                         .background(
                             try {
-                                Color(android.graphics.Color.parseColor(colorHex))
+                                hexToColor(colorHex.MauHex)
                             } catch (e: IllegalArgumentException) {
                                 Color.Gray // Màu mặc định nếu lỗi
                             }
@@ -371,4 +444,8 @@ fun QuantitySelector() {
                 fontSize = 20.sp)
         }
     }
+}
+
+fun hexToColor(hex: String): Color {
+    return Color(android.graphics.Color.parseColor(hex))
 }
