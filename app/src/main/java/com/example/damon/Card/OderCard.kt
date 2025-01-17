@@ -40,6 +40,7 @@ import com.example.damon.ViewModel.AllViewModel
 @Composable
 fun OderCard(donHang: DonHang,onClickCard: () -> Unit,viewModel: AllViewModel) {
     var donhang:DonHang = donHang
+    var updatedDonHang = donhang
     var trangthai by remember { mutableStateOf("") }
     if(donHang.TrangThaiDH==1){
         trangthai = "Chờ xác nhận"
@@ -124,8 +125,8 @@ fun OderCard(donHang: DonHang,onClickCard: () -> Unit,viewModel: AllViewModel) {
                     ) {
                         Button(
                             onClick = {
-                                donhang.TrangThaiDH=5
-                                viewModel.editDonHang(donHang.MaDH,donhang)
+                                updatedDonHang.TrangThaiDH = 5
+                                viewModel.editDonHang(donHang.MaDH, updatedDonHang)
                             },
                             modifier = Modifier
                                 .width(140.dp)

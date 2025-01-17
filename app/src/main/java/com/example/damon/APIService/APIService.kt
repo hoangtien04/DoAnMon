@@ -127,8 +127,8 @@ interface APIService {
 
      @PUT("suadonhang/{MaDH}")
      suspend fun updateDonHang(
-         @Path("MaDH") id: Int,
-         @Body donhang: DonHang
+         @Path("MaDH") MaDH: Int,
+         @Body donHang: DonHang
      ): Response<DonHangResponse>
 
      @DELETE("xoadonhang/{MaDH}")

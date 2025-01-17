@@ -98,6 +98,7 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
                     .clickable(onClick = {
                         viewModel.trangthaiDangNhap = false
                         viewModel.nguoidungtaikhoan = NguoiDung(0,"",0,"","","","","",0)
+                        viewModel.nguoidungdangnhap = NguoiDung(0,"",0,"","","","","",0)
                     })
                     .fillMaxWidth()
                     .drawBehind {
@@ -117,7 +118,7 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
                 modifier = Modifier
                     .padding(horizontal = 15.dp, vertical = 10.dp)
                     .clickable(onClick = {
-                            navController.navigate(ScreenRoute.comfirmPassword.route)
+                        navController.navigate(ScreenRoute.comfirmPassword.route)
                     })
                     .fillMaxWidth()
                     .drawBehind {

@@ -38,6 +38,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
+import com.example.damon.DataClass.NguoiDung
 
 @Composable
 fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewModel) {
@@ -46,6 +47,9 @@ fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewMo
     var NhapLaiMatKhauMoi by remember { mutableStateOf("") }
     var showSuccessDialog by remember { mutableStateOf(false) }
     var showErrorDialog by remember { mutableStateOf(false) }
+
+    var nguoidung: NguoiDung = viewModel.nguoidungtaikhoan
+    var mand = viewModel.nguoidungtaikhoan.MaND
 
     Column(
         modifier = Modifier
@@ -124,8 +128,10 @@ fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewMo
             )
             Button(
                 onClick = {
-                    if (MatKhauMoi == NhapLaiMatKhauMoi && MatKhauMoi.isNotBlank() && MatKhauCu == viewModel.nguoidungdangnhap.MatKhau) {
+                    if (MatKhauMoi == NhapLaiMatKhauMoi && MatKhauMoi.isNotBlank() && MatKhauCu == nguoidung.MatKhau) {
                         showSuccessDialog = true
+                        val updatedNguoiDung = nguoidung.copy(MatKhau = MatKhauMoi)
+                        viewModel.editNguoiDung(mand, nguoidung = updatedNguoiDung)
                     } else {
                         showErrorDialog = true
                     }
@@ -154,8 +160,7 @@ fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewMo
                     confirmButton = {
                         TextButton(onClick = {
                             showSuccessDialog = false
-                            viewModel.nguoidungtaikhoan.MatKhau = MatKhauMoi
-                            viewModel.editNguoiDung(viewModel.nguoidungtaikhoan.MaND,viewModel.nguoidungtaikhoan)
+                            
                         }
                         ) {
                             Text(text = "OK")

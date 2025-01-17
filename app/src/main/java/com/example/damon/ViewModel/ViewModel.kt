@@ -259,13 +259,13 @@ class AllViewModel: ViewModel(){
             }
         }
     }
-    fun editDonHang(donhangId:Int ,donHang: DonHang){
+    fun editDonHang(donhang:Int ,donHang: DonHang){
         viewModelScope.launch ( Dispatchers.IO ){
             try{
-                donhangupdateResult = RetrofitClient.apiService.updateDonHang(donhangId,donHang).message()
+                donhangupdateResult = RetrofitClient.apiService.updateDonHang(donhang,donHang).message()
                 listDonHang = RetrofitClient.apiService.getAllDonHang()
             }catch (e:Exception){
-                Log.e("DonHangViewModel","Lỗi khi sửa đơn hàng", e)
+                Log.e("DonHangViewModel","Lỗi khi sửa đơn hàng $donhangupdateResult", e)
             }
         }
     }
