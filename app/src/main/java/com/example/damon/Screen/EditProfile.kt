@@ -26,7 +26,7 @@ import androidx.compose.material.DropdownMenuItem
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun EditProfile(navController: NavController, viewModel: AllViewModel) {
-    var nguoidung: NguoiDung = viewModel.nguoidungdangnhap
+    var nguoidung: NguoiDung = viewModel.nguoidungtaikhoan
     var email by remember { mutableStateOf(nguoidung.Email) }
     var fullName by remember { mutableStateOf(nguoidung.HoTen) }
     var phoneNumber by remember { mutableStateOf(nguoidung.SDT) }

@@ -29,6 +29,8 @@ sealed class ScreenRoute(val route: String) {
     object Oder : ScreenRoute("oder_screen/{selectedTab}") {
         fun createRoute(selectedTab: Int) = "oder_screen/$selectedTab"
     }
+    object Admin:ScreenRoute("admin")
+    object DetailDonHang:ScreenRoute("detaildonhang")
 
     object WaitingForConfirmation : ScreenRoute("waiting_for_confirmation_screen")
     object WaitingForPickup : ScreenRoute("waiting_for_pickup_screen")
@@ -76,19 +78,19 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
             arguments = listOf(navArgument("selectedTab") { type = NavType.IntType })
         ) { backStackEntry ->
             val selectedTab = backStackEntry.arguments?.getInt("selectedTab") ?: 0
-            OrderScreen(navController = navController, initialTab = selectedTab)
+            OrderScreen(navController = navController, initialTab = selectedTab,viewModel)
         }
         composable(route = ScreenRoute.WaitingForConfirmation.route) {
-            WaitingForConfirmationScreen(navController = navController)
+            WaitingForConfirmationScreen(navController = navController,viewModel)
         }
         composable(route = ScreenRoute.WaitingForPickup.route) {
-            WaitingForPickupScreen(navController = navController)
+            WaitingForPickupScreen(navController = navController,viewModel)
         }
         composable(route = ScreenRoute.WaitingForDelivery.route) {
-            WaitingForDeliveryScreen(navController = navController)
+            WaitingForDeliveryScreen(navController = navController,viewModel)
         }
         composable(route = ScreenRoute.Rating.route) {
-            RatingScreen(navController = navController)
+            RatingScreen(navController = navController,viewModel)
         }
         composable(route = NavItem.Search2.route) {
             SearchScreen2(navController = navController,viewModel = viewModel2)
@@ -97,6 +99,23 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
             route = ScreenRoute.ProductList.route,
         ) {
             ProductList(navController,viewModel2,"")
+        }
+
+        composable(route = ScreenRoute.Admin.route) {
+            OrderConfirmationScreen(navController = navController,viewModel = viewModel)
+        }
+        composable(ScreenRoute.comfirmPassword.route){
+            ComfirmPasswordScreen(navController = navController,viewModel = viewModel)
+        }
+
+        composable(ScreenRoute.DetailDonHang.route+"?id={id}",
+            arguments = listOf(navArgument("id"){nullable=true})){
+            var id = it.arguments?.getString("id")
+            if (id!=null){
+                OrderDetailAdminScreen(navController,viewModel,id.toInt())
+            }else{
+                OrderDetailAdminScreen(navController,viewModel)
+            }
         }
     }
 }

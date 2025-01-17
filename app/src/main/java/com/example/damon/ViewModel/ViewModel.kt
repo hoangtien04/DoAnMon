@@ -6,9 +6,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.damon.Card.TrangThaiDH
 import com.example.damon.DataClass.ChiTietDonHang
 import com.example.damon.DataClass.ChiTietSanPham
+import com.example.damon.DataClass.DetailDonHang
 import com.example.damon.DataClass.DiaChiGiaoHang
+import com.example.damon.DataClass.DiaChiNhanHang
 import com.example.damon.DataClass.DonHang
 import com.example.damon.DataClass.GioHang
 import com.example.damon.DataClass.MauSac
@@ -23,6 +26,9 @@ import kotlinx.coroutines.launch
 
 class AllViewModel: ViewModel(){
 
+    fun clearDonHangList() {
+        listDonHang = emptyList()
+    }
 
     var nguoidungtaikhoan :NguoiDung by mutableStateOf(NguoiDung(0,"",0,"","","","","",0))
 
@@ -204,7 +210,7 @@ class AllViewModel: ViewModel(){
     var listDonHang:List<DonHang> by mutableStateOf(emptyList())
     var donhangaddResult by mutableStateOf("")
     var donhangupdateResult by mutableStateOf("")
-    var donhang: DonHang by mutableStateOf(DonHang(0,0,0,"","",0,"","",""))
+    var donhang: DonHang by mutableStateOf(DonHang(0,0,0,"","",0,"","",0))
 
     //Đơn Hàng
     fun getAllDonHang() {
@@ -232,6 +238,17 @@ class AllViewModel: ViewModel(){
             }
         }
     }
+    fun getDonHangUserStatus(MaND:Int,trangthai:Int){
+        viewModelScope.launch ( Dispatchers.IO ){
+            try{
+                listDonHang = RetrofitClient.apiService
+                    .getDonHangUserByStatus(MaND,trangthai)
+            }catch (e:Exception){
+                Log.e("DonHangViewModel","Lỗi khi lấy đơn hàng", e)
+            }
+        }
+    }
+
     fun addDonHang(donHang: DonHang){
         viewModelScope.launch ( Dispatchers.IO ){
             try{
@@ -242,13 +259,13 @@ class AllViewModel: ViewModel(){
             }
         }
     }
-    fun editDonHang(donhangId:Int ,donHang: DonHang){
+    fun editDonHang(donhang:Int ,donHang: DonHang){
         viewModelScope.launch ( Dispatchers.IO ){
             try{
-                donhangupdateResult = RetrofitClient.apiService.updateDonHang(donhangId,donHang).message()
+                donhangupdateResult = RetrofitClient.apiService.updateDonHang(donhang,donHang).message()
                 listDonHang = RetrofitClient.apiService.getAllDonHang()
             }catch (e:Exception){
-                Log.e("DonHangViewModel","Lỗi khi sửa đơn hàng", e)
+                Log.e("DonHangViewModel","Lỗi khi sửa đơn hàng $donhangupdateResult", e)
             }
         }
     }
@@ -405,6 +422,49 @@ class AllViewModel: ViewModel(){
                 listChiTietDonHang = RetrofitClient.apiService.getAllChiTietDonHang()
             }catch (e:Exception){
                 Log.e("DonHangViewModel","Lỗi khi sửa đơn hàng", e)
+            }
+        }
+    }
+
+
+    var listDetailDonHang:List<DetailDonHang> by mutableStateOf(emptyList())
+
+    fun getChiTietDonHangByMaDH(MaDH:Int) {
+        viewModelScope.launch ( Dispatchers.IO ){
+            try{
+                listDetailDonHang = RetrofitClient.apiService
+                    .getChiTietDonHangByMaDH(MaDH)
+            }catch (e:Exception){
+                Log.e("ChiTietDonHangViewModel","Lỗi khi lấy chi tiết đơn hàng", e)
+            }
+        }
+    }
+
+    var listDiachi:List<DiaChiNhanHang> by mutableStateOf(emptyList())
+    var diachihang: DiaChiNhanHang by mutableStateOf(DiaChiNhanHang(0,0,"","","","","",""))
+    fun getDiaChiByDonHang(MaDH:Int){
+        viewModelScope.launch (Dispatchers.IO){
+            try{
+                listDiachi = RetrofitClient.apiService.getDiaChiByMaDH(MaDH)
+                diachihang = listDiachi[0]
+            }
+            catch (e:Exception){
+                Log.e("DangNhapViewModel","Error: ${e.message}")
+            }
+        }
+    }
+
+    var listTrangThai:List<TrangThaiDH> by mutableStateOf(emptyList())
+    var trangthaidonhang: TrangThaiDH by mutableStateOf(TrangThaiDH(0,"",0))
+
+    fun getTrangThaiByDonHang(MaDH:Int){
+        viewModelScope.launch (Dispatchers.IO){
+            try{
+                listTrangThai = RetrofitClient.apiService.getTrangThaiByMaDH(MaDH)
+                trangthaidonhang = listTrangThai[0]
+            }
+            catch (e:Exception){
+                Log.e("DangNhapViewModel","Error: ${e.message}")
             }
         }
     }

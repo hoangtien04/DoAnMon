@@ -8,7 +8,7 @@ package com.example.damon.DataClass
     var SDT:String,
     var Email:String,
     val TaiKhoan:String,
-    val MatKhau:String,
+    var MatKhau:String,
     val isAdmin:Int
 )
 
