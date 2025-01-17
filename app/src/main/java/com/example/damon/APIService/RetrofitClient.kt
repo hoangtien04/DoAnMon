@@ -1,6 +1,5 @@
 package com.example.damon.APIService
 
-import com.example.damon.ViewModel.SanPhamViewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

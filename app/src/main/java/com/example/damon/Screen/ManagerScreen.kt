@@ -32,15 +32,15 @@ import com.example.damon.ViewModel.AllViewModel
 fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
     var menuItems = listOf(
         "Hồ sơ" to { navController.navigate(ScreenRoute.Member.route) },
-        "Admin" to {}
+        "Admin" to {navController.navigate(ScreenRoute.Admin.route)}
     )
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        AccountHeader()
-        PurchaseStatusHeader(navController)
+        AccountHeader(viewModel.nguoidungtaikhoan)
+        PurchaseStatusHeader(navController,viewModel)
 
 
         Column(modifier = Modifier.fillMaxWidth()) {
@@ -66,7 +66,7 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
             }
         }
         viewModel.kiemtratrangthai()
-        var trangthai:Boolean = viewModel.trangthaiDangNhap
+        var trangthai = viewModel.trangthaiDangNhap
         if(!trangthai) {
             Text(
                 text = "Đăng nhập",
@@ -88,7 +88,8 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
                     },
                 fontSize = 18.sp
             )
-        }else{
+        }
+        if(trangthai){
             Text(
                 text = "Đăng xuất",
                 color = Color.Black,
@@ -110,13 +111,33 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
                     },
                 fontSize = 18.sp
             )
+            Text(
+                text = "Đổi Mật Khẩu",
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(horizontal = 15.dp, vertical = 10.dp)
+                    .clickable(onClick = {
+                            navController.navigate(ScreenRoute.comfirmPassword.route)
+                    })
+                    .fillMaxWidth()
+                    .drawBehind {
+                        val lineHeight = 1.dp.toPx()
+                        drawLine(
+                            color = Color.LightGray,
+                            start = Offset(0f, size.height),
+                            end = Offset(size.width, size.height),
+                            strokeWidth = lineHeight
+                        )
+                    },
+                fontSize = 18.sp
+            )
         }
         Spacer(modifier = Modifier.weight(1f))
     }
 }
 
 @Composable
-fun PurchaseStatusHeader(navController: NavController) {
+fun PurchaseStatusHeader(navController: NavController, viewModel: AllViewModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,29 +154,33 @@ fun PurchaseStatusHeader(navController: NavController) {
             PurchaseStatusItem(
                 iconResId = R.drawable.box_archive_solid,
                 label = "Chờ xác nhận",
-                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(0))}
+                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(0))},
+                viewModel
             )
             PurchaseStatusItem(
                 iconResId = R.drawable.box_solid,
                 label = "Chờ lấy hàng",
-                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(1))}
+                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(1))},
+                viewModel
             )
             PurchaseStatusItem(
                 iconResId = R.drawable.truck_solid,
                 label = "Chờ giao hàng",
-                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(2))}
+                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(2))},
+                viewModel
             )
             PurchaseStatusItem(
                 iconResId = R.drawable.star_solid,
                 label = "Đánh giá",
-                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(3))}
+                onClickCard = {navController.navigate(ScreenRoute.Oder.createRoute(3))},
+                viewModel
             )
         }
     }
 }
 
 @Composable
-fun PurchaseStatusItem(iconResId: Int, label: String, onClickCard: () -> Unit) {
+fun PurchaseStatusItem(iconResId: Int, label: String, onClickCard: () -> Unit, viewModel: AllViewModel) {
     Card(
         onClick = onClickCard,
         modifier = Modifier
@@ -190,7 +215,7 @@ fun PurchaseStatusItem(iconResId: Int, label: String, onClickCard: () -> Unit) {
 
 
 @Composable
-fun AccountHeader() {
+fun AccountHeader(nguoiDung: NguoiDung) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -210,7 +235,11 @@ fun AccountHeader() {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Tên Tài Khoản",
+                text = if(nguoiDung.MaND==0){
+                    "Khách"
+                }else{
+                    nguoiDung.HoTen
+                },
                 color = Color.Black,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
@@ -233,7 +262,7 @@ fun AccountHeader() {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Địa chỉ",
+                text = "",
                 color = Color.Gray,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal
