@@ -39,6 +39,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
 import com.example.damon.DataClass.NguoiDung
+import com.example.damon.Navigation.ScreenRoute
 
 @Composable
 fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewModel) {
@@ -130,8 +131,7 @@ fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewMo
                 onClick = {
                     if (MatKhauMoi == NhapLaiMatKhauMoi && MatKhauMoi.isNotBlank() && MatKhauCu == nguoidung.MatKhau) {
                         showSuccessDialog = true
-                        val updatedNguoiDung = nguoidung.copy(MatKhau = MatKhauMoi)
-                        viewModel.editNguoiDung(mand, nguoidung = updatedNguoiDung)
+                        viewModel.doimatkhau(mand, MatKhauMoi)
                     } else {
                         showErrorDialog = true
                     }
@@ -160,7 +160,7 @@ fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewMo
                     confirmButton = {
                         TextButton(onClick = {
                             showSuccessDialog = false
-                            
+                            navController.navigate(ScreenRoute.Main.route)
                         }
                         ) {
                             Text(text = "OK")

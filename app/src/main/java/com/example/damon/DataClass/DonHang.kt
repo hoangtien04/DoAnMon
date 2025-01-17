@@ -12,7 +12,5 @@ data class DonHang(
     var TrangThaiDH:Int
 )
 data class DonHangResponse(
-    val protocol: String,
-    val code:String,
-    var url:String
+    val message: String
 )

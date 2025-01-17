@@ -67,7 +67,6 @@ fun OrderConfirmationCard( donHang: DonHang,onClickCard: () -> Unit,viewModel: A
                     .padding(12.dp)
                     .fillMaxWidth()
             ) {
-                // Order ID and status row
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Row(modifier = Modifier.fillMaxWidth()) {
@@ -117,19 +116,13 @@ fun OrderConfirmationCard( donHang: DonHang,onClickCard: () -> Unit,viewModel: A
                     ) {
                         Button(
                             onClick = {
-                                if (donHang.TrangThaiDH == 1) {
-                                    donHang.TrangThaiDH = 2
-
-                                }else{
-                                    if (donHang.TrangThaiDH == 2) {
-                                        donHang.TrangThaiDH = 3
-                                    }else{
-                                        if (donHang.TrangThaiDH == 3) {
-                                            donHang.TrangThaiDH = 4
-                                        }
-                                    }
+                                when (donHang.TrangThaiDH) {
+                                    1 -> viewModel.editTrangThaiDonHang(2, donHang.MaDH)
+                                    2 -> viewModel.editTrangThaiDonHang(3, donHang.MaDH)
+                                    3 -> viewModel.editTrangThaiDonHang(4, donHang.MaDH)
                                 }
-                                viewModel.editDonHang(donHang.MaDH,donHang)
+
+                                viewModel.getAllDonHang()
 
                             },
                             modifier = Modifier

@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.damon.APIService.KiemTraTaiKhoanResponse
 import com.example.damon.Card.TrangThaiDH
 import com.example.damon.DataClass.ChiTietDonHang
 import com.example.damon.DataClass.ChiTietSanPham
@@ -25,6 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AllViewModel: ViewModel(){
+
 
     fun clearDonHangList() {
         listDonHang = emptyList()
@@ -259,13 +261,43 @@ class AllViewModel: ViewModel(){
             }
         }
     }
-    fun editDonHang(donhang:Int ,donHang: DonHang){
+
+
+    fun editDonHang(donhangid:Int ,donHang: DonHang){
         viewModelScope.launch ( Dispatchers.IO ){
             try{
-                donhangupdateResult = RetrofitClient.apiService.updateDonHang(donhang,donHang).message()
-                listDonHang = RetrofitClient.apiService.getAllDonHang()
+                donhangupdateResult = RetrofitClient.apiService.updateDonHang(donhangid,donHang).message()
             }catch (e:Exception){
-                Log.e("DonHangViewModel","Lỗi khi sửa đơn hàng $donhangupdateResult", e)
+                Log.e("DonHangViewModel","Lỗi khi sửa đơn hàng ", e)
+            }
+        }
+    }
+    fun editTrangThaiDonHang(trangthai:Int ,MaDH:Int){
+        viewModelScope.launch ( Dispatchers.IO ){
+            try {
+                val response = RetrofitClient.apiService.suatrangthaidonhang(trangthai, MaDH)
+                if (response.isSuccessful) {
+                    Log.d("DonHangViewModel", "Phản hồi: ${response.body()}")
+                } else {
+                    Log.e("DonHangViewModel", "Lỗi API: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e("DonHangViewModel", "Lỗi khi sửa đơn hàng", e)
+            }
+        }
+    }
+
+    fun doimatkhau(MaND:Int ,MatKhau:String){
+        viewModelScope.launch ( Dispatchers.IO ){
+            try {
+                val response = RetrofitClient.apiService.doimatkhau(MaND, MatKhau)
+                if (response.isSuccessful) {
+                    Log.d("DoiMatKhauViewModel", "Phản hồi: ${response.body()}")
+                } else {
+                    Log.e("DoiMatKhauViewModel", "Lỗi API: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e("DoiMatKhauViewModel", "Lỗi khi đổi mật khẩu", e)
             }
         }
     }
@@ -468,4 +500,36 @@ class AllViewModel: ViewModel(){
             }
         }
     }
+
+    var dangkyResult by mutableStateOf("")
+
+    fun dangky(taikhoan:String,matkhau:String){
+        viewModelScope.launch ( Dispatchers.IO ){
+            try{
+                dangkyResult = RetrofitClient.apiService.dangky(taikhoan,matkhau).message()
+                listNguoiDung = RetrofitClient.apiService.getAllNguoiDung()
+            }catch (e:Exception){
+                Log.e("ChiTietSanPhamViewModel","Lỗi khi thêm chi tiết sản phẩm", e)
+            }
+        }
+    }
+
+    var listdangky: List<KiemTraTaiKhoanResponse> by mutableStateOf(emptyList())
+    var dangky by mutableStateOf(0)
+
+    fun kiemtrataikhoan(TaiKhoan: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                listdangky = RetrofitClient.apiService.kiemtrataikhoan(TaiKhoan)
+                if (listdangky.isNotEmpty()) {
+                    dangky = listdangky[0].SoLuong
+                }
+            } catch (e: Exception) {
+                Log.e("DangKyViewModel", "Error: ${e.message}")
+            }
+        }
+    }
+
+
+
 }

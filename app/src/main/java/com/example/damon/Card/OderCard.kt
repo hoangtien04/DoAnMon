@@ -36,11 +36,15 @@ import com.example.damon.DataClass.DonHang
 import com.example.damon.DataClass.NguoiDung
 import com.example.damon.R
 import com.example.damon.ViewModel.AllViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun OderCard(donHang: DonHang,onClickCard: () -> Unit,viewModel: AllViewModel) {
     var donhang:DonHang = donHang
-    var updatedDonHang = donhang
+    var updatedDonHang by remember { mutableStateOf(donhang) }
     var trangthai by remember { mutableStateOf("") }
     if(donHang.TrangThaiDH==1){
         trangthai = "Chờ xác nhận"
@@ -125,8 +129,15 @@ fun OderCard(donHang: DonHang,onClickCard: () -> Unit,viewModel: AllViewModel) {
                     ) {
                         Button(
                             onClick = {
-                                updatedDonHang.TrangThaiDH = 5
-                                viewModel.editDonHang(donHang.MaDH, updatedDonHang)
+                                CoroutineScope(Dispatchers.Main).launch {
+                                    viewModel.editTrangThaiDonHang(5, donHang.MaDH)
+                                    viewModel.clearDonHangList()
+
+                                    // Trì hoãn nửa giây (500 milliseconds)
+                                    delay(500)
+
+                                    viewModel.getDonHangUserStatus(viewModel.nguoidungtaikhoan.MaND, 1)
+                                }
                             },
                             modifier = Modifier
                                 .width(140.dp)
