@@ -46,14 +46,12 @@ fun MainScreen(navRootController: NavHostController,viewModel: AllViewModel,view
     val currentRoute = currentBackStackEntry?.destination?.route
     viewModel2.getAllSanPham()
     val listSanPham by viewModel2.listSanPham.collectAsState()
+    val nguoiDung = viewModel.nguoidungdangnhap
 
-    // Kiểm tra xem trang hiện tại có phải là Manager hay không
     val isManagerRoute = currentRoute == NavItem.Manager.route
-    // Khởi tạo navItemController
 
     Scaffold(
         topBar = {
-            // Kiểm tra nếu route hiện tại là Manager thì không hiển thị TopAppBar
             if (!isManagerRoute) {
                 TopAppBar(
                     actions = {
@@ -61,20 +59,28 @@ fun MainScreen(navRootController: NavHostController,viewModel: AllViewModel,view
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.End
                         ) {
-                            // Nút yêu thích
                             IconButton(
                                 modifier = Modifier.size(65.dp).clip(CircleShape),
                                 onClick = {
-                                    navRootController.navigate(ScreenRoute.Favourite.route)
+                                    if(nguoiDung.MaND == 0){
+                                        navRootController.navigate(ScreenRoute.Login.route)
+                                    }
+                                    else{
+                                        navRootController.navigate(ScreenRoute.Favourite.route)
+                                    }
                                 },
                             ) {
                                 Icon(Icons.Filled.FavoriteBorder, "")
                             }
-                            // Nút giỏ hàng
                             IconButton(
                                 modifier = Modifier.size(65.dp).clip(CircleShape),
                                 onClick = {
-                                    navRootController.navigate(ScreenRoute.Cart.route)
+                                    if(nguoiDung.MaND == 0){
+                                        navRootController.navigate(ScreenRoute.Login.route)
+                                    }
+                                    else{
+                                        navRootController.navigate(ScreenRoute.Cart.route)
+                                    }
                                 },
                             ) {
                                 Icon(painter = painterResource(R.drawable.shopping_cart_24dp_5f6368_fill0_wght400_grad0_opsz24), "")

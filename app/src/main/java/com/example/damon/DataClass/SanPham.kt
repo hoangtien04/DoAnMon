@@ -59,3 +59,11 @@ data class Product(
     var title:String,
     var subtitle:String
 )
+
+data class HinhAnhSanPham(
+    val MaHA:Int,
+    val MaSp: Int,
+    val MaMau: Int,
+    val DuongDan: String,
+    val Avatar: Int
+)
