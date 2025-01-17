@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -30,60 +31,101 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.example.damon.Navigation.ScreenRoute
+import com.example.damon.ViewModel.AllViewModel
 
 @Composable
-fun RegisterScreen(navController: NavHostController){
+fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
     var TaiKhoan by remember { mutableStateOf<String>("") }
     var MatKhau by remember { mutableStateOf<String>("") }
     var NhapLaiMatKhau by remember { mutableStateOf<String>("") }
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.White),
+    var showDialog by remember { mutableStateOf(false) } // State to show/hide the failure dialog
+    var showSuccessDialog by remember { mutableStateOf(false) } // State to show/hide the success dialog
+    var errorMessage by remember { mutableStateOf<String?> (null) } // State for error message
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Text(text = "ĐĂNG KÝ", fontSize = 35.sp, fontWeight = FontWeight.Bold)
 
-        TextField(value = TaiKhoan,
-            onValueChange = {TaiKhoan = it},
-            modifier = Modifier.fillMaxWidth().padding(top = 50.dp, start = 15.dp, end = 15.dp),
+        TextField(
+            value = TaiKhoan,
+            onValueChange = { TaiKhoan = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 50.dp, start = 15.dp, end = 15.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedContainerColor = Color.LightGray,
                 unfocusedContainerColor = Color.LightGray
             ),
-            label = { Text(text = "Tài Khoản")},
+            label = { Text(text = "Tài Khoản") },
             shape = RoundedCornerShape(12.dp)
-
         )
-        TextField(value = MatKhau,
-            onValueChange = {MatKhau = it},
-            modifier = Modifier.fillMaxWidth().padding(top = 15.dp, start = 15.dp, end = 15.dp),
+        TextField(
+            value = MatKhau,
+            onValueChange = { MatKhau = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 15.dp, start = 15.dp, end = 15.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedContainerColor = Color.LightGray,
                 unfocusedContainerColor = Color.LightGray
             ),
-            label = { Text(text = "Mật khẩu")},
+            label = { Text(text = "Mật khẩu") },
             shape = RoundedCornerShape(12.dp)
-
         )
-        TextField(value = NhapLaiMatKhau,
-            onValueChange = {NhapLaiMatKhau = it},
-            modifier = Modifier.fillMaxWidth().padding(top = 15.dp, start = 15.dp, end = 15.dp),
+        TextField(
+            value = NhapLaiMatKhau,
+            onValueChange = { NhapLaiMatKhau = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 15.dp, start = 15.dp, end = 15.dp),
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedContainerColor = Color.LightGray,
                 unfocusedContainerColor = Color.LightGray
             ),
-            label = { Text(text = "Nhập lại mật khẩu")},
+            label = { Text(text = "Nhập lại mật khẩu") },
             shape = RoundedCornerShape(12.dp)
         )
 
-        Button(onClick = { /*TODO*/ },
+        // Show error message if password doesn't match
+        if (errorMessage != null) {
+            Text(text = errorMessage ?: "", color = Color.Red, fontSize = 14.sp)
+        }
+
+        Button(
+            onClick = {
+                // Check if passwords match
+                if (MatKhau != NhapLaiMatKhau) {
+                    errorMessage = "Mật khẩu và nhập lại mật khẩu không khớp"
+                } else {
+                    errorMessage = null
+                    viewModel.kiemtrataikhoan(TaiKhoan)
+                    if (viewModel.dangky != 0) {
+                        showDialog = true
+                    } else {
+                        viewModel.dangky(TaiKhoan, MatKhau)
+                        showSuccessDialog = true
+                    }
+                }
+
+                viewModel.kiemtrataikhoan(TaiKhoan) // Kiểm tra tài khoản
+                if (viewModel.dangky != 0) {
+                    showDialog = true // Show the dialog if the registration fails
+                }else{
+                    viewModel.dangky(TaiKhoan,MatKhau)
+                }
+            },
             modifier = Modifier
                 .padding(top = 35.dp)
                 .width(250.dp)
@@ -98,6 +140,41 @@ fun RegisterScreen(navController: NavHostController){
                 text = "ĐĂNG KÝ",
                 fontSize = 18.sp,
                 color = Color.White
+            )
+        }
+
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = false },
+                title = { Text(text = "Đăng Ký Thất Bại") },
+                text = { Text("Tài khoản đã tồn tại. Vui lòng chọn tài khoản khác.") },
+                confirmButton = {
+                    Button(
+                        onClick = { showDialog = false },
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text("OK")
+                    }
+                }
+            )
+        }
+
+        if (showSuccessDialog) {
+            AlertDialog(
+                onDismissRequest = { showSuccessDialog = false },
+                title = { Text(text = "Đăng Ký Thành Công") },
+                text = { Text("Bạn đã đăng ký thành công.") },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            showSuccessDialog = false
+                            navController.navigate(ScreenRoute.Main.route)
+                        },
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text("OK")
+                    }
+                }
             )
         }
     }

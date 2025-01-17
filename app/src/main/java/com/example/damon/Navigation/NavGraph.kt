@@ -54,7 +54,7 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
             MemberScreen(navController = navController, viewModel = viewModel)
         }
         composable(route = ScreenRoute.Register.route) {
-            RegisterScreen(navController = navController)
+            RegisterScreen(navController = navController, viewModel)
         }
         composable(route = ScreenRoute.Login.route) {
             LoginScreen(navController = navController, viewModel = viewModel)

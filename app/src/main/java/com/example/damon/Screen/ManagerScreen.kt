@@ -7,10 +7,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,9 +36,18 @@ import com.example.damon.ViewModel.AllViewModel
 
 @Composable
 fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
+
+    var showDialog by remember { mutableStateOf(false) }
     var menuItems = listOf(
         "Hồ sơ" to { navController.navigate(ScreenRoute.Member.route) },
-        "Admin" to {navController.navigate(ScreenRoute.Admin.route)}
+        "Admin" to {
+            if (viewModel.nguoidungdangnhap.isAdmin==1) {
+                navController.navigate(ScreenRoute.Admin.route)
+                viewModel.getAllDonHang()
+            }else{
+                showDialog = true
+            }
+        }
     )
     Column(
         modifier = Modifier
@@ -134,6 +149,9 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
             )
         }
         Spacer(modifier = Modifier.weight(1f))
+    }
+    if (showDialog) {
+        showAdminErrorDialog { showDialog = false }
     }
 }
 
@@ -239,7 +257,12 @@ fun AccountHeader(nguoiDung: NguoiDung) {
                 text = if(nguoiDung.MaND==0){
                     "Khách"
                 }else{
-                    nguoiDung.HoTen
+                    if (nguoiDung.HoTen==null){
+                        "Chưa Đặt Tên"
+                    }else{
+                        nguoiDung.HoTen
+                    }
+
                 },
                 color = Color.Black,
                 fontSize = 16.sp,
@@ -270,4 +293,20 @@ fun AccountHeader(nguoiDung: NguoiDung) {
             )
         }
     }
+}
+@Composable
+fun showAdminErrorDialog(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Lỗi quyền hạn") },
+        text = { Text("Bạn không có quyền truy cập vào trang Admin.") },
+        confirmButton = {
+            Button(
+                onClick = onDismiss,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text("OK")
+            }
+        }
+    )
 }

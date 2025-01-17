@@ -231,16 +231,11 @@ interface APIService {
 //    @POST("dangnhap")
 //    suspend fun kiemTraDangNhap(@Body nguoiDung: NguoiDung): Response<nguoidungResponse>
 
-
      @GET("dangnhap/{taikhoan}/{matkhau}")
      suspend fun kiemTraDangNhap(
          @Path("taikhoan") taikhoan: String,
          @Path("matkhau") matkhau: String
      ): List<NguoiDung>
-
-
-
-
 
     @GET("donhang/ctdonhang/{MaDH}")
     suspend fun getChiTietDonHangByMaDH(
@@ -257,4 +252,30 @@ interface APIService {
         @Path("MaDH") MaDH: Int
     ): List<TrangThaiDH>
 
+    @PUT("dangky/{TaiKhoan}/{MatKhau}")
+    suspend fun dangky(
+        @Path("TaiKhoan") TaiKhoan: String,
+        @Path("MatKhau") MatKhau: String,
+    ): Response<GioHangResponse>
+
+    @GET("kiemtrataikhoan/{TaiKhoan}")
+    suspend fun kiemtrataikhoan(
+        @Path("TaiKhoan") TaiKhoan: String
+    ): List<KiemTraTaiKhoanResponse>
+
+    @PUT("editdonhang/{TrangThai}/{MaDH}")
+    suspend fun suatrangthaidonhang(
+        @Path("TrangThai") TrangThai: Int,
+        @Path("MaDH") MaDH: Int
+    ): Response<DonHangResponse>
+
+    @PUT("doimatkhau/{MaND}/{MatKhau}")
+    suspend fun doimatkhau(
+        @Path("MaND") MaND: Int,
+        @Path("MatKhau") MatKhau: String
+    ): Response<DonHangResponse>
 }
+
+data class KiemTraTaiKhoanResponse(
+    val SoLuong: Int
+)
