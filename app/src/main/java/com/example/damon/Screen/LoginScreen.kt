@@ -95,7 +95,7 @@ fun LoginScreen(navController: NavHostController, viewModel: AllViewModel){
             visualTransformation = PasswordVisualTransformation()
         )
         Row(modifier = Modifier.fillMaxWidth().padding(start = 15.dp, end = 15.dp),horizontalArrangement = Arrangement.SpaceBetween ){
-            Text(text = "Quên mật khẩu?",
+            Text(text = "",
                 modifier = Modifier
                     .clickable {navController.navigate(ScreenRoute.comfirmPassword.route)},
                 color = Color.Blue

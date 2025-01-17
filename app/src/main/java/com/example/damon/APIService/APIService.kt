@@ -1,12 +1,15 @@
 package com.example.damon.APIService
 
+import com.example.damon.Card.TrangThaiDH
 import com.example.damon.DataClass.ChiTietDonHang
 import com.example.damon.DataClass.ChiTietDonHangResponse
 import com.example.damon.DataClass.ChiTietSanPham
 import com.example.damon.DataClass.ChiTietSanPhamMauSacHinhAnh
 import com.example.damon.DataClass.ChiTietSanPhamResponse
+import com.example.damon.DataClass.DetailDonHang
 import com.example.damon.DataClass.DiaChiGiaoHang
 import com.example.damon.DataClass.DiaChiGiaoHangResponse
+import com.example.damon.DataClass.DiaChiNhanHang
 import com.example.damon.DataClass.DonHang
 import com.example.damon.DataClass.DonHangResponse
 import com.example.damon.DataClass.GioHang
@@ -112,13 +115,20 @@ interface APIService {
          @Path("madonhang") id: Int
      ): DonHang
 
+
+    @GET("donhang/trangthai/{MaND}/{trangthai}")
+    suspend fun getDonHangUserByStatus(
+        @Path("MaND") MaND: Int,
+        @Path("trangthai") trangthai:Int
+    ): List<DonHang>
+
      @POST("themdonhang")
      suspend fun addDonHang(@Body donHang: DonHang): Response<DonHangResponse>
 
      @PUT("suadonhang/{MaDH}")
      suspend fun updateDonHang(
-         @Path("MaDH") madonhang: Int,
-         @Body donHang: DonHang
+         @Path("MaDH") id: Int,
+         @Body donhang: DonHang
      ): Response<DonHangResponse>
 
      @DELETE("xoadonhang/{MaDH}")
@@ -220,10 +230,31 @@ interface APIService {
      //Đăng nhập
 //    @POST("dangnhap")
 //    suspend fun kiemTraDangNhap(@Body nguoiDung: NguoiDung): Response<nguoidungResponse>
+
+
      @GET("dangnhap/{taikhoan}/{matkhau}")
      suspend fun kiemTraDangNhap(
          @Path("taikhoan") taikhoan: String,
          @Path("matkhau") matkhau: String
      ): List<NguoiDung>
+
+
+
+
+
+    @GET("donhang/ctdonhang/{MaDH}")
+    suspend fun getChiTietDonHangByMaDH(
+        @Path("MaDH") MaDH: Int
+    ): List<DetailDonHang>
+
+    @GET("donhang/diachi/{MaDH}")
+    suspend fun getDiaChiByMaDH(
+        @Path("MaDH") MaDH: Int
+    ): List<DiaChiNhanHang>
+
+    @GET("donhang/trangthaidonhang/{MaDH}")
+    suspend fun getTrangThaiByMaDH(
+        @Path("MaDH") MaDH: Int
+    ): List<TrangThaiDH>
 
 }

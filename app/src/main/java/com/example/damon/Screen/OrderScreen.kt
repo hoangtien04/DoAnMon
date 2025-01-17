@@ -3,6 +3,8 @@ package com.example.damon.Screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -15,11 +17,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.damon.Card.OderCard
+import com.example.damon.Card.OrderConfirmationCard
+import com.example.damon.DataClass.DonHang
+import com.example.damon.Navigation.ScreenRoute
 import com.example.damon.R
 import com.example.damon.ViewModel.AllViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.*
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -36,7 +43,6 @@ fun OrderScreen(navController: NavController, initialTab: Int = 0, viewModel: Al
     ) {
         Header(navController = navController)
 
-
         TabRow(
             selectedTabIndex = pagerState.currentPage,
         ) {
@@ -51,8 +57,18 @@ fun OrderScreen(navController: NavController, initialTab: Int = 0, viewModel: Al
             }
         }
 
-        LaunchedEffect(selectedTab) {
-            pagerState.animateScrollToPage(selectedTab)
+        // Only fetch data when a tab is selected
+        LaunchedEffect(pagerState.currentPage) {
+            val status = when (pagerState.currentPage) {
+                0 -> 1 // Chờ xác nhận
+                1 -> 2 // Chờ lấy hàng
+                2 -> 3 // Chờ giao hàng
+                3 -> 4 // Đánh giá
+                4 -> 5 // Hủy đơn hàng
+                else -> 1
+            }
+            viewModel.clearDonHangList()
+            viewModel.getDonHangUserStatus(viewModel.nguoidungtaikhoan.MaND, status)
         }
 
         HorizontalPager(
@@ -61,11 +77,11 @@ fun OrderScreen(navController: NavController, initialTab: Int = 0, viewModel: Al
             modifier = Modifier.weight(1f)
         ) { pageIndex ->
             when (pageIndex) {
-                0 -> WaitingForConfirmationScreen(navController)
-                1 -> WaitingForPickupScreen(navController)
-                2 -> WaitingForDeliveryScreen(navController)
-                3 -> RatingScreen(navController)
-                4 -> CancelOrderScreen(navController)
+                0 -> WaitingForConfirmationScreen(navController, viewModel)
+                1 -> WaitingForPickupScreen(navController, viewModel)
+                2 -> WaitingForDeliveryScreen(navController, viewModel)
+                3 -> RatingScreen(navController, viewModel)
+                4 -> CancelOrderScreen(navController, viewModel)
             }
         }
 
@@ -122,56 +138,116 @@ fun EmptyStateMessage(message: String) {
 }
 
 @Composable
-fun WaitingForConfirmationScreen(navController: NavController) {
+fun WaitingForConfirmationScreen(navController: NavController, viewModel: AllViewModel) {
+    var listDonHang: List<DonHang> = viewModel.listDonHang
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        EmptyStateMessage("Bạn chưa có đơn hàng nào đang chờ xác nhận.")
+        if (listDonHang.isEmpty()) {
+            EmptyStateMessage("Bạn chưa có đơn hàng nào đang chờ xác nhận.")
+        } else {
+            LazyColumn(modifier = Modifier.padding()) {
+                items(listDonHang) {
+                    OderCard(donHang = it,
+                        {navController.navigate(ScreenRoute.DetailDonHang.route + "?id=${it.MaDH}")},
+                        viewModel
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun WaitingForPickupScreen(navController: NavController) {
+fun WaitingForPickupScreen(navController: NavController, viewModel: AllViewModel) {
+    var listDonHang: List<DonHang> = viewModel.listDonHang
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        EmptyStateMessage("Bạn chưa có đơn hàng nào đang chờ lấy hàng.")
+        if (listDonHang.isEmpty()) {
+            EmptyStateMessage("Bạn chưa có đơn hàng nào đang chờ lấy hàng.")
+        } else {
+            LazyColumn(modifier = Modifier.padding()) {
+                items(listDonHang) {
+                    OderCard(donHang = it,
+                        {navController.navigate(ScreenRoute.DetailDonHang.route + "?id=${it.MaDH}")},
+                        viewModel
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun WaitingForDeliveryScreen(navController: NavController) {
+fun WaitingForDeliveryScreen(navController: NavController, viewModel: AllViewModel) {
+    var listDonHang: List<DonHang> = viewModel.listDonHang
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        EmptyStateMessage("Bạn chưa có đơn hàng nào đang chờ giao hàng.")
+        if (listDonHang.isEmpty()) {
+            EmptyStateMessage("Bạn chưa có đơn hàng nào đang chờ giao hàng.")
+        } else {
+            LazyColumn(modifier = Modifier.padding()) {
+                items(listDonHang) {
+                    OderCard(donHang = it,
+                        {navController.navigate(ScreenRoute.DetailDonHang.route + "?id=${it.MaDH}")},
+                        viewModel
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun RatingScreen(navController: NavController) {
+fun RatingScreen(navController: NavController, viewModel: AllViewModel) {
+    var listDonHang: List<DonHang> = viewModel.listDonHang
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        EmptyStateMessage("Bạn chưa có đơn hàng nào đánh giá")
+        if (listDonHang.isEmpty()) {
+            EmptyStateMessage("Bạn chưa có đơn hàng nào đang chờ đánh giá.")
+        } else {
+            LazyColumn(modifier = Modifier.padding()) {
+                items(listDonHang) {
+                    OderCard(donHang = it,
+                        {navController.navigate(ScreenRoute.DetailDonHang.route + "?id=${it.MaDH}")},
+                        viewModel
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun CancelOrderScreen(navController: NavController) {
+fun CancelOrderScreen(navController: NavController, viewModel: AllViewModel) {
+    var listDonHang: List<DonHang> = viewModel.listDonHang
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        EmptyStateMessage("Bạn chưa có đơn hàng nào đã bị hủy.") // Message for no cancelled orders
+        if (listDonHang.isEmpty()) {
+            EmptyStateMessage("Bạn chưa có đơn hàng nào đã bị hủy.")
+        } else {
+            LazyColumn(modifier = Modifier.padding()) {
+                items(listDonHang) {
+                    OderCard(donHang = it,
+                        {navController.navigate(ScreenRoute.DetailDonHang.route + "?id=${it.MaDH}")},
+                        viewModel
+                    )
+                }
+            }
+        }
     }
 }

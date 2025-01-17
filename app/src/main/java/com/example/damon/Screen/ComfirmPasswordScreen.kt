@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -31,73 +33,148 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.example.damon.ViewModel.AllViewModel
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TextButton
 
 @Composable
-fun ComfirmPasswordScreen(navController: NavHostController){
-    var MatKhauCu by remember { mutableStateOf<String>("") }
-    var MatKhauMoi by remember { mutableStateOf<String>("") }
-    var NhapLaiMatKhauMoi by remember { mutableStateOf<String>("") }
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(Color.White),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Text(text ="ĐỔI MẬT KHẨU", fontSize = 35.sp, fontWeight = FontWeight.Bold)
+fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewModel) {
+    var MatKhauCu by remember { mutableStateOf("") }
+    var MatKhauMoi by remember { mutableStateOf("") }
+    var NhapLaiMatKhauMoi by remember { mutableStateOf("") }
+    var showSuccessDialog by remember { mutableStateOf(false) }
+    var showErrorDialog by remember { mutableStateOf(false) }
 
-        TextField(value = MatKhauCu,
-            onValueChange = {MatKhauCu = it},
-            modifier = Modifier.fillMaxWidth().padding(top = 50.dp, start = 15.dp, end = 15.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedContainerColor = Color.LightGray,
-                unfocusedContainerColor = Color.LightGray
-            ),
-            label = { Text(text = "Mật khẩu cũ")},
-            shape = RoundedCornerShape(12.dp)
-        )
-        TextField(value = MatKhauMoi,
-            onValueChange = {MatKhauMoi = it},
-            modifier = Modifier.fillMaxWidth().padding(top = 15.dp, start = 15.dp, end = 15.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedContainerColor = Color.LightGray,
-                unfocusedContainerColor = Color.LightGray
-            ),
-            label = { Text(text = "Mật khẩu mới")},
-            shape = RoundedCornerShape(12.dp)
-
-        )
-        TextField(value = NhapLaiMatKhauMoi,
-            onValueChange = {NhapLaiMatKhauMoi = it},
-            modifier = Modifier.fillMaxWidth().padding(top = 15.dp, start = 15.dp, end = 15.dp),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedContainerColor = Color.LightGray,
-                unfocusedContainerColor = Color.LightGray
-            ),
-            label = { Text(text = "Nhập lại mật khẩu mới")},
-            shape = RoundedCornerShape(12.dp)
-        )
-        Button(onClick = { /*TODO*/ },
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        Row(
             modifier = Modifier
-                .padding(top = 35.dp)
-                .width(250.dp)
-                .height(55.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red,
-                contentColor = Color.White
-            ),
-            shape = RoundedCornerShape(15.dp)
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = "XÁC NHẬN",
-                fontSize = 18.sp,
-                color = Color.White
+            IconButton(
+                onClick = { navController.popBackStack() }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.Black
+                )
+            }
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 50.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "ĐỔI MẬT KHẨU", fontSize = 35.sp, fontWeight = FontWeight.Bold)
+
+            TextField(
+                value = MatKhauCu,
+                onValueChange = { MatKhauCu = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 50.dp, start = 15.dp, end = 15.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = Color.LightGray
+                ),
+                label = { Text(text = "Mật khẩu cũ") },
+                shape = RoundedCornerShape(12.dp)
             )
+            TextField(
+                value = MatKhauMoi,
+                onValueChange = { MatKhauMoi = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 15.dp, start = 15.dp, end = 15.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = Color.LightGray
+                ),
+                label = { Text(text = "Mật khẩu mới") },
+                shape = RoundedCornerShape(12.dp)
+            )
+            TextField(
+                value = NhapLaiMatKhauMoi,
+                onValueChange = { NhapLaiMatKhauMoi = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 15.dp, start = 15.dp, end = 15.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = Color.LightGray
+                ),
+                label = { Text(text = "Nhập lại mật khẩu mới") },
+                shape = RoundedCornerShape(12.dp)
+            )
+            Button(
+                onClick = {
+                    if (MatKhauMoi == NhapLaiMatKhauMoi && MatKhauMoi.isNotBlank() && MatKhauCu == viewModel.nguoidungdangnhap.MatKhau) {
+                        showSuccessDialog = true
+                    } else {
+                        showErrorDialog = true
+                    }
+                },
+                modifier = Modifier
+                    .padding(top = 35.dp)
+                    .width(250.dp)
+                    .height(55.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Red,
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(15.dp)
+            ) {
+                Text(
+                    text = "XÁC NHẬN",
+                    fontSize = 18.sp,
+                    color = Color.White
+                )
+            }
+            if (showSuccessDialog) {
+                AlertDialog(
+                    onDismissRequest = { showSuccessDialog = false },
+                    title = { Text(text = "Thành Công") },
+                    text = { Text(text = "Mật khẩu đã được thay đổi thành công.") },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            showSuccessDialog = false
+                            viewModel.nguoidungtaikhoan.MatKhau = MatKhauMoi
+                            viewModel.editNguoiDung(viewModel.nguoidungtaikhoan.MaND,viewModel.nguoidungtaikhoan)
+                        }
+                        ) {
+                            Text(text = "OK")
+                        }
+                    }
+                )
+            }
+            if (showErrorDialog) {
+                AlertDialog(
+                    onDismissRequest = { showErrorDialog = false },
+                    title = { Text(text = "Thất Bại") },
+                    text = { Text(text = "Mật khẩu không khớp hoặc không hợp lệ.") },
+                    confirmButton = {
+                        TextButton(onClick = { showErrorDialog = false }) {
+                            Text(text = "OK")
+                        }
+                    }
+                )
+            }
         }
     }
 }

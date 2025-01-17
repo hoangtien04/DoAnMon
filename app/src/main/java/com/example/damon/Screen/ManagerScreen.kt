@@ -39,7 +39,7 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        AccountHeader()
+        AccountHeader(viewModel.nguoidungtaikhoan)
         PurchaseStatusHeader(navController,viewModel)
 
 
@@ -98,6 +98,26 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
                     .clickable(onClick = {
                         viewModel.trangthaiDangNhap = false
                         viewModel.nguoidungtaikhoan = NguoiDung(0,"",0,"","","","","",0)
+                    })
+                    .fillMaxWidth()
+                    .drawBehind {
+                        val lineHeight = 1.dp.toPx()
+                        drawLine(
+                            color = Color.LightGray,
+                            start = Offset(0f, size.height),
+                            end = Offset(size.width, size.height),
+                            strokeWidth = lineHeight
+                        )
+                    },
+                fontSize = 18.sp
+            )
+            Text(
+                text = "Đổi Mật Khẩu",
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(horizontal = 15.dp, vertical = 10.dp)
+                    .clickable(onClick = {
+                            navController.navigate(ScreenRoute.comfirmPassword.route)
                     })
                     .fillMaxWidth()
                     .drawBehind {
@@ -195,7 +215,7 @@ fun PurchaseStatusItem(iconResId: Int, label: String, onClickCard: () -> Unit, v
 
 
 @Composable
-fun AccountHeader() {
+fun AccountHeader(nguoiDung: NguoiDung) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -215,7 +235,11 @@ fun AccountHeader() {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Tên Tài Khoản",
+                text = if(nguoiDung.MaND==0){
+                    "Khách"
+                }else{
+                    nguoiDung.HoTen
+                },
                 color = Color.Black,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
@@ -238,7 +262,7 @@ fun AccountHeader() {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Địa chỉ",
+                text = "",
                 color = Color.Gray,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal

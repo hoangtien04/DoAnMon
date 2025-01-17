@@ -95,7 +95,7 @@ fun OrderConfirmationScreen(navController: NavController, viewModel: AllViewMode
                     navController.navigate(
                         ScreenRoute.DetailDonHang.route + "?id=${it.MaDH}"
                     )
-                })
+                },viewModel)
             }
         }
     }
