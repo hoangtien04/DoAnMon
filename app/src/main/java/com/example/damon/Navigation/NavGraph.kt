@@ -68,7 +68,7 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
             ProductDetailScreen(navController = navController,MaSP,viewModel2,viewModel)
         }
         composable(route = ScreenRoute.Cart.route) {
-            CartScreen(navController = navController, viewModel = viewModel)
+            CartScreen(navController = navController, viewModel = viewModel,viewModel2)
         }
         composable(route = ScreenRoute.Favourite.route) {
             FavouriteScreen(navController = navController, viewModel = viewModel2,viewModelAll = viewModel)

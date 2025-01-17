@@ -167,7 +167,6 @@ class AllViewModel: ViewModel(){
     var listGioHang:List<GioHang> by mutableStateOf(emptyList())
     var giohangaddResult by mutableStateOf("")
     var giohangupdateResult by mutableStateOf("")
-    var giohang: GioHang by mutableStateOf(GioHang(0,"","","",0,0,0,"",0,""))
 
     //Đơn Hàng
     fun getAllGioHang(maND:Int) {

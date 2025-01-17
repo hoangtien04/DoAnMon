@@ -8,9 +8,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,14 +26,17 @@ import com.example.damon.DataClass.GioHang
 import com.example.damon.DataClass.YeuThich
 import com.example.damon.R
 import com.example.damon.ViewModel.AllViewModel
+import com.example.damon.ViewModel.SanPhamViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CartScreen(navController: NavController, viewModel: AllViewModel) {
+fun CartScreen(navController: NavController, viewModel: AllViewModel,viewModel2:SanPhamViewModel) {
     viewModel.getAllGioHang(viewModel.nguoidungdangnhap.MaND)
-    var listGioHang: List<GioHang> = viewModel.listGioHang
 
+    viewModel2.getGioHang(viewModel.nguoidungdangnhap.MaND)
+    val listGioHang by viewModel2.gioHang.collectAsState()
+    var TongTien by remember{ mutableStateOf(0) }
 
     Scaffold(
         topBar = {
@@ -72,9 +81,10 @@ fun CartScreen(navController: NavController, viewModel: AllViewModel) {
                         color = Color.Gray
                     )
                     Text(
-                        text = "tongTien",
+                        text = "${tinhTongTien(listGioHang)} VND",
                         fontSize = 20.sp,
-                        color = Color.Red
+                        color = Color.Red,
+                        fontWeight = FontWeight.Bold
                     )
                 }
                 Button(
@@ -106,8 +116,16 @@ fun CartScreen(navController: NavController, viewModel: AllViewModel) {
             items(listGioHang) { giohang ->
                 CartItemCard(gioHang = giohang, viewModel = viewModel)
                 Spacer(modifier = Modifier.height(8.dp))
+                TongTien += giohang.SoLuong * giohang.DonGia
             }
         }
     }
 }
 
+fun tinhTongTien(listGioHang: List<GioHang>): Int {
+    var tongTien = 0
+    for (gioHang in listGioHang) {
+        tongTien += gioHang.SoLuong * gioHang.DonGia
+    }
+    return tongTien
+}

@@ -1,6 +1,7 @@
 package com.example.damon.APIService
 
 import com.example.damon.DataClass.ChiTietSanPham
+import com.example.damon.DataClass.GioHang
 import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.KiemTraSanPhamYeuThich
 import com.example.damon.DataClass.LoaiSanPham
@@ -93,16 +94,21 @@ interface SanPhamAPIService {
 
     @POST("/adddanhsachgiohang")
     suspend fun addDanhSachGioHang(
-        @Body themGioHang: ThemGioHang
-    ):Response<ThemGioHangResponse>
+        @Query("MaND") MaND:Int,
+        @Query ("MaCTSP") MaCTSP:Int,
+        @Query ("SoLuong") SoLuong:Int,
+    )
 
-    @GET("/chitietsanpham/{MaSP}/{MaMau}/{MaSize}")
+    @GET("chitietsanpham/{MaSP}/{MaMau}/{MaSize}")
     suspend fun getChiTietSanPham(
         @Path("MaSP") MaSP:Int,
         @Path("MaMau") MaMau:Int,
         @Path("MaSize") MaSize:Int,
     ):ChiTietSanPham
 
-
+    @GET("/giohang/{MaND}")
+    suspend fun getGioHang(
+        @Path("MaND") MaND:Int,
+    ):List<GioHang>
 
 }

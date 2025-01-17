@@ -7,9 +7,9 @@ data class ChiTietSanPhamResponse(
 )
 
 data class ChiTietSanPham(
-    val MaCTSP:Int,
-    val MaSP:Int,
-    val MaMau:Int,
-    val MaSize:Int,
-    val SoLuong:Int
+    val MaCTSP: Int,
+    val MaSp: Int,
+    val MaMau: Int,
+    val MaSize: Int,
+    val SoLuong: Int
 )

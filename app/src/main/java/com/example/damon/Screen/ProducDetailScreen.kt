@@ -55,6 +55,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.media3.common.util.Log
+import androidx.media3.common.util.UnstableApi
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.damon.DataClass.HinhAnhSanPham
@@ -70,26 +72,32 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
+@androidx.annotation.OptIn(UnstableApi::class)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel: SanPhamViewModel,viewModelAll: AllViewModel) {
     val sanPhamDetail by viewModel.sanPhamDetail.collectAsState()
-    val NguoiDung = viewModelAll.nguoidungdangnhap
+    val nguoiDung = viewModelAll.nguoidungdangnhap
     var soLuong by remember{ mutableStateOf(1)}
     var maMau by remember { mutableStateOf(0) }
     var maSize by remember { mutableStateOf(0) }
 
     LaunchedEffect(MaSP) {
         viewModel.getSanPhamDetailByID(maSP = MaSP.toInt())
+
     }
 
-    viewModel.getSanPhamDetailByID(MaSP.toInt())
     viewModel.getMauSacByID(MaSP.toInt())
     viewModel.getSizeByID(MaSP.toInt())
-    viewModel.getKiemTraSPYeuThich(NguoiDung.MaND,MaSP.toInt())
-    viewModel.getChiTietSanPham(MaSP = MaSP.toInt(), maMau, maSize)
+    viewModel.getKiemTraSPYeuThich(nguoiDung.MaND,MaSP.toInt())
+    viewModel.getHinhAnhTheoMaSPVaMaMau(MaSP.toInt(),maMau)
+
 
     val listMauSac by viewModel.listMauSac.collectAsState()
     val listSize by viewModel.sizeDetail.collectAsState()
@@ -112,14 +120,27 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
                     }
                 },
                 actions = {
-                    IconButton(onClick = { navController.navigate(ScreenRoute.Favourite.route) }) {
+                    IconButton(onClick = {
+                        if(nguoiDung.MaND == 0){
+                            navController.navigate(ScreenRoute.Login.route)
+                        }
+                        else{
+                            navController.navigate(ScreenRoute.Favourite.route)
+                    } }) {
                         Icon(
                             imageVector = Icons.Rounded.FavoriteBorder,
                             contentDescription = "Favorite",
                             tint = Color.Black
                         )
                     }
-                    IconButton(onClick = { navController.navigate(ScreenRoute.Cart.route) }) {
+                    IconButton(onClick = {
+                        if(nguoiDung.MaND == 0){
+                            navController.navigate(ScreenRoute.Login.route)
+                        }
+                        else{
+                            navController.navigate(ScreenRoute.Cart.route)
+                        }
+                    }) {
                         Icon(
                             painter = painterResource(id = R.drawable.shopping_cart_24dp_5f6368_fill0_wght400_grad0_opsz24),
                             contentDescription = "Cart",
@@ -151,14 +172,14 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
         ) {
             item { FullWidthImageCarousel(hinhAnhSanPham) }
             item { ProductTitleRow(sanPhamDetail.TenSP, isFavorite) {
-                if(NguoiDung.MaND == 0){
+                if(nguoiDung.MaND == 0){
                     navController.navigate(ScreenRoute.Login.route)
                 }
                 else{
                     if (isFavorite) {
-                        viewModel.deleteSPYeuThich(NguoiDung.MaND, MaSP.toInt())
+                        viewModel.deleteSPYeuThich(nguoiDung.MaND, MaSP.toInt())
                     } else {
-                        viewModel.addSanPhamYeuThich(ThemSanPhamYeuThich(NguoiDung.MaND, MaSP.toInt()))
+                        viewModel.addSanPhamYeuThich(ThemSanPhamYeuThich(nguoiDung.MaND, MaSP.toInt()))
                     }
                 }
 
@@ -168,7 +189,17 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
             item { ProductPriceAndRating(sanPhamDetail.DonGia) }
             item { QuantitySelector{ quantity -> soLuong = quantity } }
             item { AddToCartButton(){
-                viewModel.addDanhSachGioHang(themGioHang = ThemGioHang(NguoiDung.MaND,MaSP.toInt(),soLuong))
+                if(nguoiDung.MaND != 0){
+                    CoroutineScope(Dispatchers.Main).launch {
+                        viewModel.getChiTietSanPham(MaSP = MaSP.toInt(), maMau, maSize)
+                        Log.d("DEBUG", "MaCTSP truyền vào: ${chiTietSanPham.MaCTSP}")
+                        delay(800)
+                        viewModel.addDanhSachGioHang(nguoiDung.MaND, chiTietSanPham.MaCTSP, soLuong)
+                    }
+                }
+                else{
+                    navController.navigate(ScreenRoute.Login.route)
+                }
             } }
             item { ProductDescription(sanPhamDetail.MoTa) }
         }
@@ -302,8 +333,7 @@ fun ProductColorSelector(listMauSac: List<MauSac>, onColorSelected: (Int) -> Uni
 
 @Composable
 fun ProductSizeSelector(listSize:List<SizeDetail>,onSizeSelected: (Int) -> Unit) {
-    val defaultSize = remember(listSize) { listSize.firstOrNull()?.Size ?: "" }
-    var selectedSize by remember { mutableStateOf(defaultSize) }
+    var selectedSize by remember { mutableIntStateOf(if (listSize.isNotEmpty()) listSize.first().MaSize else 0) }
 
     Column(
         modifier = Modifier
@@ -329,13 +359,13 @@ fun ProductSizeSelector(listSize:List<SizeDetail>,onSizeSelected: (Int) -> Unit)
                         .height(35.dp)
                         .width(50.dp)
                         .clickable {
-                            selectedSize = size.Size
+                            selectedSize = size.MaSize
                             onSizeSelected(size.MaSize)
                         }
-                        .background(if (selectedSize == size.Size) Color.Black else Color.White),
+                        .background(if (selectedSize == size.MaSize) Color.Black else Color.White),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = size.Size,color = if (selectedSize == size.Size) Color.White else Color.Black)
+                    Text(text = size.Size,color = if (selectedSize == size.MaSize) Color.White else Color.Black)
                 }
             }
         }

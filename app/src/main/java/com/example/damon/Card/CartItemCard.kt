@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.damon.DataClass.GioHang
 import com.example.damon.R
 import com.example.damon.ViewModel.AllViewModel
@@ -43,8 +44,7 @@ import com.example.damon.ViewModel.AllViewModel
 @Composable
 fun CartItemCard(gioHang: GioHang, viewModel: AllViewModel) {
 
-    var soLuong by remember { mutableStateOf(gioHang.SoLuongTrongGio) }
-    var donGia = gioHang.DonGia
+    var soLuong by remember { mutableStateOf(gioHang.SoLuong) }
 
     Card(
         modifier = Modifier.padding(7.dp,3.dp)
@@ -56,8 +56,8 @@ fun CartItemCard(gioHang: GioHang, viewModel: AllViewModel) {
                 .padding(16.dp)
         ) {
             Row {
-                Image(
-                    painter = painterResource(id = R.drawable.anh1),
+                AsyncImage(
+                    model = gioHang.DuongDan,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -70,7 +70,7 @@ fun CartItemCard(gioHang: GioHang, viewModel: AllViewModel) {
                         .padding(start = 16.dp)
                 ) {
                     Text(
-                        "Áo khoác dù",
+                        gioHang.TenSP,
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 20.sp,
@@ -79,82 +79,38 @@ fun CartItemCard(gioHang: GioHang, viewModel: AllViewModel) {
                     )
                     Spacer(modifier = Modifier.height(18.dp))
                     Text(
-                        "Màu sắc: Đen",
+                        "Màu sắc: ${gioHang.TenMau}",
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 16.sp,
                         )
                     )
                     Text(
-                        "Kích cỡ: Nam M",
+                        "Size: ${gioHang.Size}",
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 16.sp,
                         )
                     )
                     Text(
-                        "Đơn giá: ${donGia} VND",
+                        "Số lượng: ${gioHang.SoLuong}",
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                        )
+                    )
+                    Text(
+                        "Đơn giá: ${gioHang.DonGia} VND",
                         style = TextStyle(
                             color = Color.Red,
                             fontSize = 16.sp,
                         )
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    ) {
-                        IconButton(
-                            onClick = {
-
-                                if (soLuong > 1) {
-                                    soLuong--
-                                    gioHang.SoLuongTrongGio = soLuong
-                                    viewModel.editGioHang(viewModel.nguoidungdangnhap.MaND,gioHang.MaCTSP,gioHang)
-                                }
-                            },
-                            modifier = Modifier.size(40.dp)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.minus_solid),
-                                contentDescription = "Decrease quantity",
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
-
-                        Text(
-                            text = soLuong.toString(),
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .align(Alignment.CenterVertically)
-                        )
-
-                        IconButton(
-                            onClick = {
-                                soLuong++
-                                gioHang.SoLuongTrongGio = soLuong
-                                viewModel.editGioHang(viewModel.nguoidungdangnhap.MaND,gioHang.MaCTSP,gioHang)
-                            },
-                            modifier = Modifier.size(40.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Add,
-                                contentDescription = "Increase quantity"
-                            )
-                        }
-                    }
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "TỔNG: ${soLuong * donGia} VND",
+                text = "TỔNG: ${soLuong * gioHang.DonGia} VND",
                 style = TextStyle(
                     color = Color.Red,
                     fontSize = 18.sp,

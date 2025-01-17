@@ -1,6 +1,7 @@
 package com.example.damon.APIService
 
 import com.example.damon.DataClass.ChiTietSanPham
+import com.example.damon.DataClass.GioHang
 import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.LoaiSanPham
 import com.example.damon.DataClass.MauSac
@@ -54,11 +55,15 @@ class Repository(private val apiService: SanPhamAPIService) {
         return apiService.getHinhAnh()
     }
 
-    suspend fun addDanhSachGioHang(themGioHang: ThemGioHang): Response<ThemGioHangResponse> {
-        return apiService.addDanhSachGioHang(themGioHang)
+    suspend fun addDanhSachGioHang(MaND: Int, MaCTSP: Int, SoLuong: Int) {
+        apiService.addDanhSachGioHang(MaND, MaCTSP, SoLuong)
     }
 
     suspend fun getChiTietSanPham(MaSP: Int, MaMau: Int, MaSize: Int):  ChiTietSanPham {
         return apiService.getChiTietSanPham(MaSP, MaMau, MaSize)
+    }
+
+    suspend fun getGioHang(MaND: Int): List<GioHang>{
+        return apiService.getGioHang(MaND)
     }
 }

@@ -68,3 +68,13 @@ data class HinhAnhSanPham(
     val Avatar: Int
 )
 
+data class GioHang(
+    val MaSP:Int,
+    val TenSP: String,
+    val DuongDan: String,
+    val Size: String,
+    val TenMau: String,
+    val DonGia: Int,
+    var SoLuong: Int
+)
+

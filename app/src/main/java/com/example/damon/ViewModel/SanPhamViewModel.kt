@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.damon.APIService.Repository
 import com.example.damon.DataClass.ChiTietSanPham
+import com.example.damon.DataClass.GioHang
 import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.KiemTraSanPhamYeuThich
 import com.example.damon.DataClass.LoaiSanPham
@@ -171,17 +172,6 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
     private val _danhSachHinhAnh = MutableStateFlow<List<HinhAnhSanPham>>(emptyList())
     val danhSachHinhAnh: StateFlow<List<HinhAnhSanPham>> get() = _danhSachHinhAnh
 
-    fun getHinhAnhTheoMauSac() {
-        viewModelScope.launch {
-            try {
-                val danhSachHinhAnh = repository.getHinhAnh()
-                _danhSachHinhAnh.value = danhSachHinhAnh
-            } catch (e: Exception) {
-                Log.e("SanPhamViewModel", "Error: ${e.message}")
-            }
-        }
-    }
-
     fun getHinhAnhTheoMaSPVaMaMau(maSP: Int, maMau: Int) {
         viewModelScope.launch {
             _danhSachHinhAnh.value = repository.getHinhAnh().filter {
@@ -190,10 +180,10 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
         }
     }
 
-    fun addDanhSachGioHang(themGioHang: ThemGioHang) {
+    fun addDanhSachGioHang(MaND: Int, MaCTSP: Int, SoLuong: Int) {
         viewModelScope.launch {
             try {
-                repository.addDanhSachGioHang(themGioHang)
+                repository.addDanhSachGioHang(MaND, MaCTSP, SoLuong)
             } catch (e: Exception) {
                 Log.e("SanPhamViewModel", "Error add san pham vao gio hang", e)
             }
@@ -209,6 +199,21 @@ class SanPhamViewModel(private val repository: Repository):ViewModel() {
             try {
                 val chiTietSanPham = repository.getChiTietSanPham(MaSP, MaMau, MaSize)
                 _chiTietSanPham.value = chiTietSanPham
+                Log.d("SanPhamViewModel", "Error: ${chiTietSanPham.MaCTSP}")
+            } catch (e: Exception) {
+                Log.e("SanPhamViewModel", "Error: ${e.message}")
+            }
+        }
+    }
+
+    private val _gioHang = MutableStateFlow<List<GioHang>>(emptyList())
+    val gioHang: StateFlow<List<GioHang>> get() = _gioHang
+
+    fun getGioHang(MaND: Int) {
+        viewModelScope.launch {
+            try {
+                val giohang = repository.getGioHang(MaND)
+                _gioHang.value = giohang
             } catch (e: Exception) {
                 Log.e("SanPhamViewModel", "Error: ${e.message}")
             }
