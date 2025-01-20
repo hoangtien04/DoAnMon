@@ -32,21 +32,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DAMONTheme {
-
                 val navController = rememberNavController()
                 NavGraph(navController = navController,viewModel = viewModel,viewModel2 = viewModel2)
-//                ProductList(viewModel)
-//                Scaffold(modifier = Modifier.fillMaxSize()) {
-//                    FullScreenProductList()
-//                    SearchSceen()
-//                    EditProfile()
-//                    ManagerScreen()
-//                    MemberScreen()
-//                    RegisterScreen()
-//                    LoginScreen()
-//                CartScreen()
-//                }
-
             }
         }
     }

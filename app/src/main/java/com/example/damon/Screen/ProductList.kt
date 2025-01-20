@@ -70,46 +70,6 @@ fun ProductList(navController: NavController, viewModel: SanPhamViewModel,loaiSa
                 .padding(top = 45.dp)
         ) {
             Spacer(modifier = Modifier.height(47.dp))
-//            Row(modifier = Modifier.fillMaxWidth().padding(start = 7.dp)) {
-//                ExposedDropdownMenuBox(
-//                    expanded = expandedKM,
-//                    onExpandedChange = { expandedKM = !expandedKM }
-//                ) {
-//                    TextField(
-//                        value = selectedOptionKM,
-//                        onValueChange = {},
-//                        readOnly = true, // Chỉ đọc
-//                        trailingIcon = {
-//                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedKM)
-//                        },
-//                        modifier = Modifier
-//                            .menuAnchor()
-//                            .width(165.dp)
-//                            .height(48.dp),
-//                        shape = RoundedCornerShape(50.dp),
-//                        textStyle = TextStyle(fontSize = 14.sp),
-//                        colors = TextFieldDefaults.colors(
-//                            unfocusedIndicatorColor = Color.Transparent,
-//                            focusedIndicatorColor = Color.Transparent,
-//                        )
-//                    )
-//
-//                    ExposedDropdownMenu(
-//                        expanded = expandedKM,
-//                        onDismissRequest = { expandedKM = false } // Đóng menu khi click ra ngoài
-//                    ) {
-//                        listDanhMuc.forEach { item ->
-//                            DropdownMenuItem(
-//                                text = { Text(item.TenLoai) },
-//                                onClick = {
-//                                    selectedOptionKM = item.TenLoai // Cập nhật mục đã chọn
-//                                    expandedKM = false // Đóng menu
-//                                }
-//                            )
-//                        }
-//                    }
-//                }
-//            }
             Box(modifier = Modifier.fillMaxWidth()) {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),

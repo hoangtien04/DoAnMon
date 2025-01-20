@@ -39,9 +39,9 @@ fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
     var TaiKhoan by remember { mutableStateOf<String>("") }
     var MatKhau by remember { mutableStateOf<String>("") }
     var NhapLaiMatKhau by remember { mutableStateOf<String>("") }
-    var showDialog by remember { mutableStateOf(false) } // State to show/hide the failure dialog
-    var showSuccessDialog by remember { mutableStateOf(false) } // State to show/hide the success dialog
-    var errorMessage by remember { mutableStateOf<String?> (null) } // State for error message
+    var showDialog by remember { mutableStateOf(false) }
+    var showSuccessDialog by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?> (null) }
 
     Column(
         modifier = Modifier
@@ -98,14 +98,12 @@ fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
             shape = RoundedCornerShape(12.dp)
         )
 
-        // Show error message if password doesn't match
         if (errorMessage != null) {
             Text(text = errorMessage ?: "", color = Color.Red, fontSize = 14.sp)
         }
 
         Button(
             onClick = {
-                // Check if passwords match
                 if (MatKhau != NhapLaiMatKhau) {
                     errorMessage = "Mật khẩu và nhập lại mật khẩu không khớp"
                 } else {
@@ -119,9 +117,9 @@ fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
                     }
                 }
 
-                viewModel.kiemtrataikhoan(TaiKhoan) // Kiểm tra tài khoản
+                viewModel.kiemtrataikhoan(TaiKhoan)
                 if (viewModel.dangky != 0) {
-                    showDialog = true // Show the dialog if the registration fails
+                    showDialog = true
                 }else{
                     viewModel.dangky(TaiKhoan,MatKhau)
                 }

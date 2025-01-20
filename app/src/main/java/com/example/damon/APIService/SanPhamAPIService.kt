@@ -48,27 +48,6 @@ interface SanPhamAPIService {
         @Path("MaSP") MaSP:Int,
     ):List<SizeDetail>
 
-    @GET("sanpham/{MaSP}")
-    suspend fun getSanPhamByID(
-        @Path("MaSP") MaSP:Int,
-    ):SanPhamCard
-
-    @POST("/sanpham")
-    suspend fun addSanPham(
-        @Body sanpham: SanPhamCard
-    ): Response<sanphamResponse>
-
-    @PUT("/sanpham/{MaSP}")
-    suspend fun updateSanPham(
-        @Path("MaSP") MaSP: Int,
-        @Body sanpham: SanPhamCard
-    ): Response<sanphamResponse>
-
-    @DELETE("/sanpham/{MaSP}")
-    suspend fun deleteSanPham(
-        @Path("MaSP") MaSP: Int
-    ):Response<sanphamResponse>
-
     @DELETE("/xoadanhsachyeuthich/{manguoidung}/{masanpham}")
     suspend fun deleteSanPhamYeuThich(
         @Path("manguoidung") MaND: Int,
@@ -99,7 +78,7 @@ interface SanPhamAPIService {
         @Path ("SoLuong") SoLuong:Int,
     )
 
-    @GET("chitietsanpham/{MaSP}/{MaMau}/{MaSize}")
+    @GET("/chitietsanpham/{MaSP}/{MaMau}/{MaSize}")
     suspend fun getChiTietSanPham(
         @Path("MaSP") MaSP:Int,
         @Path("MaMau") MaMau:Int,

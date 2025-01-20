@@ -220,8 +220,8 @@ fun PayScreen(){
                         val lineHeight = 147.dp.toPx()
                         drawLine(
                             color = Color(0xFF8B8B8B),
-                            start = Offset(30f, lineHeight), // bắt đầu từ bên trái
-                            end = Offset(size.width - 30f, lineHeight), // đến hết bên phải
+                            start = Offset(30f, lineHeight),
+                            end = Offset(size.width - 30f, lineHeight),
                             strokeWidth = 4f,
                         )
                     },

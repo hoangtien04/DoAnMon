@@ -58,15 +58,6 @@ fun ProductListCard(
             )
 
             Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 10.dp)) {
-//                listMauSac.forEach { colorHex ->
-//                    Box(
-//                        modifier = Modifier
-//                            .padding(4.dp)
-//                            .size(41.dp)
-//                            .clip(CircleShape)
-//                            .background(Color(android.graphics.Color.parseColor(colorHex.MauHex))),
-//                    )
-//                }
                 Icon(imageVector = Icons.Filled.FavoriteBorder
                     , contentDescription = "",
                     modifier = Modifier.padding(start = 250.dp)

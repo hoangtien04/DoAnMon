@@ -207,12 +207,11 @@ fun ProductDetailScreen(navController: NavController,MaSP:String = "",viewModel:
 }
 
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun FullWidthImageCarousel(imageUrls: List<HinhAnhSanPham>) {
     val pagerState = rememberPagerState()
     val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp // Chiều ngang màn hình
+    val screenWidth = configuration.screenWidthDp.dp
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -241,7 +240,6 @@ fun FullWidthImageCarousel(imageUrls: List<HinhAnhSanPham>) {
                     modifier = Modifier.fillMaxSize()
                 )
             }
-
             HorizontalPagerIndicator(
                 pagerState = pagerState,
                 modifier = Modifier

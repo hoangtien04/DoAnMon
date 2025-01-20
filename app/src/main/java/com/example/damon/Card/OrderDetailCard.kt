@@ -56,7 +56,6 @@ fun OrderDetailCard(detailDonHang: DetailDonHang, nguoinhan:String,SDT:String,di
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            // Product Information Section
             AsyncImage(
                 model = detailDonHang.DuongDan,
                 contentDescription = "Product Image",
@@ -80,7 +79,6 @@ fun OrderDetailCard(detailDonHang: DetailDonHang, nguoinhan:String,SDT:String,di
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Customer Information Section
             Text(
                 text = "Người đặt: $nguoinhan",
                 fontSize = 16.sp,
@@ -100,7 +98,6 @@ fun OrderDetailCard(detailDonHang: DetailDonHang, nguoinhan:String,SDT:String,di
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Order Status Section
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,

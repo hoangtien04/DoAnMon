@@ -32,7 +32,7 @@ import com.example.damon.ViewModel.SanPhamViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartScreen(navController: NavController, viewModel: AllViewModel,viewModel2:SanPhamViewModel) {
-    viewModel.getAllGioHang(viewModel.nguoidungdangnhap.MaND)
+    viewModel2.getGioHang(viewModel.nguoidungdangnhap.MaND)
 
     viewModel2.getGioHang(viewModel.nguoidungdangnhap.MaND)
     val listGioHang by viewModel2.gioHang.collectAsState()
