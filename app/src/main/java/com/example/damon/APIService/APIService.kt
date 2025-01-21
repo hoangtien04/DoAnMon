@@ -252,7 +252,7 @@ interface APIService {
         @Path("MaDH") MaDH: Int
     ): List<TrangThaiDH>
 
-    @PUT("dangky/{TaiKhoan}/{MatKhau}")
+    @POST("dangky/{TaiKhoan}/{MatKhau}")
     suspend fun dangky(
         @Path("TaiKhoan") TaiKhoan: String,
         @Path("MatKhau") MatKhau: String,

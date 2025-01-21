@@ -1,7 +1,9 @@
 package com.example.damon.Card
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,11 +15,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 
 import androidx.compose.runtime.Composable
@@ -36,16 +41,44 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.damon.DataClass.GioHang
 import com.example.damon.R
 import com.example.damon.ViewModel.AllViewModel
+import com.example.damon.ViewModel.SanPhamViewModel
 
 @Composable
-fun CartItemCard(gioHang: GioHang, viewModel: AllViewModel) {
+fun CartItemCard(gioHang: GioHang, viewModel: AllViewModel,viewModel2: SanPhamViewModel) {
 
-    var soLuong by remember { mutableStateOf(gioHang.SoLuongTrongGio) }
-    var donGia = gioHang.DonGia
+    var soLuong by remember { mutableStateOf(gioHang.SoLuong) }
+    var showDeleteConfirmation by remember { mutableStateOf(false) }
 
+    if (showDeleteConfirmation) {
+        AlertDialog(
+            onDismissRequest = { showDeleteConfirmation = false },
+            title = { Text("Xác nhận xóa") },
+            text = { Text("Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        Log.d("CartItemCard", "Delete confirmed")
+                        viewModel2.deleteCartItem(
+                            viewModel.nguoidungdangnhap.MaND,
+                            gioHang.MaCTSP
+                        )
+                        showDeleteConfirmation = false
+                    }
+                ) {
+                    Text("Xóa")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteConfirmation = false }) {
+                    Text("Hủy")
+                }
+            }
+        )
+    }
     Card(
         modifier = Modifier.padding(7.dp,3.dp)
     ) {
@@ -56,8 +89,8 @@ fun CartItemCard(gioHang: GioHang, viewModel: AllViewModel) {
                 .padding(16.dp)
         ) {
             Row {
-                Image(
-                    painter = painterResource(id = R.drawable.anh1),
+                AsyncImage(
+                    model = gioHang.DuongDan,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -70,7 +103,7 @@ fun CartItemCard(gioHang: GioHang, viewModel: AllViewModel) {
                         .padding(start = 16.dp)
                 ) {
                     Text(
-                        "Áo khoác dù",
+                        gioHang.TenSP,
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 20.sp,
@@ -79,89 +112,65 @@ fun CartItemCard(gioHang: GioHang, viewModel: AllViewModel) {
                     )
                     Spacer(modifier = Modifier.height(18.dp))
                     Text(
-                        "Màu sắc: Đen",
+                        "Màu sắc: ${gioHang.TenMau}",
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 16.sp,
                         )
                     )
                     Text(
-                        "Kích cỡ: Nam M",
+                        "Size: ${gioHang.Size}",
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 16.sp,
                         )
                     )
                     Text(
-                        "Đơn giá: ${donGia} VND",
+                        "Số lượng: ${gioHang.SoLuong}",
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                        )
+                    )
+                    Text(
+                        "Đơn giá: ${gioHang.DonGia} VND",
                         style = TextStyle(
                             color = Color.Red,
                             fontSize = 16.sp,
                         )
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    ) {
-                        IconButton(
-                            onClick = {
-
-                                if (soLuong > 1) {
-                                    soLuong--
-                                    gioHang.SoLuongTrongGio = soLuong
-                                    viewModel.editGioHang(viewModel.nguoidungdangnhap.MaND,gioHang.MaCTSP,gioHang)
-                                }
-                            },
-                            modifier = Modifier.size(40.dp)
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.minus_solid),
-                                contentDescription = "Decrease quantity",
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
-
-                        Text(
-                            text = soLuong.toString(),
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            modifier = Modifier
-                                .padding(horizontal = 16.dp)
-                                .align(Alignment.CenterVertically)
-                        )
-
-                        IconButton(
-                            onClick = {
-                                soLuong++
-                                gioHang.SoLuongTrongGio = soLuong
-                                viewModel.editGioHang(viewModel.nguoidungdangnhap.MaND,gioHang.MaCTSP,gioHang)
-                            },
-                            modifier = Modifier.size(40.dp)
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.Add,
-                                contentDescription = "Increase quantity"
-                            )
-                        }
-                    }
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "TỔNG: ${soLuong * donGia} VND",
-                style = TextStyle(
-                    color = Color.Red,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
+            Row {
+                Column(modifier = Modifier.weight(5f)) {
+                    Text(
+                        text = "TỔNG: ${soLuong * gioHang.DonGia} VND",
+                        style = TextStyle(
+                            color = Color.Red,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        ),
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                }
+                Column(modifier = Modifier.weight(1f)) {
+                    IconButton(
+                        onClick = {
+                            viewModel2.deleteCartItem(viewModel.nguoidungdangnhap.MaND,gioHang.MaCTSP)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = "Xóa sản phẩm",
+                            tint = Color.Red,
+                            modifier = Modifier
+                                .size(28.dp)
+                                .clickable { showDeleteConfirmation = true }
+                        )
+                    }
+                }
+            }
         }
     }
 }

@@ -53,6 +53,13 @@ import com.example.damon.ViewModel.AllViewModel
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MemberScreen(navController: NavController,viewModel: AllViewModel) {
+    if (viewModel.nguoidungdangnhap.Email == null){
+        viewModel.nguoidungdangnhap.Email = ""
+        viewModel.nguoidungdangnhap.HoTen = "Chưa cập nhật"
+        viewModel.nguoidungdangnhap.SDT = ""
+        viewModel.nguoidungdangnhap.NgaySinh = ""
+        viewModel.nguoidungdangnhap.GioiTinh = 1
+    }
     var nguoidung:NguoiDung = viewModel.nguoidungdangnhap
     var email by remember { mutableStateOf(nguoidung.Email) }
     var fullName by remember { mutableStateOf(nguoidung.HoTen) }
@@ -60,6 +67,7 @@ fun MemberScreen(navController: NavController,viewModel: AllViewModel) {
     var NgaySinh by remember { mutableStateOf(nguoidung.NgaySinh) }
     var TaiKhoan by remember { mutableStateOf(nguoidung.TaiKhoan) }
     var gender by remember { mutableStateOf(nguoidung.GioiTinh) }
+
     Scaffold(
         topBar = {
             TopAppBar(

@@ -1,5 +1,13 @@
 package com.example.damon.APIService
 
+import com.example.damon.DataClass.ChiTietDonHang
+import com.example.damon.DataClass.ChiTietDonHangResponse
+import com.example.damon.DataClass.ChiTietSanPham
+import com.example.damon.DataClass.DiaChi
+import com.example.damon.DataClass.DonHang
+import com.example.damon.DataClass.DonHangResponse
+import com.example.damon.DataClass.GioHang
+import com.example.damon.DataClass.GioHangResponse
 import com.example.damon.DataClass.HinhAnhSanPham
 import com.example.damon.DataClass.LoaiSanPham
 import com.example.damon.DataClass.MauSac
@@ -7,7 +15,10 @@ import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.DataClass.SanPhamDetail
 import com.example.damon.DataClass.SanPhamYeuThich
 import com.example.damon.DataClass.SizeDetail
+import com.example.damon.DataClass.ThemGioHang
+import com.example.damon.DataClass.ThemGioHangResponse
 import com.example.damon.DataClass.ThemSanPhamYeuThich
+import retrofit2.Response
 
 class Repository(private val apiService: SanPhamAPIService) {
     suspend fun getAllSanPhamCard(): List<SanPhamCard> {
@@ -49,4 +60,34 @@ class Repository(private val apiService: SanPhamAPIService) {
     suspend fun getHinhAnh(): List<HinhAnhSanPham> {
         return apiService.getHinhAnh()
     }
+
+    suspend fun addDanhSachGioHang(MaND: Int, MaCTSP: Int, SoLuong: Int) {
+        apiService.addDanhSachGioHang(MaND, MaCTSP, SoLuong)
+    }
+
+    suspend fun getChiTietSanPham(MaSP: Int, MaMau: Int, MaSize: Int):  ChiTietSanPham {
+        return apiService.getChiTietSanPham(MaSP, MaMau, MaSize)
+    }
+
+    suspend fun getGioHang(MaND: Int): List<GioHang>{
+        return apiService.getGioHang(MaND)
+    }
+    suspend fun getDiaChi(MaND: Int):List<DiaChi>{
+        return apiService.getDiaChi(MaND)
+    }
+    suspend fun deleteCartItem(MaND: Int, MaCTSP: Int) {
+        apiService.deleteCartItem(MaND, MaCTSP)
+    }
+    suspend fun themDonHang(donHang: DonHang): Response<DonHangResponse> {
+        return apiService.themDonHang(donHang)
+    }
+
+    suspend fun themChiTietDonHang(chiTietDonHang: ChiTietDonHang): Response<ChiTietDonHangResponse> {
+        return apiService.themChiTietDonHang(chiTietDonHang)
+    }
+
+    suspend fun xoaGioHangSauThanhToan(MaND: Int): Response<GioHangResponse> {
+        return apiService.xoaGioHangSauThanhToan(MaND)
+    }
+
 }

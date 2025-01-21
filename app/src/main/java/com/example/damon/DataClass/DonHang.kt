@@ -12,5 +12,7 @@ data class DonHang(
     var TrangThaiDH:Int
 )
 data class DonHangResponse(
-    val message: String
+    val message: String,
+    val maDonHang: Int? = null,  // Thêm field này để nhận mã đơn hàng
+    val code: String? = null     // Thêm field này để kiểm tra status
 )

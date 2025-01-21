@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -38,6 +39,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.example.damon.DataClass.NguoiDung
 import com.example.damon.Navigation.ScreenRoute
 
@@ -95,7 +98,10 @@ fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewMo
                     unfocusedContainerColor = Color.LightGray
                 ),
                 label = { Text(text = "Mật khẩu cũ") },
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                singleLine = true,
+                visualTransformation = PasswordVisualTransformation()
             )
             TextField(
                 value = MatKhauMoi,
@@ -110,7 +116,10 @@ fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewMo
                     unfocusedContainerColor = Color.LightGray
                 ),
                 label = { Text(text = "Mật khẩu mới") },
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                singleLine = true,
+                visualTransformation = PasswordVisualTransformation()
             )
             TextField(
                 value = NhapLaiMatKhauMoi,
@@ -125,7 +134,10 @@ fun ComfirmPasswordScreen(navController: NavHostController, viewModel: AllViewMo
                     unfocusedContainerColor = Color.LightGray
                 ),
                 label = { Text(text = "Nhập lại mật khẩu mới") },
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                singleLine = true,
+                visualTransformation = PasswordVisualTransformation()
             )
             Button(
                 onClick = {

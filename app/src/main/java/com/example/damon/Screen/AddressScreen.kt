@@ -19,31 +19,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun AddressScreen(onBackClick: () -> Unit = {}) {
+fun AddressScreen(navController: NavController) {
     val addresses = listOf(
         Address(
             name = "Vương Tâm",
-            phone = "(+84)90******30",
+            phone = "(+84)90******14",
             address = "...",
             isDefault = true
         ),
         Address(
             name = "Vương Tâm",
-            phone = "(+84)90******30",
-            address = "30 Hoàng Diệu, Long Khánh, Xuân Thanh, Long Khánh, Tỉnh Đồng Nai, Việt Nam",
+            phone = "(+84)90******52",
+            address = "87 Quang Trung, Xuân Thanh, Biên Hoà, Tỉnh Đồng Nai, Việt Nam",
             isDefault = false
         ),
         Address(
-            name = "Vương Tâm",
-            phone = "(+84)09******30",
-            address = "Số nhà 85 đường 52 Khu phố 2 P An Phú, An Phú, Quận 2, Thành phố Hồ Chí Minh, Việt Nam",
+            name = "Hoàng Tiến",
+            phone = "(+84)09******84",
+            address = "Số nhà 85 đường 85 Khu phố 2 P An Phú, An Phú, Quận 2, Thành phố Hồ Chí Minh, Việt Nam",
             isDefault = false
         )
     )
@@ -53,7 +52,7 @@ fun AddressScreen(onBackClick: () -> Unit = {}) {
             TopAppBar(
                 title = { Text("Địa chỉ của bạn", fontSize = 18.sp) },
                 navigationIcon = {
-                    IconButton(onClick = onBackClick) {
+                    IconButton(onClick = {navController.popBackStack()}) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",

@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
@@ -21,10 +22,12 @@ import androidx.navigation.NavController
 import com.example.damon.DataClass.NguoiDung
 import com.example.damon.ViewModel.AllViewModel
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.ui.text.input.KeyboardType
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
 @OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun EditProfile(navController: NavController, viewModel: AllViewModel) {
     var nguoidung: NguoiDung = viewModel.nguoidungtaikhoan
     var email by remember { mutableStateOf(nguoidung.Email) }
@@ -33,6 +36,8 @@ fun EditProfile(navController: NavController, viewModel: AllViewModel) {
     var NgaySinh by remember { mutableStateOf(nguoidung.NgaySinh) }
     var expanded by remember { mutableStateOf(false) }
     var selectedGender by remember { mutableStateOf("Chọn giới tính") }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -45,7 +50,8 @@ fun EditProfile(navController: NavController, viewModel: AllViewModel) {
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.LightGray, titleContentColor = Color.Black)
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) {
         LazyColumn(
             modifier = Modifier
@@ -55,7 +61,7 @@ fun EditProfile(navController: NavController, viewModel: AllViewModel) {
         ) {
             item { EditTextField(label = "Địa chỉ email", value = email, onValueChange = { email = it }) }
             item { EditTextField(label = "Họ Tên", value = fullName, onValueChange = { fullName = it }) }
-            item { EditTextField(label = "Số điện thoại", value = phoneNumber, onValueChange = { phoneNumber = it }) }
+            item { EditTextField(label = "Số điện thoại", value = phoneNumber, onValueChange = { phoneNumber = it }, isNumeric = true) }
             item { EditTextField(label = "Ngày Sinh", value = NgaySinh, onValueChange = { NgaySinh = it }) }
 
             item {
@@ -96,7 +102,7 @@ fun EditProfile(navController: NavController, viewModel: AllViewModel) {
                                     expanded = false
                                 }
                             ) {
-                                Text(text = gender,color = Color.Black)
+                                Text(text = gender, color = Color.Black)
                             }
                         }
                     }
@@ -105,25 +111,50 @@ fun EditProfile(navController: NavController, viewModel: AllViewModel) {
 
             item {
                 SaveButton(onClick = {
+                    if (!isValidEmail(email)) {
+                        scope.launch {
+                            snackbarHostState.showSnackbar("Email không hợp lệ")
+                        }
+                        return@SaveButton
+                    }
+                    if (!isValidPhoneNumber(phoneNumber)) {
+                        scope.launch {
+                            snackbarHostState.showSnackbar("Số điện thoại không hợp lệ")
+                        }
+                        return@SaveButton
+                    }
+
                     nguoidung.Email = email
                     nguoidung.HoTen = fullName
                     nguoidung.SDT = phoneNumber
                     nguoidung.NgaySinh = NgaySinh
-                    nguoidung.GioiTinh = if(selectedGender.equals("Nam")){
-                        1
-                    }else{
-                        0
-                    }
+                    nguoidung.GioiTinh = if (selectedGender == "Nam") 1 else 0
                     viewModel.editNguoiDung(nguoidung.MaND, nguoidung = nguoidung)
-                }
-                )
+
+                    scope.launch {
+                        snackbarHostState.showSnackbar("Lưu thành công")
+                    }
+                    navController.popBackStack()
+                })
             }
         }
     }
 }
 
+
+fun isValidEmail(email: String): Boolean {
+    val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+    return email.matches(emailRegex)
+}
+
+fun isValidPhoneNumber(phone: String): Boolean {
+    val phoneRegex = "^[0-9]{9,11}$".toRegex()
+    return phone.matches(phoneRegex)
+}
+
+
 @Composable
-fun EditTextField(label: String, value: String, onValueChange: (String) -> Unit) {
+fun EditTextField(label: String, value: String, onValueChange: (String) -> Unit, isNumeric: Boolean = false) {
     Column(modifier = Modifier.padding(10.dp)) {
         Text(text = label, fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color.Black)
         TextField(
@@ -134,7 +165,13 @@ fun EditTextField(label: String, value: String, onValueChange: (String) -> Unit)
                 .border(1.dp, Color.Black, RoundedCornerShape(8.dp)),
             colors = TextFieldDefaults.colors(focusedIndicatorColor = Color.Transparent, unfocusedIndicatorColor = Color.Transparent),
             shape = RoundedCornerShape(8.dp),
-            placeholder = { Text(text = "Nhập $label") }
+            placeholder = { Text(text = "Nhập $label") },
+            keyboardOptions = if (isNumeric) {
+                KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
+            } else {
+                KeyboardOptions.Default
+            },
+            singleLine = true
         )
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -26,6 +27,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,6 +36,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.damon.Navigation.ScreenRoute
 import com.example.damon.ViewModel.AllViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
@@ -80,7 +87,10 @@ fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
                 unfocusedContainerColor = Color.LightGray
             ),
             label = { Text(text = "Mật khẩu") },
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation()
         )
         TextField(
             value = NhapLaiMatKhau,
@@ -95,22 +105,24 @@ fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
                 unfocusedContainerColor = Color.LightGray
             ),
             label = { Text(text = "Nhập lại mật khẩu") },
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            singleLine = true,
+            visualTransformation = PasswordVisualTransformation()
         )
-
-        // Show error message if password doesn't match
         if (errorMessage != null) {
             Text(text = errorMessage ?: "", color = Color.Red, fontSize = 14.sp)
         }
-
         Button(
             onClick = {
-                // Check if passwords match
-                if (MatKhau != NhapLaiMatKhau) {
-                    errorMessage = "Mật khẩu và nhập lại mật khẩu không khớp"
+                CoroutineScope(Dispatchers.Main).launch {
+                viewModel.kiemtrataikhoan(TaiKhoan)
+                    delay(300)
+
+                if (MatKhau != NhapLaiMatKhau || MatKhau.isEmpty()) {
+                    errorMessage = "Mật khẩu và nhập lại mật khẩu không khớp hoặc bị trống"
                 } else {
                     errorMessage = null
-                    viewModel.kiemtrataikhoan(TaiKhoan)
                     if (viewModel.dangky != 0) {
                         showDialog = true
                     } else {
@@ -118,12 +130,6 @@ fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
                         showSuccessDialog = true
                     }
                 }
-
-                viewModel.kiemtrataikhoan(TaiKhoan) // Kiểm tra tài khoản
-                if (viewModel.dangky != 0) {
-                    showDialog = true // Show the dialog if the registration fails
-                }else{
-                    viewModel.dangky(TaiKhoan,MatKhau)
                 }
             },
             modifier = Modifier
@@ -142,7 +148,6 @@ fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
                 color = Color.White
             )
         }
-
         if (showDialog) {
             AlertDialog(
                 onDismissRequest = { showDialog = false },
@@ -158,7 +163,6 @@ fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
                 }
             )
         }
-
         if (showSuccessDialog) {
             AlertDialog(
                 onDismissRequest = { showSuccessDialog = false },
@@ -168,7 +172,7 @@ fun RegisterScreen(navController: NavController, viewModel: AllViewModel) {
                     Button(
                         onClick = {
                             showSuccessDialog = false
-                            navController.navigate(ScreenRoute.Main.route)
+                            navController.navigate(ScreenRoute.Login.route)
                         },
                         modifier = Modifier.padding(8.dp)
                     ) {

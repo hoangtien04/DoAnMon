@@ -31,7 +31,7 @@ class AllViewModel: ViewModel(){
     fun clearDonHangList() {
         listDonHang = emptyList()
     }
-
+    var gioHang :GioHang by mutableStateOf(GioHang(1,1,"","","","",1,1))
     var nguoidungtaikhoan :NguoiDung by mutableStateOf(NguoiDung(0,"",0,"","","","","",0))
 
     var trangthaiDangNhap: Boolean = false
@@ -169,7 +169,6 @@ class AllViewModel: ViewModel(){
     var listGioHang:List<GioHang> by mutableStateOf(emptyList())
     var giohangaddResult by mutableStateOf("")
     var giohangupdateResult by mutableStateOf("")
-    var giohang: GioHang by mutableStateOf(GioHang(0,"","","",0,0,0,"",0,""))
 
     //Đơn Hàng
     fun getAllGioHang(maND:Int) {

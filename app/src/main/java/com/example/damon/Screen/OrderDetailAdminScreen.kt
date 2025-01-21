@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.damon.Card.OrderDetailCard
 import com.example.damon.Card.TrangThaiDH
+import com.example.damon.DataClass.DetailDonHang
 import com.example.damon.DataClass.DiaChiNhanHang
 import com.example.damon.DataClass.Product
 import com.example.damon.R
@@ -31,24 +32,27 @@ import com.example.damon.ViewModel.AllViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OrderDetailAdminScreen(navController: NavController, viewModel: AllViewModel, id: Int = 0,) {
+fun OrderDetailAdminScreen(navController: NavController, viewModel: AllViewModel, id: Int = 0) {
     viewModel.getChiTietDonHangByMaDH(id)
-    var lisdetail = viewModel.listDetailDonHang
+    val lisdetail = viewModel.listDetailDonHang
     viewModel.getDiaChiByDonHang(id)
-    var diaChiNhanHang:DiaChiNhanHang = viewModel.diachihang
+    val diaChiNhanHang: DiaChiNhanHang = viewModel.diachihang
     viewModel.getTrangThaiByDonHang(id)
-    var trangThaiDH:TrangThaiDH = viewModel.trangthaidonhang
+    val trangThaiDH: TrangThaiDH = viewModel.trangthaidonhang
 
-    var nguoinhan = diaChiNhanHang.NguoiNhan
-    var SDT = diaChiNhanHang.SDT
-    var diaChi = "${diaChiNhanHang.TinhThanh} ${diaChiNhanHang.QuanHuyen} ${diaChiNhanHang.PhuongXa} ${diaChiNhanHang.CTDiaChi}}"
-    var trangthai = trangThaiDH.TrangThaiDH
+    val nguoinhan = diaChiNhanHang.NguoiNhan
+    val SDT = diaChiNhanHang.SDT
+    val diaChi = "${diaChiNhanHang.TinhThanh} ${diaChiNhanHang.QuanHuyen} ${diaChiNhanHang.PhuongXa} ${diaChiNhanHang.CTDiaChi}"
+    val trangthai = trangThaiDH.TrangThaiDH
+
+    val totalAmount = lisdetail.sumOf { it.DonGia * it.SoLuong }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, "")
+                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
                     }
                 },
                 title = {
@@ -63,9 +67,36 @@ fun OrderDetailAdminScreen(navController: NavController, viewModel: AllViewModel
         }
     ) { padding ->
         LazyColumn(modifier = Modifier.padding(padding)) {
-            items(lisdetail){
-                OrderDetailCard(detailDonHang = it,nguoinhan,SDT,diaChi,trangthai)
+            items(lisdetail) { detail ->
+                OrderDetailCard(detailDonHang = detail, nguoinhan, SDT, diaChi, trangthai)
+            }
+            item {
+                TotalAmountRow(totalAmount)
             }
         }
+    }
+}
+
+@Composable
+fun TotalAmountRow(totalAmount: Int) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = "Tổng giá trị đơn hàng:",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black
+        )
+        Text(
+            text = "$totalAmount VND",
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }

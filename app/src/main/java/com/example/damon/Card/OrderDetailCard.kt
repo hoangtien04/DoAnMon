@@ -27,25 +27,17 @@ import com.example.damon.DataClass.DetailDonHang
 import com.example.damon.ViewModel.AllViewModel
 
 @Composable
-fun OrderDetailCard(detailDonHang: DetailDonHang, nguoinhan:String,SDT:String,diachi:String,trangthai:Int) {
-    var orderStatus = ""
-    if(trangthai==1){
-        orderStatus = "Chờ xác nhận"
-    }else{
-        if (trangthai==2){
-            orderStatus = "Chờ lấy hàng"
-        }else{
-            if (trangthai==3){
-                orderStatus = "Chờ giao hàng"
-            }else{
-                if (trangthai==4){
-                    orderStatus = "Đánh giá"
-                }else{
-                    orderStatus = "Hủy đơn hàng"
-                }
-            }
-        }
+fun OrderDetailCard(detailDonHang: DetailDonHang, nguoinhan: String, SDT: String, diachi: String, trangthai: Int) {
+    var orderStatus = when (trangthai) {
+        1 -> "Chờ xác nhận"
+        2 -> "Chờ lấy hàng"
+        3 -> "Chờ giao hàng"
+        4 -> "Đánh giá"
+        else -> "Hủy đơn hàng"
     }
+
+    val totalPrice = detailDonHang.DonGia * detailDonHang.SoLuong
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,7 +48,6 @@ fun OrderDetailCard(detailDonHang: DetailDonHang, nguoinhan:String,SDT:String,di
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            // Product Information Section
             AsyncImage(
                 model = detailDonHang.DuongDan,
                 contentDescription = "Product Image",
@@ -66,21 +57,47 @@ fun OrderDetailCard(detailDonHang: DetailDonHang, nguoinhan:String,SDT:String,di
             )
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Tên sản phẩm
             Text(
                 text = "Sản phẩm: ${detailDonHang.TenSP}",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
+            // Mô tả sản phẩm
             Text(
                 text = "Mô tả: ${detailDonHang.MoTa}",
                 fontSize = 16.sp,
                 color = Color.Gray
             )
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Đơn giá
+            Text(
+                text = "Đơn giá: ${detailDonHang.DonGia} VND",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            // Số lượng
+            Text(
+                text = "Số lượng: ${detailDonHang.SoLuong}",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.Black
+            )
+
+            // Tổng tiền
+            Text(
+                text = "Tổng tiền: $totalPrice VND",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Red
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Customer Information Section
+            // Thông tin người đặt
             Text(
                 text = "Người đặt: $nguoinhan",
                 fontSize = 16.sp,
@@ -99,13 +116,12 @@ fun OrderDetailCard(detailDonHang: DetailDonHang, nguoinhan:String,SDT:String,di
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Order Status Section
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Trạng thái đơn hàng
                 Text(
                     text = "Trạng thái đơn hàng: $orderStatus",
                     fontSize = 16.sp,

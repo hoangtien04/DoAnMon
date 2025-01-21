@@ -31,6 +31,8 @@ sealed class ScreenRoute(val route: String) {
     }
     object Admin:ScreenRoute("admin")
     object DetailDonHang:ScreenRoute("detaildonhang")
+    object PayScreen:ScreenRoute("payScreen")
+    object Address:ScreenRoute("address")
 
     object WaitingForConfirmation : ScreenRoute("waiting_for_confirmation_screen")
     object WaitingForPickup : ScreenRoute("waiting_for_pickup_screen")
@@ -65,10 +67,10 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
         ) {
             var MaSP = it.arguments?.getString("MaSP")
             if(MaSP!=null)
-            ProductDetailScreen(navController = navController,MaSP,viewModel2,viewModel)
+                ProductDetailScreen(navController = navController,MaSP,viewModel2,viewModel)
         }
         composable(route = ScreenRoute.Cart.route) {
-            CartScreen(navController = navController, viewModel = viewModel)
+            CartScreen(navController = navController, viewModel = viewModel,viewModel2)
         }
         composable(route = ScreenRoute.Favourite.route) {
             FavouriteScreen(navController = navController, viewModel = viewModel2,viewModelAll = viewModel)
@@ -95,8 +97,10 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
         composable(route = NavItem.Search2.route) {
             SearchScreen2(navController = navController,viewModel = viewModel2)
         }
-        composable(route = ScreenRoute.ProductList.route) {
-            ProductList(navController,viewModel2)
+        composable(
+            route = ScreenRoute.ProductList.route,
+        ) {
+            ProductList(navController,viewModel2,"")
         }
 
         composable(route = ScreenRoute.Admin.route) {
@@ -105,7 +109,12 @@ fun NavGraph(navController: NavHostController,viewModel: AllViewModel,viewModel2
         composable(ScreenRoute.comfirmPassword.route){
             ComfirmPasswordScreen(navController = navController,viewModel = viewModel)
         }
-
+        composable(route = ScreenRoute.PayScreen.route) {
+            PayScreen(navController = navController,viewModel =viewModel,viewModel2)
+        }
+        composable(route = ScreenRoute.Address.route) {
+            AddressScreen(navController = navController)
+        }
         composable(ScreenRoute.DetailDonHang.route+"?id={id}",
             arguments = listOf(navArgument("id"){nullable=true})){
             var id = it.arguments?.getString("id")

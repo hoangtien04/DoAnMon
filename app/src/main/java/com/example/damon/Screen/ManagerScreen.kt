@@ -36,27 +36,29 @@ import com.example.damon.ViewModel.AllViewModel
 
 @Composable
 fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
+    var showLogoutDialog by remember { mutableStateOf(false) }
 
-    var showDialog by remember { mutableStateOf(false) }
-    var menuItems = listOf(
-        "Hồ sơ" to { navController.navigate(ScreenRoute.Member.route) },
-        "Admin" to {
-            if (viewModel.nguoidungdangnhap.isAdmin==1) {
+    val menuItems = mutableListOf(
+        "Hồ sơ" to { navController.navigate(ScreenRoute.Member.route) }
+    )
+
+    if (viewModel.nguoidungdangnhap.isAdmin == 1) {
+        menuItems.add(
+            "Admin" to {
                 navController.navigate(ScreenRoute.Admin.route)
                 viewModel.getAllDonHang()
-            }else{
-                showDialog = true
             }
-        }
-    )
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
         AccountHeader(viewModel.nguoidungtaikhoan)
-        PurchaseStatusHeader(navController,viewModel)
 
+        PurchaseStatusHeader(navController, viewModel)
 
         Column(modifier = Modifier.fillMaxWidth()) {
             menuItems.forEach { (title, action) ->
@@ -80,9 +82,10 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
                 )
             }
         }
+
         viewModel.kiemtratrangthai()
-        var trangthai = viewModel.trangthaiDangNhap
-        if(!trangthai) {
+        val trangthai = viewModel.trangthaiDangNhap
+        if (!trangthai) {
             Text(
                 text = "Đăng nhập",
                 color = Color.Black,
@@ -104,17 +107,13 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
                 fontSize = 18.sp
             )
         }
-        if(trangthai){
+        if (trangthai) {
             Text(
                 text = "Đăng xuất",
                 color = Color.Black,
                 modifier = Modifier
                     .padding(horizontal = 15.dp, vertical = 10.dp)
-                    .clickable(onClick = {
-                        viewModel.trangthaiDangNhap = false
-                        viewModel.nguoidungtaikhoan = NguoiDung(0,"",0,"","","","","",0)
-                        viewModel.nguoidungdangnhap = NguoiDung(0,"",0,"","","","","",0)
-                    })
+                    .clickable(onClick = { showLogoutDialog = true })
                     .fillMaxWidth()
                     .drawBehind {
                         val lineHeight = 1.dp.toPx()
@@ -148,10 +147,32 @@ fun ManagerScreen(navController: NavController, viewModel: AllViewModel) {
                 fontSize = 18.sp
             )
         }
+
         Spacer(modifier = Modifier.weight(1f))
-    }
-    if (showDialog) {
-        showAdminErrorDialog { showDialog = false }
+
+        if (showLogoutDialog) {
+            AlertDialog(
+                onDismissRequest = { showLogoutDialog = false },
+                title = { Text("Xác nhận đăng xuất") },
+                text = { Text("Bạn có chắc chắn muốn đăng xuất không?") },
+                confirmButton = {
+                    Button(onClick = {
+                        // Xử lý đăng xuất
+                        viewModel.trangthaiDangNhap = false
+                        viewModel.nguoidungtaikhoan = NguoiDung(0, "", 0, "", "", "", "", "", 0)
+                        viewModel.nguoidungdangnhap = NguoiDung(0, "", 0, "", "", "", "", "", 0)
+                        showLogoutDialog = false
+                    }) {
+                        Text("Có")
+                    }
+                },
+                dismissButton = {
+                    Button(onClick = { showLogoutDialog = false }) {
+                        Text("Không")
+                    }
+                }
+            )
+        }
     }
 }
 
@@ -293,20 +314,4 @@ fun AccountHeader(nguoiDung: NguoiDung) {
             )
         }
     }
-}
-@Composable
-fun showAdminErrorDialog(onDismiss: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Lỗi quyền hạn") },
-        text = { Text("Bạn không có quyền truy cập vào trang Admin.") },
-        confirmButton = {
-            Button(
-                onClick = onDismiss,
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text("OK")
-            }
-        }
-    )
 }

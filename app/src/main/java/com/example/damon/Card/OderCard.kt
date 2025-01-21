@@ -40,6 +40,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun OderCard(donHang: DonHang,onClickCard: () -> Unit,viewModel: AllViewModel) {
@@ -80,7 +82,6 @@ fun OderCard(donHang: DonHang,onClickCard: () -> Unit,viewModel: AllViewModel) {
                     .fillMaxWidth()
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
-
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
@@ -121,7 +122,6 @@ fun OderCard(donHang: DonHang,onClickCard: () -> Unit,viewModel: AllViewModel) {
 
                 if (donhang.TrangThaiDH==1) {
                     Spacer(modifier = Modifier.height(16.dp))
-
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -132,10 +132,8 @@ fun OderCard(donHang: DonHang,onClickCard: () -> Unit,viewModel: AllViewModel) {
                                 CoroutineScope(Dispatchers.Main).launch {
                                     viewModel.editTrangThaiDonHang(5, donHang.MaDH)
                                     viewModel.clearDonHangList()
-
                                     // Trì hoãn nửa giây (500 milliseconds)
                                     delay(500)
-
                                     viewModel.getDonHangUserStatus(viewModel.nguoidungtaikhoan.MaND, 1)
                                 }
                             },
