@@ -33,17 +33,14 @@ import com.example.damon.ViewModel.SanPhamViewModel
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductList(navController: NavController, viewModel: SanPhamViewModel,searchText:String = "") {
+fun ProductList(navController: NavController, viewModel: SanPhamViewModel,loaiSanPham: String) {
     var expandedKM by remember { mutableStateOf(false) }
-    var expandedKC by remember { mutableStateOf(false) }
     var selectedOptionKM by remember { mutableStateOf("Loại sản phẩm") }
-    var selectedOptionKC by remember { mutableStateOf("Kích Cỡ") }
-    val itemsKhuyenMai = listOf( "Áo dệt kim", "Quần áo nỉ")
-    val itemsKichCo = listOf("S", "X", "M")
+
 
     viewModel.getAllSanPham()
-    val listSanPham by viewModel.listSanPham.collectAsState()
-
+    viewModel.getLoaiSanPham()
+    val listDanhMuc by viewModel.loaiSanPham.collectAsState()
     val filteredSanPham by viewModel.filteredSanPham.collectAsState()
 
     Scaffold(
@@ -53,7 +50,7 @@ fun ProductList(navController: NavController, viewModel: SanPhamViewModel,search
                     SearchBar(onSearch = {
                             query ->
                         viewModel.searchSanPham(query)
-                    })
+                    },)
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
@@ -72,92 +69,7 @@ fun ProductList(navController: NavController, viewModel: SanPhamViewModel,search
                 .fillMaxSize()
                 .padding(top = 45.dp)
         ) {
-            Spacer(modifier = Modifier.height(50.dp))
-            Row(modifier = Modifier.fillMaxWidth().padding(start = 7.dp)) {
-
-                ExposedDropdownMenuBox(
-                    expanded = expandedKM,
-                    onExpandedChange = { expandedKM = !expandedKM }
-                ) {
-                    TextField(
-                        value = selectedOptionKM,
-                        onValueChange = {},
-                        readOnly = true, // Chỉ đọc
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedKM)
-                        },
-                        modifier = Modifier
-                            .menuAnchor()
-                            .width(165.dp)
-                            .height(48.dp),
-                        shape = RoundedCornerShape(50.dp),
-                        textStyle = TextStyle(fontSize = 14.sp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                        )
-                    )
-
-                    ExposedDropdownMenu(
-                        expanded = expandedKM,
-                        onDismissRequest = { expandedKM = false } // Đóng menu khi click ra ngoài
-                    ) {
-                        itemsKhuyenMai.forEach { item ->
-                            DropdownMenuItem(
-                                text = { Text(item) },
-                                onClick = {
-                                    selectedOptionKM = item // Cập nhật mục đã chọn
-                                    expandedKM = false // Đóng menu
-                                }
-                            )
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.width(7.dp))
-
-                // Spinner cho "Kích cỡ"
-                ExposedDropdownMenuBox(
-                    expanded = expandedKC,
-                    onExpandedChange = { expandedKC = !expandedKC }
-                ) {
-                    TextField(
-                        value = selectedOptionKC,
-                        onValueChange = {},
-                        readOnly = true, // Chỉ đọc
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedKC)
-                        },
-                        modifier = Modifier
-                            .menuAnchor()
-                            .width(165.dp)
-                            .height(48.dp),
-                        shape = RoundedCornerShape(50.dp),
-                        textStyle = TextStyle(fontSize = 14.sp),
-                        maxLines = 1,
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-
-                            )
-                    )
-
-                    ExposedDropdownMenu(
-                        expanded = expandedKC,
-                        onDismissRequest = { expandedKC = false } // Đóng menu khi click ra ngoài
-                    ) {
-                        itemsKichCo.forEach { item ->
-                            DropdownMenuItem(
-                                text = { Text(item) },
-                                onClick = {
-                                    selectedOptionKC = item // Cập nhật mục đã chọn
-                                    expandedKC = false // Đóng menu
-                                }
-                            )
-                        }
-                    }
-                }
-            }
+            Spacer(modifier = Modifier.height(47.dp))
             Box(modifier = Modifier.fillMaxWidth()) {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
@@ -177,4 +89,25 @@ fun ProductList(navController: NavController, viewModel: SanPhamViewModel,search
             }
         }
     }
+}
+
+
+@Composable
+fun SearchBar(onSearch: (String) -> Unit) {
+    var query by remember { mutableStateOf("") }
+
+    TextField(
+        value = query,
+        onValueChange = {
+            query = it
+            onSearch(it)
+        },
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        textStyle = TextStyle(fontSize = 17.sp),
+        modifier = Modifier.fillMaxWidth(),
+        placeholder = { Text("Bạn đang tìm sản phẩm gì?",fontSize = 17.sp)}
+    )
 }

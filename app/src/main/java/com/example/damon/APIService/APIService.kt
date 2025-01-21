@@ -52,36 +52,6 @@ interface APIService {
          @Body nguoiDung: NguoiDung
      ): Response<nguoidungResponse>
 
-     //Loại sản phẩm
-     @GET("loaisanpham")
-     suspend fun getAllLoaiSanPham(): List<LoaiSanPham>
-
-     @POST("themloaisanpham")
-     suspend fun addLoaiSanPham(@Body loaisanpham: LoaiSanPham): Response<LoaiSanPhamResponse>
-
-    //Sản Phẩm
-    @GET("sanpham")
-    suspend fun getAllSanPham(): List<SanPham>
-
-     @GET("sanpham/{MaSP}")
-     suspend fun getSanPhamById(
-         @Path("MaSP") id: Int
-     ): SanPham
-
-     @POST("themsanpham")
-     suspend fun addSanPham(@Body sanPham: SanPham): Response<sanphamResponse>
-
-     @PUT("suasanpham/{MaSP}")
-     suspend fun updateSanPham(
-         @Path("MaSP") masp: Int,
-         @Body sanPham: SanPham
-     ): Response<sanphamResponse>
-
-     @DELETE("xoasanpham/{MaSP}")
-     suspend fun deleteSanPham(
-         @Path("id") sanphamid:Int
-     ):Response<sanphamResponse>
-
      //Chi Tiết Sản Phẩm
      @GET("chitietsanpham")
      suspend fun getAllChiTietSanPham(): List<ChiTietSanPham>
@@ -99,12 +69,6 @@ interface APIService {
          @Path("MaCTSP") mactsp: Int,
          @Body chiTietSanPham: ChiTietSanPham
      ): Response<ChiTietSanPhamResponse>
-
-     @DELETE("xoachitietsanpham/{MaCTSP}")
-     suspend fun deleteChiTietSanPham(
-         @Path("id") mactsp:Int
-     ):Response<ChiTietSanPhamResponse>
-
      //Đơn Hàng
 
      @GET("donhang")
@@ -130,12 +94,6 @@ interface APIService {
          @Path("MaDH") MaDH: Int,
          @Body donHang: DonHang
      ): Response<DonHangResponse>
-
-     @DELETE("xoadonhang/{MaDH}")
-     suspend fun deleteDonHang(
-         @Path("id") madonhang:Int
-     ):Response<DonHangResponse>
-
      //Chi Tiết Đơn Hàng
 
      @GET("chitietdonhang")
@@ -155,11 +113,6 @@ interface APIService {
          @Body chiTietDonHang: ChiTietDonHang
      ): Response<ChiTietDonHangResponse>
 
-     @DELETE("xoachitietdonhang/{machitietdonhang}")
-     suspend fun deleteChiTietDonHang(
-         @Path("id") machitietdonhang:Int
-     ):Response<ChiTietDonHangResponse>
-
      //Địa chỉ giao hàng
 
      @GET("diachigiaohang")
@@ -178,54 +131,6 @@ interface APIService {
          @Path("madiachi") madiachi: Int,
          @Body diaChiGiaoHang: DiaChiGiaoHang
      ): Response<DiaChiGiaoHangResponse>
-
-     @DELETE("xoadiachigiaohang/{madiachi}")
-     suspend fun deleteDiaChiGiaoHang(
-         @Path("id") madiachi:Int
-     ):Response<DiaChiGiaoHangResponse>
-
-     //Danh Sách Yêu Thích
-
-     @GET("danhsachyeuthich/{maND}")
-     suspend fun getAllDanhSachYeuThich(
-         @Path("maND") maND: Int
-     ): List<YeuThich>
-
-     @POST("adddanhsachyeuthich")
-     suspend fun addDanhSachYeuThich(@Body danhsachyeuthich: YeuThich): Response<YeuThichResponse>
-
-     @DELETE("xoadanhsachyeuthich/{manguoidung}/{masanpham}")
-     suspend fun deleteDanhSachYeuThich(
-         @Path("manguoidung") manguoidung:Int,
-         @Path("masanpham") masanpham:Int
-     ):Response<YeuThichResponse>
-
-     //Giỏ Hàng
-
-     @GET("giohang/{mand}")
-     suspend fun getAllGioHang(
-         @Path("mand") mand: Int
-     ): List<GioHang>
-
-     @POST("adddanhsachgiohang")
-     suspend fun addGioHang(@Body danhsachgiohang: GioHang): Response<GioHangResponse>
-
-     @PUT("editgiohang/{mand}/{mactsp}")
-     suspend fun updateGioHang(
-         @Path("mand") mand: Int,
-         @Path("mactsp") mactsp: Int,
-         @Body giohang: GioHang
-     ): Response<GioHangResponse>
-
-     //Danh sách Sản Phẩm có màu có hình
-
-     @GET("sanphammausachinhanh")
-     suspend fun getAllSanPhamMauSacHinhAnh(): List<SanPhamMauSacHinh>
-
-     //Danh Sách chi tiết Sản Phẩm có màu có hình
-
-     @GET("chitietsanphammausachinhanh")
-     suspend fun getAllChiTietSanPhamMauSacHinhAnh(): List<ChiTietSanPhamMauSacHinhAnh>
 
      //Đăng nhập
 //    @POST("dangnhap")

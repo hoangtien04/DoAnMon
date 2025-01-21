@@ -123,91 +123,15 @@ class AllViewModel: ViewModel(){
 
     var listYeuThich:List<YeuThich> by mutableStateOf(emptyList())
     var yeuthichaddResult by mutableStateOf("")
-    var yeuthichdeleteResult by mutableStateOf("")
-    var yeuthich: YeuThich by mutableStateOf(YeuThich(0,"","","",0,"",0,""))
-
-    //Danh Sách yêu thích
-    fun getAllDanhSachYeuThichCuaNguoiDung(maND:Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = RetrofitClient.apiService.getAllDanhSachYeuThich(maND)
-                Log.d("API Response", response.toString())
-                if (response.isNotEmpty()) {
-                    listYeuThich = response
-                } else {
-                    Log.e("YeuThichViewModel", "Không tìm thấy yêu thích.")
-                }
-            } catch (e: Exception) {
-                Log.e("YeuThichViewModel", "Lỗi khi lấy yêu thích", e)
-            }
-        }
-    }
 
 
-    fun addYeuThich(maND:Int,yeuthich: YeuThich){
-        viewModelScope.launch ( Dispatchers.IO ){
-            try{
-                yeuthichaddResult = RetrofitClient.apiService.addDanhSachYeuThich(yeuthich).message()
-                listYeuThich = RetrofitClient.apiService.getAllDanhSachYeuThich(maND)
-            }catch (e:Exception){
-                Log.e("YeuThichViewModel","Lỗi khi thêm yêu thích", e)
-            }
-        }
-    }
 
-    suspend fun deleteYeuThich(nguoidungId:Int,sanphamId:Int){
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                RetrofitClient.apiService.deleteDanhSachYeuThich(nguoidungId,sanphamId)
-                listYeuThich = RetrofitClient.apiService.getAllDanhSachYeuThich(nguoidungId)
-            } catch (e:Exception){
-                Log.e("YeuThichViewModel","Error delete yeu thich",e)
-            }
-        }
-    }
 
     var listGioHang:List<GioHang> by mutableStateOf(emptyList())
     var giohangaddResult by mutableStateOf("")
     var giohangupdateResult by mutableStateOf("")
 
     //Đơn Hàng
-    fun getAllGioHang(maND:Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = RetrofitClient.apiService.getAllGioHang(maND)
-                Log.d("API Response", response.toString())
-                if (response.isNotEmpty()) {
-                    listGioHang = response
-                } else {
-                    Log.e("GioHangViewModel", "Không tìm thấy giỏ hàng.")
-                }
-            } catch (e: Exception) {
-                Log.e("GioHangViewModel", "Lỗi khi lấy giỏ hàng", e)
-            }
-        }
-    }
-
-    fun addGioHang(maND:Int,gioHang: GioHang){
-        viewModelScope.launch ( Dispatchers.IO ){
-            try{
-                giohangaddResult = RetrofitClient.apiService.addGioHang(gioHang).message()
-                listGioHang = RetrofitClient.apiService.getAllGioHang(maND)
-            }catch (e:Exception){
-                Log.e("GioHangViewModel","Lỗi khi thêm giỏ hàng", e)
-            }
-        }
-    }
-    fun editGioHang(nguoidungId:Int,chitietsanpham:Int ,gioHang: GioHang){
-        viewModelScope.launch ( Dispatchers.IO ){
-            try{
-                giohangupdateResult = RetrofitClient.apiService.updateGioHang(nguoidungId,chitietsanpham,gioHang).message()
-                listGioHang = RetrofitClient.apiService.getAllGioHang(nguoidungId)
-            }catch (e:Exception){
-                Log.e("GioHangViewModel","Lỗi khi sửa giỏ hàng", e)
-            }
-        }
-    }
-
     var listDonHang:List<DonHang> by mutableStateOf(emptyList())
     var donhangaddResult by mutableStateOf("")
     var donhangupdateResult by mutableStateOf("")

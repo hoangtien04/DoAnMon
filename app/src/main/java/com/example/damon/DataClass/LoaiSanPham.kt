@@ -9,3 +9,4 @@ data class LoaiSanPhamResponse(
     val code:String,
     var url:String
 )
+

@@ -22,6 +22,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -34,6 +36,7 @@ import coil.compose.AsyncImage
 import com.example.damon.DataClass.MauSac
 import com.example.damon.DataClass.SanPhamCard
 import com.example.damon.R
+import com.example.damon.ViewModel.SanPhamViewModel
 import org.jetbrains.annotations.Async
 
 @Composable
@@ -55,15 +58,6 @@ fun ProductListCard(
             )
 
             Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 10.dp)) {
-//                listMauSac.forEach { colorHex ->
-//                    Box(
-//                        modifier = Modifier
-//                            .padding(4.dp)
-//                            .size(41.dp)
-//                            .clip(CircleShape)
-//                            .background(Color(android.graphics.Color.parseColor("#f7e1e1"))),
-//                    )
-//                }
                 Icon(imageVector = Icons.Filled.FavoriteBorder
                     , contentDescription = "",
                     modifier = Modifier.padding(start = 250.dp)
@@ -78,7 +72,7 @@ fun ProductListCard(
                 fontWeight = FontWeight.Bold
             )
             Column(modifier = Modifier.fillMaxWidth().padding(start = 10.dp,bottom = 10.dp)) {
-                Text("${sanPham.TenLoai}̉", fontSize = 13.sp)
+                Text("${sanPham.TenLoai}", fontSize = 13.sp)
                 Spacer(modifier = Modifier.height(10.dp))
                 Text("${sanPham.DonGia} VND",
                     fontSize = 18.sp,

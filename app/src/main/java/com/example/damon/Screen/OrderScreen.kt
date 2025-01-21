@@ -57,7 +57,6 @@ fun OrderScreen(navController: NavController, initialTab: Int = 0, viewModel: Al
             }
         }
 
-        // Only fetch data when a tab is selected
         LaunchedEffect(pagerState.currentPage) {
             val status = when (pagerState.currentPage) {
                 0 -> 1 // Chờ xác nhận

@@ -37,7 +37,9 @@ fun SearchDanhMucCard(
             .padding(7.dp, bottom = 0.dp, top = 0.dp)
             .width(screenWidth * 0.47f)
             .height(60.dp)
-            .clickable {  },
+            .clickable {
+                onClick()
+            },
         shape = RoundedCornerShape(0.dp)
     ) {
         Row(
